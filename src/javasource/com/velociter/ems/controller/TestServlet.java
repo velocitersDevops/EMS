@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
+ int sum=0;
 	private static final long serialVersionUID = 1L;
        
     /**
