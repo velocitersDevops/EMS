@@ -10,7 +10,7 @@ public class Employee {
 	private String salutation;
 	private String firstName ;
 	private String middleName ;
-	private String lasttName ;
+	private String lastName ;
 	private String dateOfJoining;
 	private String managerName;
 	private String projectId;
@@ -64,10 +64,10 @@ public class Employee {
 		this.middleName = middleName;
 	}
 	public String getLasttName() {
-		return lasttName;
+		return lastName;
 	}
-	public void setLasttName(String lasttName) {
-		this.lasttName = lasttName;
+	public void setLastName(String lasttName) {
+		this.lastName = lasttName;
 	}
 	public String getDateOfJoining() {
 		return dateOfJoining;
@@ -133,7 +133,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
 				+ ", addressId=" + addressId + ", salutation=" + salutation + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lasttName=" + lasttName + ", dateOfJoining=" + dateOfJoining
+				+ ", middleName=" + middleName + ", lasttName=" + lastName + ", dateOfJoining=" + dateOfJoining
 				+ ", managerName=" + managerName + ", projectId=" + projectId + ", emailId=" + emailId + ", isoCode="
 				+ isoCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber=" + alternateContactNumber
 				+ ", password=" + password + ", creationDate=" + creationDate + ", lastModifiedDate=" + lastModifiedDate
