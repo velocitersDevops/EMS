@@ -4,7 +4,6 @@
 <%@ page import="java.util.Map" %>
 
  <%
- 
    Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  

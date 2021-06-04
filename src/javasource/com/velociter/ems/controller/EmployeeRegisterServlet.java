@@ -48,7 +48,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		employeeObject.setSalutation(request.getParameter("salutation"));
 		employeeObject.setFirstName(request.getParameter("firstname"));
 		employeeObject.setMiddleName(request.getParameter("middlename"));
-		employeeObject.setLasttName(request.getParameter("lastname"));
+		employeeObject.setLastName(request.getParameter("lastname"));
 		employeeObject.setEmailId(request.getParameter("email"));
 		employeeObject.setMobileNumber(Long.parseLong(request.getParameter("mobile")));
 		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
@@ -62,8 +62,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		for(int i = 0;i < projectIds.length;i++)
 		{
 			stringBufferObject.append(projectids[i]).append(",");
-			// out.println("project id :"+projectIds[i]);
-			 System.out.println("project id in string buffer :"+stringBufferObject);
+			// System.out.println("project id in string buffer :"+stringBufferObject);
 		}
         
 		//here we convert String buffer data into string
