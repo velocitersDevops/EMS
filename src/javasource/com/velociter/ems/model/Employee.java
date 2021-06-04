@@ -2,6 +2,7 @@ package com.velociter.ems.model;
 
 public class Employee {
 	
+	
 	private int employeeId;
 	private int personalInfoId;
 	private int familyId;

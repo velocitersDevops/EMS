@@ -125,6 +125,42 @@ public class Operations {
 				System.out.println("employee data :" + employeeobject.toString());
 			return registerStatus;
 		}
+		
+		
+		public  Employee getEmployeeByEmailAndPassword(String email,String password)
+	    {
+	    	Employee employee=null;
+	    	
+	    	try
+	    	{
+	    		String query="select * from EMPLOYEE WHERE EMAIL=? AND PASSWORD=?";
+	    		PreparedStatement psmt=dbConnection.prepareStatement(query);
+	    		psmt.setString(1, email);
+	    		psmt.setString(2, password);
+	    		
+	    		ResultSet resultSet=psmt.executeQuery();
+	    		
+	    		if(resultSet.next())
+	    		{
+	    			employee=new Employee();
+	    			String firstName=resultSet.getString("FIRSTNAME");
+	    			
+	    			employee.setFirstName(firstName);
+	    			employee.setFamilyId(resultSet.getInt("FAMILYID"));
+	    			employee.setEmployeeId(resultSet.getInt("EMPID"));
+	    			//employee.setFirstName(firstName);
+	    			//employee.setfamilyId(resultSet.getString("FAMILYID"));
+	    			//employee.setEmpId(resultSet.getString("EMPID"));
+	    			
+	    		}
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	return employee;
+	    }
+	    
 
 		
 

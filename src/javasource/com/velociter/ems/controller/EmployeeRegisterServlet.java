@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
@@ -96,9 +97,13 @@ public class EmployeeRegisterServlet extends HttpServlet {
 					RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
 					requestDispaterObject.include(request, response);
 				} else {
-					out.println("<h4 align='center' style='color: green;'>Registration success</h4>");
-					RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-					requestDispaterObject.include(request, response);
+					//out.println("<h4 align='center' style='color: green;'>Registration success</h4>");
+					//RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
+					//requestDispaterObject.include(request, response);
+					
+					HttpSession session=request.getSession();
+					session.setAttribute("message", "Registration Successful");
+					response.sendRedirect("Login.jsp");
 				}
 			}
 		} catch (NullPointerException npex) {
