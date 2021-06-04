@@ -63,7 +63,7 @@ public class Employee {
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
-	public String getLasttName() {
+	public String getLastName() {
 		return lastName;
 	}
 	public void setLastName(String lasttName) {
