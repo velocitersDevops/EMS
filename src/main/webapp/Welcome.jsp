@@ -1,12 +1,9 @@
 <%@page import="com.velociter.ems.model.Employee"%>
 <jsp:scriptlet>
-//String firstName=(String)session.getAttribute("firstName");
 
+ String firstName =(String)session.getAttribute("firstName");
 
-//String firstName=(String)session.getAttribute("firstName");
- Employee employee =(Employee)session.getAttribute("currentUser");
-
-   if(employee==null)
+   if(firstName==null)
    {
 	   response.sendRedirect("Login.jsp");
    }
@@ -25,12 +22,7 @@
 </head>
 <body>
 
- <%
-  response.setHeader("Cache-Control", "no-cache");
-response.setHeader("Cache-Control", "no-store");
-response.setHeader("Pragma", "no-cache");
-response.setDateHeader("Expire", 0);
-%>
+
 
 
       
@@ -38,7 +30,7 @@ response.setDateHeader("Expire", 0);
      
     
  <div class="navbar">
- <h3>Welcome :<jsp:expression>employee.getFirstName()</jsp:expression></h3>
+ <h3>Welcome :<jsp:expression>firstName</jsp:expression></h3>
  </div>
  
  <div class="content">

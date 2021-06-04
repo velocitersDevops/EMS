@@ -7,10 +7,10 @@
 <meta charset="ISO-8859-1">
 
 <jsp:scriptlet>
-   // String firstName=(String)session.getAttribute("firstName");
-   Employee employee =(Employee)session.getAttribute("currentUser");
+    String firstName=(String)session.getAttribute("firstName");
+ 
 
-   if(employee==null)
+   if(firstName==null)
    {
 	   response.sendRedirect("Login.jsp");
    } 

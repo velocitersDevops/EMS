@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -161,7 +162,42 @@ public class Operations {
 	    	return employee;
 	    }
 	    
-
+     //method for getting employee list
+		
+		public  ArrayList<Employee> getEmployeeList()
+	    {
+	    	
+	    	
+	    	ArrayList<Employee> empResultSet=new ArrayList<Employee>();
+	    	
+	    	try
+	    	{
+	    	   String query="select FIRSTNAME,LASTNAME,EMAIL,MOBILENUMBER,DOJ from EMPLOYEE ";
+	    	   PreparedStatement psmt=dbConnection.prepareStatement(query);
+	   		   
+	   		  ResultSet resultSet=psmt.executeQuery();
+	   		  
+	   		  while(resultSet.next())
+	   		  {
+	   			  Employee employee=new Employee();
+	   			 
+	   			  employee.setFirstName(resultSet.getString("FIRSTNAME"));
+	   			  employee.setLasttName(resultSet.getString("LASTNAME"));
+	   			  employee.setEmailId(resultSet.getString("EMAIL"));
+	   			  employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
+	   			  employee.setDateOfJoining(resultSet.getString("DOJ"));
+	   			  
+	   			  empResultSet.add(employee);
+	   		  }
+	   		
+	    	   
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	return empResultSet;
+	    }
 		
 
 }

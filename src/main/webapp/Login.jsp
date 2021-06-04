@@ -41,8 +41,8 @@
 <script>
 function validation()
 {
-	 var email=document.regform.email.value;
-     var password=document.regform.password.value;
+	 var email=document.loginform.email.value;
+     var password=document.loginform.password.value;
 	
      var flag=false;
      
@@ -83,7 +83,7 @@ response.setDateHeader("Expire", 0);
 %>
 
   <h2 style="text-color:green;padding-left:300px"><jsp:include page="Message.jsp"></jsp:include></h2>
-      <form action="LoginServlet" method="POST" name="regform" id="login" onsubmit="return validation()"  >
+      <form action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()"  >
         
             <fieldset>
                 <!-- Legend tag useing -->
