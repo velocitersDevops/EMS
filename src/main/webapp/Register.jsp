@@ -2,13 +2,14 @@
 <%@ page import="com.velociter.ems.database.Operations" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
-  <%
+
+ <%
+ 
    Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
   // out.println("project data  :"+operationObject.getProjectName());
    mapObject = operationObject.getProjectName();
-  
   
    %>
 
@@ -257,7 +258,6 @@ function validAlterMobileNumber()
 		document.regiserForm.altercontactno.focus();
 		return false;
     }
-	
 	if(alterMobilenumber.match(mobileNumbersRegEx))
 	{
 		alert("Only allow Numbers !");
@@ -282,9 +282,10 @@ function validAlterMobileNumber()
             }
         }
     </script>
-</head>
-<body >
 
+
+</head>
+<body>
 <form  name="regiserForm" action="register" onsubmit="return validateForm()"  method ="post" >
 <br>
 		<table class="center" style=" width :30%">
@@ -374,7 +375,7 @@ function validAlterMobileNumber()
 				<td colspan="2" align="center"><br><br><input style="background:green;color:white;" type="submit" value="Submit"><br><br> </td>
 			</tr>
 			<tr>
-			  <td colspan="2"><h5 align = "center">Already have an account ? <a href="Login.jsp">Sign_in</a></td> 
+			  <td colspan="2"><h5 align = "center">Already have an account ? <a href="Login.jsp">Sign_in</a></h5></td> 
 			</tr>
          </table>
 		</td>

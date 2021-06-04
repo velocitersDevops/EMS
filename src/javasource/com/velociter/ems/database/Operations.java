@@ -64,11 +64,11 @@ public class Operations {
 				while (resultSetObject.next()) 
 				{
 					//System.out.println("project id and name   :"+resultSetObject.getInt(1)+"  -- "+resultSetObject.getString(2));
-					// here we storing project id and project name into the HashMap object
+//					// here we storing project id and project name into the HashMap object
 					mapObject.put(resultSetObject.getInt("PROJECTID"),resultSetObject.getString("PROJECTNAME"));
 					for (Map.Entry<Integer, String> projectIdAndName : mapObject.entrySet())
 					{
-						projectIdAndName.getKey(); projectIdAndName.getValue();
+						projectIdAndName.getKey() ;projectIdAndName.getValue();
 					}
 				}
 		
@@ -85,8 +85,8 @@ public class Operations {
 		private int registerStatus = 0;
 		private String insertQuery = null;
 
-		public int registerEmployee(Employee employeeobject) throws SQLException  {
-			System.out.println("employee data :" + employeeobject.toString());
+		public int registerEmployee(Employee employeeobject) throws SQLException, ParseException  {
+			
 			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,ALTERNATEMOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTIDS)"
 					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
@@ -106,23 +106,23 @@ public class Operations {
 				// here we send the date of joining to the changeDateFormate() to get date in
 				// "DD-MMM-YYYY" format
 				String dateOfJoin = employeeobject.getDateOfJoining();
-				String creationDate = employeeobject.getCreationDate();
-				String lastModifiefDate = employeeobject.getDateOfJoining();
+				String creationDate = commonOperationObject.getCreationDate();
+				employeeobject.setCreationDate(commonOperationObject.getCreationDate()); 
+				employeeobject.setLastModifiedDate(commonOperationObject.getCreationDate());
 				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
 				
 				
 				prepareStatementObject.setString(9, afterChangeDateOfJoin);
 				prepareStatementObject.setString(10, employeeobject.getPassword());
-				prepareStatementObject.setString(11, creationDate);
-				prepareStatementObject.setString(12, lastModifiefDate);
+				prepareStatementObject.setString(11, employeeobject.getCreationDate());
+				prepareStatementObject.setString(12, employeeobject.getLastModifiedDate());
 				
 				String projectids = employeeobject.getProjectId();
 				System.out.println("project ids in register method : "+projectids);
 				prepareStatementObject.setString(13, projectids);
 				
 				registerStatus = prepareStatementObject.executeUpdate();
-				//System.out.println("employee data :=" + employeeobject.toString());
-
+				System.out.println("employee data :" + employeeobject.toString());
 			return registerStatus;
 		}
 

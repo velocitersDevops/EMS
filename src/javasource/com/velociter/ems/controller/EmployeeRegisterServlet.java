@@ -3,16 +3,18 @@ package com.velociter.ems.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
+
+
 
 
 //@WebServlet("/EmployeeRegisterServlet")
@@ -80,7 +82,9 @@ public class EmployeeRegisterServlet extends HttpServlet {
 
 			} else {
 				
-				registerStatus = registerObject.registerEmployee(employeeObject);
+				
+					registerStatus = registerObject.registerEmployee(employeeObject);
+			
 				// debug
 				System.out.println("status of register :" + registerStatus);
 				// registerStatus = registerObject.registerEmployee(employeeObject);
@@ -98,13 +102,20 @@ public class EmployeeRegisterServlet extends HttpServlet {
 				}
 			}
 		} catch (NullPointerException npex) {
-			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time </h4>");	
+		} 
+        catch (ParseException parsex)  {
+		out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");	
+		parsex.printStackTrace();
+        }
+		catch (SQLException sqlException)  {
+			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");	
+			sqlException.printStackTrace();
+		}
+		catch(Exception e) {
+			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
 			e.printStackTrace();
 		}
-
 	}
 
 	
