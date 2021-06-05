@@ -7,7 +7,7 @@
    Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
-  // out.println("project data  :"+operationObject.getProjectName());
+  //out.println("project data  :"+operationObject.getProjectName());
    mapObject = operationObject.getProjectName();
   
    %>
@@ -35,23 +35,17 @@ table.left {
 
 <style type="text/css">
  .multipleSelection {
-            width: 190px;
+            width: 170px;
             background-color: #f8f8ff;
         }
         .selectBox {
             position: relative;
         }
         .selectBox select {
-            width: 100%;
+            width: 90%;
             font-weight: bold;
         }
-        .overSelect {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-        }
+        
         #checkBoxes {
             display: none;
             border: 1px #8DF5E5 solid;
@@ -63,8 +57,16 @@ table.left {
             background-color: #f0ffff;
         }
         #checkBoxes label {
-        font-size: 10px;
+        font-size: 9px;
         }
+        div.scroll {
+		    padding:4px;
+		    background-color: white;
+			width: 170px;
+			height: 80px;
+			overflow-y: auto;
+			text-align:justify
+		}
 
 </style>
 <script>
@@ -172,11 +174,7 @@ function validateForm() {
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
    }
-//      else if( projectIds == "") {
-//  	   alert("Please Select a Project Name ");
-//  	  document.regiserForm.projectids.focus();
-//  	   return false;
-//    }
+
      else if( password == "") {
  	    alert("Password must be filled out");
  	    document.regiserForm.passsword.focus();
@@ -336,18 +334,19 @@ function validAlterMobileNumber()
 				<td> <div class="multipleSelection">
             <div class="selectBox" onclick="showCheckboxes()">
                 <select name="projectids" style="width: 177px">
-                    <option>Select Project</option>
+                    <option></option>
                 </select>
-                <div class="overSelect"></div>
+                
             </div>
   
             <div id="checkBoxes">
                 <label for="first">
-                 <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet())
-                 {%> 
-                    <input type="checkbox" id="first"   name="projectId" value="<%= projectIdAndName.getKey() %>" />
-                    <%=projectIdAndName.getValue() %> <br>       
-               <%}%>
+                <div class="scroll">
+                  <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
+                  {%>  
+		             <input type="checkbox" id="first"   name="projectId" value="<%= projectIdAndName.getKey() %>" /> <%=projectIdAndName.getValue() %> <br>        
+                <%}%> 
+			        </div>
                 </label><br>
                   
                
