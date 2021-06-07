@@ -4,7 +4,7 @@
 <%@ page import="java.util.Map" %>
 
  <%
-   Project projectObject = new Project(); 
+ Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
   //out.println("project data  :"+operationObject.getProjectName());
@@ -50,20 +50,18 @@ table.left {
             display: none;
             border: 1px #8DF5E5 solid;
         }
-         #checkBoxes label {
-            display: block;
-        }
+         
         #checkBoxes label:hover {
             background-color: #f0ffff;
         }
         #checkBoxes label {
-        font-size: 9px;
+        font-size: 10px;
         }
         div.scroll {
 		    padding:4px;
 		    background-color: white;
 			width: 170px;
-			height: 80px;
+			height: 60px;
 			overflow-y: auto;
 			text-align:justify
 		}
@@ -270,7 +268,7 @@ function validAlterMobileNumber()
         function showCheckboxes() {
             var checkboxes =  document.getElementById("checkBoxes");
   
-            if (show) {
+            if  (show){
                 checkboxes.style.display = "block";
                 show = false;
             } else {
@@ -330,21 +328,21 @@ function validAlterMobileNumber()
 				<td><input style="width: 173px" type="date" name ="dateofjoin"  ></td>
 			</tr>
 			<tr>
-				<td><b>Select Project:</b></td>
+				<td><b>Select Name:</b></td>
 				<td> <div class="multipleSelection">
             <div class="selectBox" onclick="showCheckboxes()">
-                <select name="projectids" style="width: 177px">
-                    <option></option>
-                </select>
-                
+               <select name="projectids" style="width: 177px">
+                  <option>Select Project</option> 
+                  </select>  
             </div>
   
             <div id="checkBoxes">
                 <label for="first">
                 <div class="scroll">
                   <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
-                  {%>  
-		             <input type="checkbox" id="first"   name="projectId" value="<%= projectIdAndName.getKey() %>" /> <%=projectIdAndName.getValue() %> <br>        
+                  {%> 
+		             <input type="checkbox" id="first"   name="projectId" value="<%= projectIdAndName.getKey() %>" /> <%=projectIdAndName.getValue() %> <br>      
+                
                 <%}%> 
 			        </div>
                 </label><br>
