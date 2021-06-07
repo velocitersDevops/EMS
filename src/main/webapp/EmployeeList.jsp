@@ -38,7 +38,7 @@ if(firstName==null)
   <h3><a href="EditEmployeeDetails.jsp"style="float:right;padding-right:60px;text-decoration:none">Edit</a></h3>
 
 </div>
-<div class="employeeList">
+
 <center>
 <h2>Employee List</h2>
 <br><br>
@@ -75,7 +75,7 @@ if(firstName==null)
                
                <tr>
                     <td><jsp:expression>employeeList.getFirstName()</jsp:expression></td>
-                    <td><jsp:expression>employeeList.getLasttName()</jsp:expression></td>
+                    <td><jsp:expression>employeeList.getLastName()</jsp:expression></td>
                     <td><jsp:expression>employeeList.getMobileNumber()</jsp:expression></td>
                     <td><jsp:expression>employeeList.getEmailId()</jsp:expression></td>
                     <td><jsp:expression>employeeList.getDateOfJoining()</jsp:expression></td>
@@ -100,7 +100,7 @@ if(firstName==null)
      <br><br>
      
      </center>
- </div>    
+   
       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
        <jsp:include page="Footer.jsp"></jsp:include>
     

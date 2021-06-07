@@ -83,10 +83,10 @@ response.setDateHeader("Expire", 0);
 %>
 
   <h2 style="text-color:green;padding-left:300px"><jsp:include page="Message.jsp"></jsp:include></h2>
-      <form action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()"  >
+      <form action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()" >
         
             <fieldset>
-                <!-- Legend tag useing -->
+                <!-- Legend tag using -->
                 <legend>Login:</legend>
                 
                 <table >

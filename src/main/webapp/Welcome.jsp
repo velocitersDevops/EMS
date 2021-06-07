@@ -43,7 +43,10 @@
        <a href="EmployeeList.jsp" style="padding-left:300px">Click here to view List of Employee</a>
        </div>
  </div>
+ 
+ 
  <jsp:include page="Footer.jsp"></jsp:include>
+
       
       
 </body>

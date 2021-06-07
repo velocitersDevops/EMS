@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.velociter.ems.model.Employee;
+import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Project;
 
 public class Operations {
@@ -98,7 +99,7 @@ public class Operations {
 				prepareStatementObject.setString(1, employeeobject.getSalutation());
 				prepareStatementObject.setString(2, employeeobject.getFirstName());
 				prepareStatementObject.setString(3, employeeobject.getMiddleName());
-				prepareStatementObject.setString(4, employeeobject.getLasttName());
+				prepareStatementObject.setString(4, employeeobject.getLastName());
 				prepareStatementObject.setString(5, employeeobject.getEmailId());
 				prepareStatementObject.setLong(6, employeeobject.getMobileNumber());
 				prepareStatementObject.setLong(7, employeeobject.getAlternateContactNumber());
@@ -182,7 +183,7 @@ public class Operations {
 	   			  Employee employee=new Employee();
 	   			 
 	   			  employee.setFirstName(resultSet.getString("FIRSTNAME"));
-	   			  employee.setLasttName(resultSet.getString("LASTNAME"));
+	   			  employee.setLastName(resultSet.getString("LASTNAME"));
 	   			  employee.setEmailId(resultSet.getString("EMAIL"));
 	   			  employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
 	   			  employee.setDateOfJoining(resultSet.getString("DOJ"));
@@ -199,5 +200,157 @@ public class Operations {
 	    	return empResultSet;
 	    }
 		
+		//Method for getting Employee Details
+		public Employee  getEmployeeDetailsByEmployeeId(Integer empId)
+		{
+			Employee employee=null;
+		  try
+		  {
+			
+		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME from EMPLOYEE where EMPID="+empId;
+		PreparedStatement psmt=dbConnection.prepareStatement(query);
+		ResultSet resultSet=psmt.executeQuery();
+		
+		if(resultSet.next())
+		{
+			employee=new Employee();
+			String firstName=resultSet.getString("FIRSTNAME");
+			employee.setFirstName(firstName);
+			employee.setMiddleName(resultSet.getString("MIDDLENAME"));
+			employee.setLastName(resultSet.getString("LASTNAME"));
+			employee.setEmailId(resultSet.getString("EMAIL"));
+			employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
+			employee.setDateOfJoining(resultSet.getString("DOJ"));
+			employee.setManagerName(resultSet.getString("MANAGERNAME"));
+			employee.setProjectId(resultSet.getString("PROJECTID"));
+			employee.setAlternateContactNumber(Long.parseLong( resultSet.getString("ALTERNATEMOBILENUMBER")));
+		  }
+		  }
+		  catch(Exception e)
+		  {
+			  e.printStackTrace();
+		  }
+			return employee;
+		}
 
+		//get family detail by familyId
+		
+		public Family  getFamilyDetailsByFamilyId(Integer familyId)
+		{
+			Family family=null;
+			  try
+			  {
+				 	
+					String query="select * from FAMILY where FAMILYID="+familyId;
+					PreparedStatement psmt=dbConnection.prepareStatement(query);
+					ResultSet resultSet=psmt.executeQuery();
+					
+					if(resultSet.next())
+					{
+						family=new Family();
+						family.setFatherName(resultSet.getString("FATHERNAME"));
+						family.setMotherName(resultSet.getString("MOTHERNAME"));
+						family.setSpouseName(resultSet.getString("SPOUSENAME"));
+					}
+			  }
+			  catch(Exception e)
+			  {
+				  e.printStackTrace();
+			  }
+				return family;
+		}
+		
+		//Update employee details
+		public int  updateEmployeeDetail(Employee employee)
+		{
+			int employeeUpdateCount=0;
+			try
+			{
+				
+				String query="UPDATE EMPLOYEE SET FIRSTNAME=?, MIDDLENAME=?, LASTNAME=?,EMAIL=?, MOBILENUMBER=?,ALTERNATEMOBILENUMBER=? ,DOJ=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
+				PreparedStatement psmt=dbConnection.prepareStatement(query);
+				psmt.setString(1, employee.getFirstName());
+				psmt.setString(2, employee.getMiddleName());
+				psmt.setString(3, employee.getLastName());
+				psmt.setString(4, employee.getEmailId());
+				psmt.setLong(5,  employee.getMobileNumber());
+				psmt.setLong(6, employee.getAlternateContactNumber());
+				String dateOfJoin = employee.getDateOfJoining();
+				employee.setLastModifiedDate(commonOperationObject.getCreationDate());
+				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
+				psmt.setString(7, afterChangeDateOfJoin);
+				psmt.setString(8,employee.getLastModifiedDate());
+				employeeUpdateCount=psmt.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			return employeeUpdateCount;
+		}
+		
+		//Add family Details of employee
+		
+		public int addFamilyDetails(Family family,int empId)
+		{
+			int familyRowCount=0;
+			try
+			{
+				String query="insert into FAMILY (FAMILYID,FATHERNAME,MOTHERNAME,SPOUSENAME) VALUES (? ,?,?,?)";
+				PreparedStatement psmt=dbConnection.prepareStatement(query);
+				psmt.setInt(1, empId);
+				psmt.setString(2, family.getFatherName());
+				psmt.setString(3, family.getMotherName());
+				psmt.setString(4, family.getSpouseName());
+				familyRowCount=psmt.executeUpdate();	
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			return familyRowCount;
+		}
+		
+		//Method for update FamilyId In employee table
+		public boolean updateFamilyIdInEmployeeTable(Integer empId)
+		{
+			boolean flag=false;
+			
+			try
+			{
+			String query="UPDATE EMPLOYEE SET FAMILYID="+empId+" where EMPID="+empId;
+			PreparedStatement psmt=dbConnection.prepareStatement(query);
+			psmt.execute();
+			flag=true;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			return flag;
+		}
+
+		//Update family details in family table by familyId
+		public int updateFamilyDetails(Family family)
+		{
+			int familyRowCount=0;
+			
+			try
+			{
+				String query="UPDATE FAMILY SET FATHERNAME=?, MOTHERNAME=?, SPOUSENAME=? where FAMILYID="+family.getFamilyId();
+				PreparedStatement psmt=dbConnection.prepareStatement(query);
+				psmt.setString(1, family.getFatherName());
+				psmt.setString(2, family.getMotherName());
+				psmt.setString(3, family.getSpouseName());
+				familyRowCount=psmt.executeUpdate();	
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			return familyRowCount;
+		}
 }
