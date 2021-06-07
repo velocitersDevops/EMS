@@ -30,4 +30,13 @@
     <servlet-name>EditEmployeeDetailsServlet</servlet-name>
     <url-pattern>/EditEmployeeDetailsServlet</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.velociter.ems.controller.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

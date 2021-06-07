@@ -82,6 +82,7 @@ response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expire", 0);
 %>
 
+  <jsp:include page="HomePageHeader.jsp"></jsp:include>
   <h2 style="text-color:green;padding-left:300px"><jsp:include page="Message.jsp"></jsp:include></h2>
       <form action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()" >
         
@@ -110,6 +111,6 @@ response.setDateHeader("Expire", 0);
               </fieldset>  
         </form>
         
-        
+        <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

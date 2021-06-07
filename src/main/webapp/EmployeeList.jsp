@@ -31,6 +31,12 @@ if(firstName==null)
 </head>
 <body>
 
+<%
+  response.setHeader("Cache-Control", "no-cache");
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expire", 0);
+%>
  
 
 <jsp:include page="Header.jsp"></jsp:include>
@@ -42,9 +48,9 @@ if(firstName==null)
 <center>
 <h2>Employee List</h2>
 <br><br>
-
-     <table  >
-            <thead>
+<div style="overflow-y:auto;height:400px;border:solid black 2px;width:850px">
+     <table>
+            <thead style="position:static;">
                <tr>
                   <td>FIRST NAME</td>
                   <td>LAST NAME</td>
@@ -53,6 +59,7 @@ if(firstName==null)
                   <td>DATE OF JOINING</td>
                   <td>VEIW DETAILS</td>
                </tr>
+               </thead>
                <jsp:scriptlet>
                
                
@@ -95,8 +102,9 @@ if(firstName==null)
                
                      
                
-            </thead>
+            
      </table>
+     </div>
      <br><br>
      
      </center>

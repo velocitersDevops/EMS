@@ -22,7 +22,12 @@
 </head>
 <body>
 
-
+<%
+  response.setHeader("Cache-Control", "no-cache");
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expire", 0);
+%>
 
 
       

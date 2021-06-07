@@ -75,7 +75,9 @@ padding: 10px;
 
 .employeelist
 {
-	overflow: hidden;
+	width:50px;
+   Height:100px;
+   Overflow-x:scroll;
 }
 
 
