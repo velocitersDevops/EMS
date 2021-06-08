@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+
+<fmt:setBundle basename="label"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,9 +96,8 @@ response.setDateHeader("Expire", 0);
                 <legend>Login:</legend>
                 
                 <table >
-                
                 <tr>
-              <td>  Email ID:</td>
+              <td><fmt:message key="label.emailid"></fmt:message></td>
               <td><input type="text" name="email" id="email"><span id="emailerror"></span></td>
                 </tr>
                 
