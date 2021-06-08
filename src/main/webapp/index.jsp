@@ -11,7 +11,6 @@
 <body >
 <jsp:include page="HomePageHeader.jsp"></jsp:include>
 <br>
-<a href="Register.jsp">Register</a>
 <br><br><br><br>
 <jsp:include page="Footer.jsp"></jsp:include>
 </body>
