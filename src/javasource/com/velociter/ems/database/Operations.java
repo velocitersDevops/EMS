@@ -146,14 +146,11 @@ public class Operations {
 	    		{
 	    			employee=new Employee();
 	    			String firstName=resultSet.getString("FIRSTNAME");
-	    			
 	    			employee.setFirstName(firstName);
 	    			employee.setFamilyId(resultSet.getInt("FAMILYID"));
 	    			employee.setEmployeeId(resultSet.getInt("EMPID"));
-	    			//employee.setFirstName(firstName);
-	    			//employee.setfamilyId(resultSet.getString("FAMILYID"));
-	    			//employee.setEmpId(resultSet.getString("EMPID"));
-	    			
+	    			employee.setAddressId(resultSet.getInt("ADDRESSID"));
+	    			employee.setPersonalInfoId(resultSet.getInt("PERSONAL_INFO_ID"));
 	    		}
 	    	}
 	    	catch(Exception e)
@@ -267,19 +264,19 @@ public class Operations {
 			try
 			{
 				
-				String query="UPDATE EMPLOYEE SET FIRSTNAME=?, MIDDLENAME=?, LASTNAME=?,EMAIL=?, MOBILENUMBER=?,ALTERNATEMOBILENUMBER=? ,DOJ=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
+				String query="UPDATE EMPLOYEE SET FIRSTNAME=?, MIDDLENAME=?, LASTNAME=?,ALTERNATEMOBILENUMBER=? ,DOJ=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
 				PreparedStatement psmt=dbConnection.prepareStatement(query);
 				psmt.setString(1, employee.getFirstName());
 				psmt.setString(2, employee.getMiddleName());
 				psmt.setString(3, employee.getLastName());
-				psmt.setString(4, employee.getEmailId());
-				psmt.setLong(5,  employee.getMobileNumber());
-				psmt.setLong(6, employee.getAlternateContactNumber());
+				//psmt.setString(4, employee.getEmailId());
+				//psmt.setLong(5,  employee.getMobileNumber());
+				psmt.setLong(4, employee.getAlternateContactNumber());
 				String dateOfJoin = employee.getDateOfJoining();
 				employee.setLastModifiedDate(commonOperationObject.getCreationDate());
 				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
-				psmt.setString(7, afterChangeDateOfJoin);
-				psmt.setString(8,employee.getLastModifiedDate());
+				psmt.setString(5, afterChangeDateOfJoin);
+				psmt.setString(6,employee.getLastModifiedDate());
 				employeeUpdateCount=psmt.executeUpdate();
 			}
 			catch(Exception e)
