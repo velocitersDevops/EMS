@@ -1,10 +1,10 @@
-<%@ page import="com.velociter.ems.model.Project" %>
+<%@ page import="com.velociter.ems.model.*" %>
 <%@ page import="com.velociter.ems.database.Operations" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 
  <%
- Project projectObject = new Project(); 
+   Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
   //out.println("project data  :"+operationObject.getProjectName());
@@ -78,7 +78,7 @@ function validateForm() {
   var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
   var dateOfJoin   = document.forms["regiserForm"]["dateofjoin"].value;
-  var projectIds   = document.forms["regiserForm"]["projectId"].value;
+  var projectids   = document.forms["regiserForm"]["projectId"].value;
   var password   = document.forms["regiserForm"]["passsword"].value;
   var confirmpassword   = document.forms["regiserForm"]["confirmpassword"].value;
   
@@ -144,7 +144,7 @@ function validateForm() {
   	}
        else if (alterContactNumber == "" ) {
   		 alert("Alter Contact Number must be filled out! ");
-  		 document.regiserForm.mobile.focus();
+  		 document.regiserForm.altercontactno.focus();
   		 return false;
     }
        else if (alterContactNumber.length<10) {
@@ -172,7 +172,17 @@ function validateForm() {
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
    }
-
+     else if ( projectids.length =="") {
+   	    alert("Project Name must be filled out");
+   	    document.regiserForm.projectId.focus();
+   	    return false;
+     }
+     else if ( projectids.length == null) {
+    	    alert("Project Name must be filled out null");
+    	    document.regiserForm.projectId.focus();
+    	    return false;
+      }
+    
      else if( password == "") {
  	    alert("Password must be filled out");
  	    document.regiserForm.passsword.focus();
@@ -203,6 +213,7 @@ function validateForm() {
  	    document.regiserForm.confirmpassword.focus();
  	    return false;
    }
+  
 
 }
 
@@ -331,7 +342,7 @@ function validAlterMobileNumber()
 				<td><b>Select Name:</b></td>
 				<td> <div class="multipleSelection">
             <div class="selectBox" onclick="showCheckboxes()">
-               <select name="projectids" style="width: 177px">
+               <select name="projectIds" style="width: 177px">
                   <option>Select Project</option> 
                   </select>  
             </div>
