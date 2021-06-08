@@ -18,23 +18,20 @@
     
 </jsp:scriptlet>
 
-
-
-
-
   <link href="exstyle/style.css" rel="stylesheet">
   
 <title>Header Page</title>
 </head>
 
 <body>
-      
-      <div  class="header">
-      <div class="headerImage"><img src="exstyle/Images/CompaneyLogo.png" class="headerImage" >
-      <p style="text-align:center;padding-left:400px;float:left;font-size:30px">Employee Management System </p>
-      
-      </div>
-      <a  href="LogoutServlet" style="float:right;padding-right:35px;padding-top:30px;text-decoration:none">Logout</a>
- </div>
+      <div>
+<table style= "background-color:black" >
+<tr>
+<td width="20%"><img src="exstyle/Images/logo.jfif" style="width=150px"></td>
+<td width="80%"><h1 align="center"><font size="7" color="red" face="Castellar">EMPLOYEE MANAGMENT</font></h1></td>
+<td width="20%" align="right"><a  href="LogoutServlet" ><font size="5" color="white">Logout</font></a></td>
+</tr>
+</table>
+</div> </div>
 </body>
 </html>
