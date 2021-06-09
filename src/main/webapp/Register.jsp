@@ -289,10 +289,9 @@ function validAlterMobileNumber()
         }
     </script>
 
-<link href="exstyle/style.css" rel="stylesheet">
+
 </head>
 <body>
-<jsp:include page="HomePageHeader.jsp"></jsp:include>
 <form  name="regiserForm" action="register" onsubmit="return validateForm()"  method ="post" >
 <br>
 		<table class="center" style=" width :30%">
@@ -392,6 +391,6 @@ function validAlterMobileNumber()
 		</table>
 
 </form>
-<jsp:include page="Footer.jsp"></jsp:include>
+
 </body>
 </html>
