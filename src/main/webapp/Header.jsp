@@ -24,7 +24,7 @@
 </head>
 
 <body>
-      <div>
+<div>
 <table style= "background-color:black" >
 <tr>
 <td width="20%"><img src="exstyle/Images/logo.jfif" style="width=150px"></td>
@@ -32,6 +32,6 @@
 <td width="20%" align="right"><a  href="LogoutServlet" ><font size="5" color="white">Logout</font></a></td>
 </tr>
 </table>
-</div> </div>
+</div>
 </body>
 </html>
