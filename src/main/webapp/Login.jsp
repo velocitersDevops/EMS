@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setBundle basename="label"/>
+<fmt:setBundle basename="label"/> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +57,7 @@ function validation()
      
      if(!email.match(emailpattern))
      {
-    	 alert("Please enter valid Email"); 
+    	 alert("<fmt:message key="label.enter_email"></fmt:message>"); 
          return flag;
      }
      
@@ -102,7 +103,7 @@ response.setDateHeader("Expire", 0);
                 </tr>
                 
                 <tr>
-               <td> Password: </td>
+               <td><fmt:message key="label.password"></fmt:message></td>
                <td> <input type="password" name="password" id="password"><span id="passworderror"></span></td>
                 </tr>
                 <tr>
