@@ -22,7 +22,7 @@ body {
 }
 .footer
 {
-position :absolute;
+position :relative;
 left:20px;
 bottom:3px;
 right:15px;
