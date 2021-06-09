@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
+import com.velociter.ems.model.Manager;
 import com.velociter.ems.model.Project;
 
 public class Operations {
@@ -204,7 +205,7 @@ public class Operations {
 		  try
 		  {
 			
-		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME from EMPLOYEE where EMPID="+empId;
+		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTIDS,MANAGERNAME from EMPLOYEE where EMPID="+empId;
 		PreparedStatement psmt=dbConnection.prepareStatement(query);
 		ResultSet resultSet=psmt.executeQuery();
 		
@@ -219,7 +220,7 @@ public class Operations {
 			employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
 			employee.setDateOfJoining(resultSet.getString("DOJ"));
 			employee.setManagerName(resultSet.getString("MANAGERNAME"));
-			employee.setProjectId(resultSet.getString("PROJECTID"));
+			employee.setProjectId(resultSet.getString("PROJECTIDS"));
 			employee.setAlternateContactNumber(Long.parseLong( resultSet.getString("ALTERNATEMOBILENUMBER")));
 		  }
 		  }
@@ -264,19 +265,13 @@ public class Operations {
 			try
 			{
 				
-				String query="UPDATE EMPLOYEE SET FIRSTNAME=?, MIDDLENAME=?, LASTNAME=?,ALTERNATEMOBILENUMBER=? ,DOJ=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
+				String query="UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,MANAGERNAME=? ,PROJECTIDS=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
 				PreparedStatement psmt=dbConnection.prepareStatement(query);
-				psmt.setString(1, employee.getFirstName());
-				psmt.setString(2, employee.getMiddleName());
-				psmt.setString(3, employee.getLastName());
-				//psmt.setString(4, employee.getEmailId());
-				//psmt.setLong(5,  employee.getMobileNumber());
-				psmt.setLong(4, employee.getAlternateContactNumber());
-				String dateOfJoin = employee.getDateOfJoining();
+				psmt.setLong(1, employee.getAlternateContactNumber());
+				psmt.setString(2, employee.getManagerName());
+				psmt.setString(3, employee.getProjectId());
 				employee.setLastModifiedDate(commonOperationObject.getCreationDate());
-				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
-				psmt.setString(5, afterChangeDateOfJoin);
-				psmt.setString(6,employee.getLastModifiedDate());
+				psmt.setString(4,employee.getLastModifiedDate());
 				employeeUpdateCount=psmt.executeUpdate();
 			}
 			catch(Exception e)
@@ -350,4 +345,30 @@ public class Operations {
 			
 			return familyRowCount;
 		}
+		
+		
+		//method for getting manager name
+		
+		public  ArrayList<Manager> getManagerList()
+	    {
+	    	ArrayList<Manager> mngResultSet=new ArrayList<Manager>();
+	    	try
+	    	{
+	    	   String query="select * from MANAGER ";
+	    	   PreparedStatement psmt=dbConnection.prepareStatement(query);
+	   		  ResultSet resultSet=psmt.executeQuery();
+	   		  while(resultSet.next())
+	   		  {
+	   			  Manager manager=new Manager();
+	   			  manager.setManagerName(resultSet.getString("MANAGERNAME"));
+	   			  mngResultSet.add(manager);
+	   		  }
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	return mngResultSet;
+	    }
+		
 }

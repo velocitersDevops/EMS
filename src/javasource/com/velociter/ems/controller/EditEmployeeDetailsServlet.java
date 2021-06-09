@@ -24,14 +24,15 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	Integer empId=(Integer)session.getAttribute("empId");
     	Integer familyId=(Integer)session.getAttribute("familyId");
     	
-   
-    	String firstName=req.getParameter("firstName");
-    	String middleName=req.getParameter("middleName");
-    	String lastName=req.getParameter("lastName");
-    	String emailId=req.getParameter("emailId");
-    	String mobileNumber=req.getParameter("mobileNumber");
+         String managerName=req.getParameter("managerName");
+         String projectId=req.getParameter("projectId");
+    	//String firstName=req.getParameter("firstName");
+    	//String middleName=req.getParameter("middleName");
+    	//String lastName=req.getParameter("lastName");
+    	//String emailId=req.getParameter("emailId");
+    	//String mobileNumber=req.getParameter("mobileNumber");
     	String alternateMobileNumber=req.getParameter("alternateMobileNumber");
-    	String dateOfJoining=req.getParameter("dateOfJoining");
+    	//String dateOfJoining=req.getParameter("dateOfJoining");
     	
     	String fatherName=req.getParameter("fatherName");
     	String motherName=req.getParameter("motherName");
@@ -39,14 +40,16 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	
     	//Creating employee object and set the data
     	Employee employee=new Employee();
-    	employee.setFirstName(firstName);
-    	employee.setMiddleName(middleName);
-    	employee.setLastName(lastName);
-    	employee.setEmailId(emailId);
-    	employee.setMobileNumber(Long.parseLong(mobileNumber));
+    	//employee.setFirstName(firstName);
+    	//employee.setMiddleName(middleName);
+    	//employee.setLastName(lastName);
+    	//employee.setEmailId(emailId);
+    	//employee.setMobileNumber(Long.parseLong(mobileNumber));
     	employee.setAlternateContactNumber(Long.parseLong(alternateMobileNumber));
-    	employee.setDateOfJoining(dateOfJoining);
+    	//employee.setDateOfJoining(dateOfJoining);
     	employee.setEmployeeId(empId);
+    	employee.setManagerName(managerName);
+    	employee.setProjectId(projectId);
     	
     	//Creating family Object and set the data 
     	Family family=new Family();

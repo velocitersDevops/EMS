@@ -4,6 +4,9 @@
 <%@page import="com.velociter.ems.database.Operations"%>
 <%@page import="com.velociter.ems.model.Employee"%>
 <%@page import="com.velociter.ems.model.Family"%>
+<%@page import="com.velociter.ems.model.Manager"%>
+<%@page import="java.util.*"%>
+<%  ArrayList<Manager>  managerObject=null;%>
 <jsp:scriptlet>
 
    Integer empId=(Integer)session.getAttribute("empId");
@@ -104,6 +107,7 @@ button:hover {
 <jsp:scriptlet>
 	Operations operationObject=new Operations();
 	Employee employee=operationObject.getEmployeeDetailsByEmployeeId(empId);
+	managerObject=operationObject.getManagerList();
 </jsp:scriptlet>
         
         
@@ -112,17 +116,22 @@ button:hover {
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
-  <div class="tab">Name:
+  <div class="tab">First Name
   
-    <p><input value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-    <p><input value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
-    <p><input value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
-    <p><input value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
-    <p><input value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
-    <p><input value=<%= employee.getAlternateContactNumber()%> placeholder="Alternate Mobile Num..." oninput="this.className = ''" name="alternateMobileNumber"></p>
-    <p><input disabled="disabled" value=<%= employee.getManagerName()%> placeholder="Manager name..." oninput="this.className = ''" name="managerName"></p>
-    <p><input disabled="disabled" value=<%= employee.getProjectId()%> placeholder="Project name..." oninput="this.className = ''" name="projectId"></p>
-    <p><input type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
+    <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
+   Middle Name: <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
+   Last Name <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
+   Email Id<p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
+   Mobile Number <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
+   Alternate Mobile Number  <p><input value=<%= employee.getAlternateContactNumber()%> placeholder="Alternate Mobile Num..." oninput="this.className = ''" name="alternateMobileNumber"></p>
+    ManagerName  <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p> 
+      <datalist id="list" multiple="multiple">
+       <%for(int i=0;i<managerObject.size();i++){ %>
+       <option><%=managerObject.get(i).getManagerName() %></option>
+       <%} %>
+       </datalist>   
+   Project Name <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"></p>
+   Date Of Joining <p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
     
   </div>
   
@@ -133,10 +142,10 @@ button:hover {
 	   family=operationObject.getFamilyDetailsByFamilyId(familyId);
   
   </jsp:scriptlet>
-  <div class="tab">Family Details:
-    <p><input placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
-    <p><input placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
-    <p><input placeholder="Spouse name..."  value=<%= family.getSpouseName()%>  oninput="this.className = ''" name="spouseName"></p>
+  <div class="tab">Family Details:<br><br>
+   Father Name <p><input placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
+   Mother Name <p><input placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
+   Spouse Name <p><input placeholder="Spouse name..."  value=<%= family.getSpouseName()%>  oninput="this.className = ''" name="spouseName"></p>
   </div>
  <jsp:scriptlet>
   }
@@ -214,9 +223,17 @@ function nextPrev(n) {
 function validateForm() {
   // This function deals with validation of the form fields
   var x, y, i, valid = true;
+  
   x = document.getElementsByClassName("tab");
   y = x[currentTab].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
+	  var alternateMobileNumber=y[1].value;
+      var firstNamePattern="[a-zA-Z]{3,30}";
+      if(!alternateMobileNumber.match(firstNamePattern))
+    	  {
+    	   alert("Please enter valid name");
+    	   valid=false;
+    	  }
   for (i = 0; i < y.length; i++) {
     // If a field is empty...
     if (y[i].value == "") {
