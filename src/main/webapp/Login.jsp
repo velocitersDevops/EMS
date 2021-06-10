@@ -90,8 +90,8 @@ response.setDateHeader("Expire", 0);
 
   <jsp:include page="HomePageHeader.jsp"></jsp:include>
   <h2 style="text-color:green;padding-left:300px"><jsp:include page="Message.jsp"></jsp:include></h2>
-      <form action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()" >
-        
+      <form  style="width:300px;padding-top:100px;padding-left:250px" action="LoginServlet" method="POST" name="loginform" id="login" onsubmit="return validation()" >
+          <center style="padding-left:250px">
             <fieldset>
                 <!-- Legend tag using -->
                 <legend>Login:</legend>
@@ -113,9 +113,10 @@ response.setDateHeader("Expire", 0);
                 
                 
                 </table>
-              </fieldset>  
+              </fieldset> 
+              </center> 
         </form>
-        
+        <br><br>
         <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>
