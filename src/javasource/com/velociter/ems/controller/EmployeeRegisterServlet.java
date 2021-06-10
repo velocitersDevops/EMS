@@ -55,14 +55,14 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		employeeObject.setManagerName(request.getParameter("managername"));
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
 		
-		String projectids[] =request.getParameterValues("projectId");
+		String projectids[] =request.getParameterValues("ceckvalues");
 	
 		int[] projectIds = new int[projectids.length];
 		StringBuffer stringBufferObject = new StringBuffer();
 		for(int i = 0;i < projectIds.length;i++)
 		{
 			stringBufferObject.append(projectids[i]).append(",");
-			// System.out.println("project id in string buffer :"+stringBufferObject);
+			System.out.println("project id in string buffer :"+stringBufferObject);
 		}
         
 		//here we convert String buffer data into string
