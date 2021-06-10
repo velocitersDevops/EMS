@@ -33,6 +33,7 @@ table.left {
 }
 </style>
 
+
 <style type="text/css">
  .multipleSelection {
             width: 170px;
@@ -78,7 +79,7 @@ function validateForm() {
   var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
   var dateOfJoin   = document.forms["regiserForm"]["dateofjoin"].value;
-  var projectids   = document.forms["regiserForm"]["projectId"].value;
+  var projectids   = document.forms["regiserForm"]["projectIds"].value;
   var password   = document.forms["regiserForm"]["passsword"].value;
   var confirmpassword   = document.forms["regiserForm"]["confirmpassword"].value;
   
@@ -91,7 +92,13 @@ function validateForm() {
   var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
   var passwordPattern =  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
   
-     if (salutation == "") {
+  var options = document.getElementById('projectIds').selectedOptions;
+  var values = Array.from(options).map(({ value }) => value);
+  console.log(values);
+
+  
+ 
+   if (salutation == "") {
         alert("salutation must be filled out");
         document.regiserForm.salutation.focus();
         return false;
@@ -166,23 +173,21 @@ function validateForm() {
   	    alert("Date Of Joining must be filled out");
   	    return false;
     }
-     else if(myDateOFjoin > currentDate )
-   {
+     else if(myDateOFjoin > currentDate ){
   	   alert("You cannot Enter Date Of Joining More Than Current Date");
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
-   }
-     else if ( projectids.length =="") {
-   	    alert("Project Name must be filled out");
-   	    document.regiserForm.projectId.focus();
-   	    return false;
-     }
-     else if ( projectids.length == null) {
-    	    alert("Project Name must be filled out null");
-    	    document.regiserForm.projectId.focus();
-    	    return false;
-      }
-    
+    }
+    else if(values.length > 2){
+	  alert("You Can select only 2 projects");
+	  document.regiserForm.projectIds.focus();
+	  return false;
+	}
+    else if(values.length == 0){
+      alert("Please select atlest 1 project");
+      document.regiserForm.projectIds.focus();
+      return false;
+    }
      else if( password == "") {
  	    alert("Password must be filled out");
  	    document.regiserForm.passsword.focus();
@@ -292,9 +297,10 @@ function validAlterMobileNumber()
 
 </head>
 <body>
+ <jsp:include page="HomePageHeader.jsp"></jsp:include> 
 <form  name="regiserForm" action="register" onsubmit="return validateForm()"  method ="post" >
 <br>
-		<table class="center" style=" width :30%">
+		<table class="center" id="left1" style=" width :30%">
 		<tr align="center">
 		<td>
 		
@@ -339,28 +345,14 @@ function validAlterMobileNumber()
 				<td><input style="width: 173px" type="date" name ="dateofjoin"  ></td>
 			</tr>
 			<tr>
-				<td><b>Select Name:</b></td>
-				<td> <div class="multipleSelection">
-            <div class="selectBox" onclick="showCheckboxes()">
-               <select name="projectIds" style="width: 177px">
-                  <option>Select Project</option> 
-                  </select>  
-            </div>
-  
-            <div id="checkBoxes">
-                <label for="first">
-                <div class="scroll">
-                  <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
-                  {%> 
-		             <input type="checkbox" id="first"   name="projectId" value="<%= projectIdAndName.getKey() %>" /> <%=projectIdAndName.getValue() %> <br>      
-                
-                <%}%> 
-			        </div>
-                </label><br>
-                  
-               
-            </div>
-        </div>
+				<td><b>Select Project Name:</b></td>
+ 				<td>
+                 <select name="ceckvalues" id="projectIds"  multiple="multiple" style="width: 177px">
+                   <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
+                   {%> 
+                     <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %><br> </option>                 
+                  <%}%> 
+                 </select>  
 				</td>
 			</tr>
 			<tr>
@@ -388,9 +380,8 @@ function validAlterMobileNumber()
 		</td>
 		</tr>
 	
-		</table>
-
+		</table> 
 </form>
-
+ <jsp:include page="Footer.jsp"></jsp:include> 
 </body>
 </html>
