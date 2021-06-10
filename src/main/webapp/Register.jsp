@@ -2,6 +2,8 @@
 <%@ page import="com.velociter.ems.database.Operations" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.ListIterator" %>
 
  <%
    Project projectObject = new Project(); 
@@ -10,11 +12,15 @@
   //out.println("project data  :"+operationObject.getProjectName());
    mapObject = operationObject.getProjectName();
   
+   ArrayList<Manager>  arraylistObject=null; 
+   arraylistObject = operationObject.getManagerList();
+  // out.println("manager name  :"+arraylistObject.get(1).getManagerName());
    %>
 
 <!DOCTYPE html>
 <html>
 <head>
+<script src="js/JsProperties.js"></script>
 <title>Register Page</title>
 <style>
 table {
@@ -144,7 +150,7 @@ function validateForm() {
   		 document.regiserForm.mobile.focus();
   		 return false;
   	}
-       else if (mobileNumber.length<10 ) {
+       else if (mobileNumber.length  < limitForCondition.mobileNumberLimit) {
   		 alert("Mobile Number should not be less than 10 digit  ! ");
   		 document.regiserForm.mobile.focus();
   		 return false;
@@ -154,7 +160,7 @@ function validateForm() {
   		 document.regiserForm.altercontactno.focus();
   		 return false;
     }
-       else if (alterContactNumber.length<10) {
+       else if (alterContactNumber.length < limitForCondition.mobileNumberLimit) {
   		 alert("Alter Contact Number  should not be less than 10 digit  !");
   		 document.regiserForm.altercontactno.focus();
   		 return false;
@@ -178,12 +184,12 @@ function validateForm() {
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
     }
-    else if(values.length > 2){
-	  alert("You Can select only 2 projects");
+    else if(values.length > limitForCondition.projectLimit){
+	  alert("You Can select only 2 projects.");
 	  document.regiserForm.projectIds.focus();
 	  return false;
 	}
-    else if(values.length == 0){
+    else if(values.length == limitForCondition.projectzero){
       alert("Please select atlest 1 project");
       document.regiserForm.projectIds.focus();
       return false;
@@ -193,13 +199,13 @@ function validateForm() {
  	    document.regiserForm.passsword.focus();
  	    return false;
    }
-   else if( password.length < 8 ) {
- 	    alert("Password should not be less then 8 characters");
+   else if( password.length < limitForCondition.passwordMinLmit ) {
+ 	    alert("Password should not be less then 8 characters.");
  	    document.regiserForm.passsword.focus();
  	    return false;
    }
-   else if( password.length >12 ) {
- 	    alert("Password should not be grater then 12 characters");
+   else if( password.length > limitForCondition.passwordMaxLmit ) {
+ 	    alert("Password should not be grater then 12 characters.");
  	    document.regiserForm.passsword.focus();
  	    return false;
    }
@@ -338,7 +344,17 @@ function validAlterMobileNumber()
 			</tr>
 			<tr>
 				<td><b>Manager Name:</b></td>
-				<td><input type="text" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td>
+<!-- 				<td><input type="text" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+                    <td> 
+                     <select style="font-size:11px; width: 180px;"  name="managername" id="manager"  multiple="multiple" style="width: 173px">
+                    <%ListIterator<Manager> iterator = arraylistObject.listIterator();    
+                    while (iterator.hasNext())  
+                   {%>  
+                      <option value=" " > <%=iterator.next().getManagerName() %><br> </option>      
+                  <%}%>  
+                 </select>  
+                    
+                    </td>
 			</tr>
 			<tr>
 				<td><b>Date Of Join:</b></td>
@@ -347,7 +363,7 @@ function validAlterMobileNumber()
 			<tr>
 				<td><b>Select Project Name:</b></td>
  				<td>
-                 <select name="ceckvalues" id="projectIds"  multiple="multiple" style="width: 177px">
+                 <select style="font-size:11px;  width: 180px;" name="ceckvalues" id="projectIds"  multiple="multiple" style="width: 173px">
                    <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
                    {%> 
                      <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %><br> </option>                 

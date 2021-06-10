@@ -188,8 +188,6 @@ public class Operations {
 	   			  
 	   			  empResultSet.add(employee);
 	   		  }
-	   		
-	    	   
 	    	}
 	    	catch(Exception e)
 	    	{
@@ -368,6 +366,7 @@ public class Operations {
 	    	{
 	    		e.printStackTrace();
 	    	}
+	    	//System.out.println("manager data  :"+mngResultSet.get(1).getManagerName());
 	    	return mngResultSet;
 	    }
 		
