@@ -17,9 +17,9 @@
      </div>
       <p style="text-align:center;padding-left:300px;float:left;font-size:30px; padding-top:40px;"><font size="7" color="red" face="Castellar">Employee Management </font> </p>
      
-      <a  href="index.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none;font-size:20px">Home</a>
-	   <a  href="Login.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none;font-size:20px">Sign In</a>
-	    <a  href="Register.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none; font-size:20px">Sign Up</a>
+      <a  href="index.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none;font-size:20px;color:white;">Home</a>
+	   <a  href="Login.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none;font-size:20px;color:white;">Sign In</a>
+	    <a  href="Register.jsp" style="float:right;padding-right:35px;padding-top:140px;text-decoration:none; font-size:20px;color:white;">Register</a>
  </div>
 </body>
 </html>
