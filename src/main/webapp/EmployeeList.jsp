@@ -25,6 +25,14 @@ if(firstName==null)
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+th,td
+{
+padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+}  
+</style> 
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="exstyle/style.css">
 <title>Employee List</title>
@@ -49,7 +57,7 @@ response.setDateHeader("Expire", 0);
 <h2>Employee List</h2>
 <br><br>
 <div style="overflow-y:auto;height:400px;border:solid black 2px;width:850px">
-     <table>
+     <table >
             <thead style="position:static;">
                <tr>
                   <td>FIRST NAME</td>
@@ -109,7 +117,7 @@ response.setDateHeader("Expire", 0);
      
      </center>
    
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
        <jsp:include page="Footer.jsp"></jsp:include>
     
 </body>
