@@ -4,9 +4,10 @@
 <%@page import="com.velociter.ems.database.Operations"%>
 <%@page import="com.velociter.ems.model.Employee"%>
 <%@page import="com.velociter.ems.model.Family"%>
-<%@page import="com.velociter.ems.model.Manager"%>
+<%@page import="com.velociter.ems.model.*"%>
 <%@page import="java.util.*"%>
 <%  ArrayList<Manager>  managerObject=null;%>
+<%  ArrayList<Project>  projectObject=null;%>
 <jsp:scriptlet>
 
    Integer empId=(Integer)session.getAttribute("empId");
@@ -21,6 +22,37 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+  
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+    </script>
+  
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js">
+    </script>
+  
+    <!-- Default bootstrap CSS link taken from the 
+        bootstrap website-->
+    <link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  
+    <script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+    </script>
+
+<script>
+        $(document).ready(function() {
+            $("#").select2({
+               
+            });
+        })
+    </script>
+
+
+
 <style>
 * {
   box-sizing: border-box;
@@ -108,9 +140,10 @@ button:hover {
 	Operations operationObject=new Operations();
 	Employee employee=operationObject.getEmployeeDetailsByEmployeeId(empId);
 	managerObject=operationObject.getManagerList();
+	projectObject=operationObject.getProjectList();
 </jsp:scriptlet>
         
-        
+        <jsp:include page="Header.jsp"></jsp:include>
 
 
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST">
@@ -124,18 +157,34 @@ button:hover {
    Email Id<p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    Mobile Number <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
    Alternate Mobile Number  <p><input value=<%= employee.getAlternateContactNumber()%> placeholder="Alternate Mobile Num..." oninput="this.className = ''" name="alternateMobileNumber"></p>
-    ManagerName  <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p> 
-      <datalist id="list" multiple="multiple">
+    ManagerName 
+    <div class="input-group" style="width:600px">
+<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
+      <select name="managerName" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
        <%for(int i=0;i<managerObject.size();i++){ %>
        <option><%=managerObject.get(i).getManagerName() %></option>
        <%} %>
-       </datalist>   
-   Project Name <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"></p>
+       </select>
+       </div>    
+  <br>
+<%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
+
+Project Name <div   class="input-group " style="width:600px">
+               <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect04" aria-label="Example select with button addon">
+                         <% for (int i=0;i<projectObject.size();i++) {%>
+                          <option  ><%= projectObject.get(i).getProjectName()%></option>
+                          <%} %>
+                          
+                      </select>
+                      </div><br>
+  
    Date Of Joining <p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
     
   </div>
-  
+  <jsp:include page="Footer.jsp"></jsp:include>
   <jsp:scriptlet>
+  
+  
   Family family=operationObject.getFamilyDetailsByFamilyId(familyId);
   if(familyId!=0 && family!=null)
   {
@@ -165,7 +214,7 @@ button:hover {
   </jsp:scriptlet>
  
   <div style="overflow:auto;">
-    <div style="float:right;">
+    <div style="float:right;decoration:none">
       <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
       <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
     </div>
