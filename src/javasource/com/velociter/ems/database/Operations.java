@@ -370,4 +370,28 @@ public class Operations {
 	    	return mngResultSet;
 	    }
 		
+		//method for getting project list 
+		
+		public  ArrayList<Project> getProjectList()
+	    {
+	    	ArrayList<Project> projectResultSet=new ArrayList<Project>();
+	    	try
+	    	{
+	    	   String query="select * from Project ";
+	    	   PreparedStatement psmt=dbConnection.prepareStatement(query);
+	   		  ResultSet resultSet=psmt.executeQuery();
+	   		  while(resultSet.next())
+	   		  {
+	   			  Project project=new Project();
+	   			  project.setProjectName(resultSet.getString("PROJECTNAME"));
+	   			  projectResultSet.add(project);
+	   		  }
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	return projectResultSet;
+	    }
+		
 }
