@@ -6,7 +6,7 @@
 <%@ page import="java.util.ListIterator" %>
 
  <%
-   Project projectObject = new Project(); 
+  // Project projectObject = new Project(); 
    Operations operationObject = new Operations();
    HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
   //out.println("project data  :"+operationObject.getProjectName());
@@ -165,7 +165,7 @@ function validateForm() {
   		 document.regiserForm.altercontactno.focus();
   		 return false;
   	}
-      else if( managerName == "") {
+      else if( managerName === "Select Manager") {
 	    alert("Manager Name must be filled out");
 	    document.regiserForm.managername.focus();
 	    return false;
@@ -346,13 +346,17 @@ function validAlterMobileNumber()
 				<td><b>Manager Name:</b></td>
 <!-- 				<td><input type="text" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
                     <td> 
-                     <select style="font-size:11px; width: 180px;"  name="managername" id="manager"  multiple="multiple" style="width: 173px">
-                    <%ListIterator<Manager> iterator = arraylistObject.listIterator();    
-                    while (iterator.hasNext())  
-                   {%>  
-                      <option value=" " > <%=iterator.next().getManagerName() %><br> </option>      
-                  <%}%>  
-                 </select>  
+                     <select style="font-size:11px; width: 180px;"  name="managername" id="manager"  style="width: 173px">
+                           <option> Select Manager</option>
+                           <% String managerName = null;
+                           ListIterator<Manager> iterator = arraylistObject.listIterator();    
+                            while (iterator.hasNext())  
+                           {
+                            	managerName = iterator.next().getManagerName();
+                           %>  
+                            <option value=" <%= managerName%>" > <%= managerName%><br> </option>      
+                         <%}%>  
+                    </select>  
                     
                     </td>
 			</tr>
