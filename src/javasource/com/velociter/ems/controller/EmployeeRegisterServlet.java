@@ -51,7 +51,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		employeeObject.setLastName(request.getParameter("lastname"));
 		employeeObject.setEmailId(request.getParameter("email"));
 		employeeObject.setMobileNumber(Long.parseLong(request.getParameter("mobile")));
-		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
+//		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
 		employeeObject.setManagerName(request.getParameter("managername"));
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
 		

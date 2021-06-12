@@ -13,6 +13,7 @@ import java.util.Map;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Manager;
+import com.velociter.ems.model.PersonalInformation;
 import com.velociter.ems.model.Project;
 
 public class Operations {
@@ -90,8 +91,8 @@ public class Operations {
 
 		public int registerEmployee(Employee employeeobject) throws SQLException, ParseException  {
 			
-			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,ALTERNATEMOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
-					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
+					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 
 				prepareStatementObject = dbConnection.prepareStatement(insertQuery);
@@ -103,8 +104,8 @@ public class Operations {
 				prepareStatementObject.setString(4, employeeobject.getLastName());
 				prepareStatementObject.setString(5, employeeobject.getEmailId());
 				prepareStatementObject.setLong(6, employeeobject.getMobileNumber());
-				prepareStatementObject.setLong(7, employeeobject.getAlternateContactNumber());
-				prepareStatementObject.setString(8, employeeobject.getManagerName());
+				
+				prepareStatementObject.setString(7, employeeobject.getManagerName());
 
 				// here we send the date of joining to the changeDateFormate() to get date in
 				// "DD-MMM-YYYY" format
@@ -115,14 +116,14 @@ public class Operations {
 				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
 				
 				
-				prepareStatementObject.setString(9, afterChangeDateOfJoin);
-				prepareStatementObject.setString(10, employeeobject.getPassword());
-				prepareStatementObject.setString(11, employeeobject.getCreationDate());
-				prepareStatementObject.setString(12, employeeobject.getLastModifiedDate());
+				prepareStatementObject.setString(8, afterChangeDateOfJoin);
+				prepareStatementObject.setString(9, employeeobject.getPassword());
+				prepareStatementObject.setString(10, employeeobject.getCreationDate());
+				prepareStatementObject.setString(11, employeeobject.getLastModifiedDate());
 				
 				//String projectids = employeeobject.getProjectId();
 				//System.out.println("project ids in register method : "+projectids);
-				prepareStatementObject.setInt(13,employeeobject.getProjectId() );
+				prepareStatementObject.setInt(12,employeeobject.getProjectId() );
 				
 				registerStatus = prepareStatementObject.executeUpdate();
 				System.out.println("employee data :" + employeeobject.toString());
@@ -394,4 +395,6 @@ public class Operations {
 	    	return projectResultSet;
 	    }
 		
+		
+
 }

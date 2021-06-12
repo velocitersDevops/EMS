@@ -82,7 +82,7 @@ function validateForm() {
   var lastName   = document.forms["regiserForm"]["lastname"].value;
   var email   = document.forms["regiserForm"]["email"].value;
   var mobileNumber   = document.forms["regiserForm"]["mobile"].value;
-  var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
+  //var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
   var dateOfJoin   = document.forms["regiserForm"]["dateofjoin"].value;
   var projectids   = document.forms["regiserForm"]["projectIds"].value;
@@ -153,16 +153,6 @@ function validateForm() {
        else if (mobileNumber.length  < limitForCondition.mobileNumberLimit) {
   		 alert("Mobile Number should not be less than 10 digit  ! ");
   		 document.regiserForm.mobile.focus();
-  		 return false;
-  	}
-       else if (alterContactNumber == "" ) {
-  		 alert("Alter Contact Number must be filled out! ");
-  		 document.regiserForm.altercontactno.focus();
-  		 return false;
-    }
-       else if (alterContactNumber.length < limitForCondition.mobileNumberLimit) {
-  		 alert("Alter Contact Number  should not be less than 10 digit  !");
-  		 document.regiserForm.altercontactno.focus();
   		 return false;
   	}
       else if( managerName === "Select Manager") {
@@ -265,23 +255,6 @@ function validMobileNumber()
        }
 }
 
-function validAlterMobileNumber() 
-{
-	var mobileNumbersRegEx = /[A-Za-z\s]+$/ ;
-	var alterMobilenumber  =  document.forms["regiserForm"]["altercontactno"].value;
-	if (alterMobilenumber.length>=10) 
-	{
-		alert("Alter Contact Number  should not be more than 10 digit Only allow Numbers !");
-		document.regiserForm.altercontactno.focus();
-		return false;
-    }
-	if(alterMobilenumber.match(mobileNumbersRegEx))
-	{
-		alert("Only allow Numbers !");
-	    document.regiserForm.altercontactno.focus();
-	    return false;
-    }
-}
 
 </script>
  <script>
@@ -338,10 +311,7 @@ function validAlterMobileNumber()
 				<td><b>Mobile Number:</b></td>
 				<td><input type="text" name ="mobile" style="width: 173px" onkeypress = " return  validMobileNumber() " placeholder="Enter mobile number"></td>
 			</tr>
-			<tr>
-				<td><b>Alternate Contact Number:</b></td>
-				<td><input type="text" name ="altercontactno" style="width: 173px" onkeypress = "return validAlterMobileNumber()" placeholder="alternate contact no"></td>
-			</tr>
+			
 			<tr>
 				<td><b>Manager Name:</b></td>
 <!-- 				<td><input type="text" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
