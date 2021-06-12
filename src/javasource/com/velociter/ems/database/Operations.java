@@ -90,7 +90,7 @@ public class Operations {
 
 		public int registerEmployee(Employee employeeobject) throws SQLException, ParseException  {
 			
-			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,ALTERNATEMOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTIDS)"
+			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,ALTERNATEMOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
 					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 
@@ -120,9 +120,9 @@ public class Operations {
 				prepareStatementObject.setString(11, employeeobject.getCreationDate());
 				prepareStatementObject.setString(12, employeeobject.getLastModifiedDate());
 				
-				String projectids = employeeobject.getProjectId();
-				System.out.println("project ids in register method : "+projectids);
-				prepareStatementObject.setString(13, projectids);
+				//String projectids = employeeobject.getProjectId();
+				//System.out.println("project ids in register method : "+projectids);
+				prepareStatementObject.setInt(13,employeeobject.getProjectId() );
 				
 				registerStatus = prepareStatementObject.executeUpdate();
 				System.out.println("employee data :" + employeeobject.toString());
@@ -218,7 +218,7 @@ public class Operations {
 			employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
 			employee.setDateOfJoining(resultSet.getString("DOJ"));
 			employee.setManagerName(resultSet.getString("MANAGERNAME"));
-			employee.setProjectId(resultSet.getString("PROJECTIDS"));
+			employee.setProjectId(resultSet.getInt("PROJECTID"));
 			employee.setAlternateContactNumber(Long.parseLong( resultSet.getString("ALTERNATEMOBILENUMBER")));
 		  }
 		  }
@@ -267,7 +267,7 @@ public class Operations {
 				PreparedStatement psmt=dbConnection.prepareStatement(query);
 				psmt.setLong(1, employee.getAlternateContactNumber());
 				psmt.setString(2, employee.getManagerName());
-				psmt.setString(3, employee.getProjectId());
+				psmt.setInt(3, employee.getProjectId());
 				employee.setLastModifiedDate(commonOperationObject.getCreationDate());
 				psmt.setString(4,employee.getLastModifiedDate());
 				employeeUpdateCount=psmt.executeUpdate();

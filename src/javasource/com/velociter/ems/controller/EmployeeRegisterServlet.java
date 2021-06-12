@@ -55,20 +55,23 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		employeeObject.setManagerName(request.getParameter("managername"));
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
 		
-		String projectids[] =request.getParameterValues("ceckvalues");
+		//String projectids[] =request.getParameterValues("ceckvalues");
+		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
+		System.out.println("project id :"+employeeObject.getProjectId());
+		
 	
-		int[] projectIds = new int[projectids.length];
-		StringBuffer stringBufferObject = new StringBuffer();
-		for(int i = 0;i < projectIds.length;i++)
-		{
-			stringBufferObject.append(projectids[i]).append(",");
-			System.out.println("project id in string buffer :"+stringBufferObject);
-		}
+//		 projectIds = new int[projectids.length];
+//		StringBuffer stringBufferObject = new StringBuffer();
+//		for(int i = 0;i < projectIds.length;i++)
+//		{
+//			stringBufferObject.append(projectids[i]).append(",");
+//			System.out.println("project id in string buffer :"+stringBufferObject);
+//		}
         
 		//here we convert String buffer data into string
-		String projectid = stringBufferObject.toString();
+		//String projectid = stringBufferObject.toString();
 		employeeObject.setPassword(request.getParameter("passsword"));
-		employeeObject.setProjectId(projectid);
+//		employeeObject.setProjectId(projectid);
 		
 		// here we are going to check employee already exist with emailid or not
 		Operations registerObject = new Operations();

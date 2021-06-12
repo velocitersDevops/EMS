@@ -184,11 +184,11 @@ function validateForm() {
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
     }
-    else if(values.length > limitForCondition.projectLimit){
-	  alert("You Can select only 2 projects.");
-	  document.regiserForm.projectIds.focus();
-	  return false;
-	}
+//     else if(values.length > limitForCondition.projectLimit){
+// 	  alert("You Can select only 2 projects.");
+// 	  document.regiserForm.projectIds.focus();
+// 	  return false;
+// 	}
     else if(values.length == limitForCondition.projectzero){
       alert("Please select atlest 1 project");
       document.regiserForm.projectIds.focus();
