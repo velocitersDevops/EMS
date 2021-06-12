@@ -13,7 +13,12 @@ import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 public class EditEmployeeDetailsServlet extends HttpServlet
 {
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
     {
         resp.setContentType("text/html");
@@ -25,7 +30,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	Integer familyId=(Integer)session.getAttribute("familyId");
     	
          String managerName=req.getParameter("managerName");
-         String projectId=req.getParameter("projectId");
+         int projectId=Integer.parseInt(req.getParameter("projectName"));
     	//String firstName=req.getParameter("firstName");
     	//String middleName=req.getParameter("middleName");
     	//String lastName=req.getParameter("lastName");
@@ -57,7 +62,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	family.setFatherName(fatherName);
     	family.setMotherName(motherName);
     	family.setSpouseName(spouseName);
-    	
+    	System.out.println("family data :"+family.toString());
     	 try
    	    { 
 			             int employeeUpdateCount=0;    //It store the update count in employee table

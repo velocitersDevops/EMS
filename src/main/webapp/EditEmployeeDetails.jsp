@@ -3,6 +3,8 @@
 <%@page import="com.velociter.ems.database.DatabaseConnection"%>
 <%@page import="com.velociter.ems.database.Operations"%>
 <%@page import="com.velociter.ems.model.Employee"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <%@page import="com.velociter.ems.model.Family"%>
 <%@page import="com.velociter.ems.model.*"%>
 <%@page import="java.util.*"%>
@@ -21,7 +23,9 @@
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
 
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
@@ -132,6 +136,8 @@ button:hover {
   background-color: #04AA6D;
 }
 </style>
+<script src="js/JsProperties.js"></script>
+</head>
 <body>
 
 
@@ -143,10 +149,16 @@ button:hover {
 	projectObject=operationObject.getProjectList();
 </jsp:scriptlet>
         
+        <%
+HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
+//out.println("project data  :"+operationObject.getProjectName());
+ mapObject = operationObject.getProjectName();
+
+%>
         <jsp:include page="Header.jsp"></jsp:include>
 
 
-<form id="editForm" action="EditEmployeeDetailsServlet" method="POST">
+<form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">First Name
@@ -170,10 +182,11 @@ button:hover {
 <%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
 
 Project Name <div   class="input-group " style="width:600px">
-               <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect04" aria-label="Example select with button addon">
-                         <% for (int i=0;i<projectObject.size();i++) {%>
-                          <option  ><%= projectObject.get(i).getProjectName()%></option>
-                          <%} %>
+               <select   name="projectName" multiple="multiple" class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
+                       <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
+                          {%> 
+                            <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %><br> </option>                 
+                          <%}%> 
                           
                       </select>
                       </div><br>
@@ -228,8 +241,10 @@ Project Name <div   class="input-group " style="width:600px">
 </form>
 
 <script>
+
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
+
 
 function showTab(n) {
   // This function will display the specified tab of the form...
@@ -270,19 +285,36 @@ function nextPrev(n) {
 }
 
 function validateForm() {
-  // This function deals with validation of the form fields
+  
   var x, y, i, valid = true;
+  
+  var options = document.getElementById('inputGroupSelect05').selectedOptions;
+  var values = Array.from(options).map(({ value }) => value);
+  console.log(values);
   
   x = document.getElementsByClassName("tab");
   y = x[currentTab].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
 	  var alternateMobileNumber=y[1].value;
       var firstNamePattern="[a-zA-Z]{3,30}";
-      if(!alternateMobileNumber.match(firstNamePattern))
+      
+	     if(!alternateMobileNumber.match(firstNamePattern))
     	  {
     	   alert("Please enter valid name");
     	   valid=false;
     	  }
+	     else if(values.length == limitForCondition.projectzero){
+	         alert("Please select atlest 1 project");
+	         valid=false;
+	       }
+	     else if(values.length > limitForCondition.projectLimit){
+	   	  alert("You Can select only 1 projects.");
+	   	 valid=false;
+	   	  
+	   	}
+	    
+
+	  
   for (i = 0; i < y.length; i++) {
     // If a field is empty...
     if (y[i].value == "") {
