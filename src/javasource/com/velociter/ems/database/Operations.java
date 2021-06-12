@@ -203,7 +203,7 @@ public class Operations {
 		  try
 		  {
 			
-		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTIDS,MANAGERNAME from EMPLOYEE where EMPID="+empId;
+		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME from EMPLOYEE where EMPID="+empId;
 		PreparedStatement psmt=dbConnection.prepareStatement(query);
 		ResultSet resultSet=psmt.executeQuery();
 		
@@ -263,7 +263,7 @@ public class Operations {
 			try
 			{
 				
-				String query="UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,MANAGERNAME=? ,PROJECTIDS=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
+				String query="UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,MANAGERNAME=? ,PROJECTID=?,LASTMODIFIED_DATE=? where empid="+employee.getEmployeeId();
 				PreparedStatement psmt=dbConnection.prepareStatement(query);
 				psmt.setLong(1, employee.getAlternateContactNumber());
 				psmt.setString(2, employee.getManagerName());
