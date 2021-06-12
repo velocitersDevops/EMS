@@ -3,7 +3,7 @@
  */
 limitForCondition = {
   // This can have nested stuff, arrays, etc.
-  projectLimit: 2,
+  projectLimit: 1,
   projectzero:0,
   passwordMaxLmit:12,
   passwordMinLmit:8,

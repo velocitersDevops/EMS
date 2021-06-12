@@ -13,7 +13,7 @@ public class Employee {
 	private String lastName ;
 	private String dateOfJoining;
 	private String managerName;
-	private String projectId;
+	private int projectId;
 	private String emailId ;
 	private String isoCode;
 	private long mobileNumber ;
@@ -81,10 +81,11 @@ public class Employee {
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
 	}
-	public String getProjectId() {
+	
+	public int getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(String projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
 	public String getEmailId() {
@@ -133,7 +134,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
 				+ ", addressId=" + addressId + ", salutation=" + salutation + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lasttName=" + lastName + ", dateOfJoining=" + dateOfJoining
+				+ ", middleName=" + middleName + ", lastName=" + lastName + ", dateOfJoining=" + dateOfJoining
 				+ ", managerName=" + managerName + ", projectId=" + projectId + ", emailId=" + emailId + ", isoCode="
 				+ isoCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber=" + alternateContactNumber
 				+ ", password=" + password + ", creationDate=" + creationDate + ", lastModifiedDate=" + lastModifiedDate
