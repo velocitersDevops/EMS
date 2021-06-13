@@ -85,7 +85,7 @@ function validateForm() {
   //var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
   var dateOfJoin   = document.forms["regiserForm"]["dateofjoin"].value;
-  var projectids   = document.forms["regiserForm"]["projectIds"].value;
+  var projectids   = document.forms["regiserForm"]["ceckvalues"].value;
   var password   = document.forms["regiserForm"]["passsword"].value;
   var confirmpassword   = document.forms["regiserForm"]["confirmpassword"].value;
   
@@ -98,9 +98,9 @@ function validateForm() {
   var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
   var passwordPattern =  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
   
-  var options = document.getElementById('projectIds').selectedOptions;
-  var values = Array.from(options).map(({ value }) => value);
-  console.log(values);
+//   var options = document.getElementById('projectIds').selectedOptions;
+//   var values = Array.from(options).map(({ value }) => value);
+//   console.log(values);
 
   
  
@@ -174,16 +174,21 @@ function validateForm() {
   	   document.regiserForm.dateofjoin.focus();
   	   return false;
     }
-    else if(values.length > limitForCondition.projectLimit){
-	  alert("You Can select only 1 projects.");
-	  document.regiserForm.projectIds.focus();
-	  return false;
-	}
-    else if(values.length == limitForCondition.projectzero){
-      alert("Please select atlest 1 project");
-      document.regiserForm.projectIds.focus();
-      return false;
-    }
+     else if(projectids === "Select Project" ){
+   	  alert("Project Name must be filled out");
+   	  document.regiserForm.projectIds.focus();
+   	  return false;
+   	}
+//     else if(values.length > limitForCondition.projectLimit){
+// 	  alert("You Can select only 1 projects.");
+// 	  document.regiserForm.projectIds.focus();
+// 	  return false;
+// 	}
+//     else if(values.length == limitForCondition.projectzero){
+//       alert("Please select atlest 1 project");
+//       document.regiserForm.projectIds.focus();
+//       return false;
+//     }
      else if( password == "") {
  	    alert("Password must be filled out");
  	    document.regiserForm.passsword.focus();
@@ -337,7 +342,8 @@ function validMobileNumber()
 			<tr>
 				<td><b>Select Project Name:</b></td>
  				<td>
-                 <select style="font-size:11px;  width: 180px;" name="ceckvalues" id="projectIds"  multiple="multiple" style="width: 173px">
+                 <select style="font-size:11px;  width: 180px;" name="ceckvalues" id="projectIds"   style="width: 173px">
+                  <option>Select Project</option>
                    <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
                    {%> 
                      <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %><br> </option>                 
