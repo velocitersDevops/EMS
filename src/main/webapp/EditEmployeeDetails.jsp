@@ -24,6 +24,7 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
+<title>EditEmployeeDetails Page </title>
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
 
@@ -47,13 +48,7 @@
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
     </script>
 
-<script>
-        $(document).ready(function() {
-            $("#").select2({
-               
-            });
-        })
-    </script>
+
 
 
 
@@ -168,7 +163,15 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
    Last Name <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
    Email Id<p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    Mobile Number <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
-   Alternate Mobile Number  <p><input value=<%= employee.getAlternateContactNumber()%> placeholder="Alternate Mobile Num..." oninput="this.className = ''" name="alternateMobileNumber"></p>
+   Alternate Mobile Number (Optional)
+   <% if(employee.getAlternateContactNumber()==0)
+	   {%>
+    <p><input id="alternateMobileNumber"  placeholder="NA (Not Available)" oninput="this.className = ''" name="alternateMobileNumber"></p>
+   <% }
+   else
+   {%>
+    <p><input id="alternateMobileNumber" value=<%=employee.getAlternateContactNumber() %>  placeholder="Alternate Mobile Number not available..." oninput="this.className = ''" name="alternateMobileNumber"></p>
+   <%} %>
     ManagerName 
     <div class="input-group" style="width:600px">
 <%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
@@ -182,10 +185,10 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
 <%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
 
 Project Name <div   class="input-group " style="width:600px">
-               <select   name="projectName" multiple="multiple" class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
+               <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
                        <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
                           {%> 
-                            <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %><br> </option>                 
+                            <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %></option>                 
                           <%}%> 
                           
                       </select>
@@ -205,10 +208,14 @@ Project Name <div   class="input-group " style="width:600px">
   
   </jsp:scriptlet>
   <div class="tab">Family Details:<br><br>
-   Father Name <p><input placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
-   Mother Name <p><input placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
-   Spouse Name <p><input placeholder="Spouse name..."  value=<%= family.getSpouseName()%>  oninput="this.className = ''" name="spouseName"></p>
-  </div>
+   Father Name <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
+   Mother Name <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
+   Spouse Name <%if(family.getSpouseName()==null)
+	   {%> 
+   <p><input id="spouseName" placeholder="NA (not available)"    oninput="this.className = ''" name="spouseName"></p>
+   <%} else { %>
+   <p><input id="spouseName" placeholder="Enter spouse Name" value=<%=family.getSpouseName() %>    oninput="this.className = ''" name="spouseName"></p>
+ <%} %> </div>
  <jsp:scriptlet>
   }
   
@@ -216,10 +223,10 @@ Project Name <div   class="input-group " style="width:600px">
   {
  </jsp:scriptlet>
  
-  <div class="tab">Family Details:
-    <p><input placeholder="Father name..."    oninput="this.className = ''" name="fatherName"></p>
-    <p><input placeholder="Mother name..." oninput="this.className = ''" name="motherName"></p>
-    <p><input placeholder="Spouse name..." oninput="this.className = ''" name="spouseName"></p>
+  <div class="tab">Family Details:<br>
+  Father Name  <p><input id="fatherName" placeholder="Father name..."    oninput="this.className = ''" name="fatherName"></p>
+  Mother Name  <p><input id="motherName" placeholder="Mother name..." oninput="this.className = ''" name="motherName"></p>
+  Spouse Name (Optional)  <p><input id="spouseName" placeholder="Spouse name..." oninput="this.className = ''" name="spouseName"></p>
   </div>
   
   <jsp:scriptlet>
@@ -288,42 +295,66 @@ function validateForm() {
   
   var x, y, i, valid = true;
   
+  var alternateMobileNumberPattern=/[A-Za-z\s]+$/;
+  var familyNamePattern=/^[a-zA-Z]+$/;
   var options = document.getElementById('inputGroupSelect05').selectedOptions;
+  var alternateMobileNumber=document.getElementById('alternateMobileNumber').value;
+  var spouseName=document.getElementById('spouseName').value;
   var values = Array.from(options).map(({ value }) => value);
   console.log(values);
   
   x = document.getElementsByClassName("tab");
   y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-	  var alternateMobileNumber=y[1].value;
-      var firstNamePattern="[a-zA-Z]{3,30}";
-      
-	     if(!alternateMobileNumber.match(firstNamePattern))
+        
+      //validation for alternate Mobile Number and project  	
+         if(alternateMobileNumber!=""&&alternateMobileNumber!=0)
+        {
+        	 if(alternateMobileNumber.match(alternateMobileNumberPattern))
     	  {
-    	   alert("Please enter valid name");
+    	   alert("Please enter valid number");
     	   valid=false;
     	  }
-	     else if(values.length == limitForCondition.projectzero){
+          if(alternateMobileNumber.length!=10)
+        	  {
+        	  alert("Please enter valid number");
+        	  valid=false;
+        	  }
+        }
+	      if(values.length == limitForCondition.projectzero){
 	         alert("Please select atlest 1 project");
 	         valid=false;
 	       }
-	     else if(values.length > limitForCondition.projectLimit){
+	      if(values.length > limitForCondition.projectLimit){
 	   	  alert("You Can select only 1 projects.");
 	   	 valid=false;
-	   	  
-	   	}
-	    
+	      } 
+	   	
 
-	  
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false
-      valid = false;
-    }
-  }
+	 //validation for family details 
+	 if(currentTab==1)
+		 {
+		 var fatherName=document.getElementById("fatherName").value;
+		 var motherName=document.getElementById("motherName").value;
+		 var spouseName=document.getElementById("spouseName").value;
+		 if(!fatherName.match(familyNamePattern))
+			 {
+			 alert ("Please enter valid father name");
+			 valid=false;
+			 }
+		 if(!motherName.match(familyNamePattern))
+			 {
+			 alert("Please enter valid mother name");
+			 valid=false;
+			 }
+		 if(spouseName!="")
+			 {
+		 if(!spouseName.match(familyNamePattern))
+		 {
+		 alert("Please enter valid spouse name");
+		 valid=false;
+		 }
+		 }
+		 }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("step")[currentTab].className += " finish";

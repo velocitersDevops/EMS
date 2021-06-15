@@ -42,7 +42,6 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	String fatherName=req.getParameter("fatherName");
     	String motherName=req.getParameter("motherName");
     	String spouseName=req.getParameter("spouseName");
-    	
     	//Creating employee object and set the data
     	Employee employee=new Employee();
     	//employee.setFirstName(firstName);
@@ -50,7 +49,14 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	//employee.setLastName(lastName);
     	//employee.setEmailId(emailId);
     	//employee.setMobileNumber(Long.parseLong(mobileNumber));
+    	if(alternateMobileNumber!=""||alternateMobileNumber=="0")
+    	{
     	employee.setAlternateContactNumber(Long.parseLong(alternateMobileNumber));
+    	}
+    	else
+    	{
+    		employee.setAlternateContactNumber(0);;
+    	}
     	//employee.setDateOfJoining(dateOfJoining);
     	employee.setEmployeeId(empId);
     	employee.setManagerName(managerName);
