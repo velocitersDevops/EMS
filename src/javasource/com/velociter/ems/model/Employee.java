@@ -15,12 +15,14 @@ public class Employee {
 	private String managerName;
 	private int projectId;
 	private String emailId ;
-	private String isoCode;
+	private String isdCode;
 	private long mobileNumber ;
 	private long alternateContactNumber;
 	private String password;
 	private String creationDate;
 	private String lastModifiedDate;
+	private String alternateMobileNumber;
+	
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -94,11 +96,11 @@ public class Employee {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public String getIsoCode() {
-		return isoCode;
+	public String getisdCode() {
+		return isdCode;
 	}
-	public void setIsoCode(String isoCode) {
-		this.isoCode = isoCode;
+	public void setisdCode(String isdCode) {
+		this.isdCode = isdCode;
 	}
 	public long getMobileNumber() {
 		return mobileNumber;
@@ -130,13 +132,20 @@ public class Employee {
 	public void setLastModifiedDate(String lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
+	
+	public String getAlternateMobileNumber() {
+		return alternateMobileNumber;
+	}
+	public void setAlternateMobileNumber(String alternateMobileNumber) {
+		this.alternateMobileNumber = alternateMobileNumber;
+	}
 	@Override
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
 				+ ", addressId=" + addressId + ", salutation=" + salutation + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", dateOfJoining=" + dateOfJoining
-				+ ", managerName=" + managerName + ", projectId=" + projectId + ", emailId=" + emailId + ", isoCode="
-				+ isoCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber=" + alternateContactNumber
+				+ ", managerName=" + managerName + ", projectId=" + projectId + ", emailId=" + emailId + ", isdCode="
+				+ isdCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber=" + alternateContactNumber
 				+ ", password=" + password + ", creationDate=" + creationDate + ", lastModifiedDate=" + lastModifiedDate
 				+ "]";
 	}

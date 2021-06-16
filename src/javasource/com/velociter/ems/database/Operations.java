@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.velociter.ems.model.Country;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Manager;
@@ -91,8 +92,8 @@ public class Operations {
 
 		public int registerEmployee(Employee employeeobject) throws SQLException, ParseException  {
 			
-			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,MOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
-					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?)";
+			insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,ISDCODE,MOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
+					+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 
 				prepareStatementObject = dbConnection.prepareStatement(insertQuery);
@@ -103,9 +104,10 @@ public class Operations {
 				prepareStatementObject.setString(3, employeeobject.getMiddleName());
 				prepareStatementObject.setString(4, employeeobject.getLastName());
 				prepareStatementObject.setString(5, employeeobject.getEmailId());
-				prepareStatementObject.setLong(6, employeeobject.getMobileNumber());
+				prepareStatementObject.setString(6, employeeobject.getisdCode());
+				prepareStatementObject.setLong(7, employeeobject.getMobileNumber());
 				
-				prepareStatementObject.setString(7, employeeobject.getManagerName());
+				prepareStatementObject.setString(8, employeeobject.getManagerName());
 
 				// here we send the date of joining to the changeDateFormate() to get date in
 				// "DD-MMM-YYYY" format
@@ -116,14 +118,14 @@ public class Operations {
 				String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(dateOfJoin);
 				
 				
-				prepareStatementObject.setString(8, afterChangeDateOfJoin);
-				prepareStatementObject.setString(9, employeeobject.getPassword());
-				prepareStatementObject.setString(10, employeeobject.getCreationDate());
-				prepareStatementObject.setString(11, employeeobject.getLastModifiedDate());
+				prepareStatementObject.setString(9, afterChangeDateOfJoin);
+				prepareStatementObject.setString(10, employeeobject.getPassword());
+				prepareStatementObject.setString(11, employeeobject.getCreationDate());
+				prepareStatementObject.setString(12, employeeobject.getLastModifiedDate());
 				
 				//String projectids = employeeobject.getProjectId();
 				//System.out.println("project ids in register method : "+projectids);
-				prepareStatementObject.setInt(12,employeeobject.getProjectId() );
+				prepareStatementObject.setInt(13,employeeobject.getProjectId() );
 				
 				registerStatus = prepareStatementObject.executeUpdate();
 				System.out.println("employee data :" + employeeobject.toString());
@@ -395,6 +397,28 @@ public class Operations {
 	    	return projectResultSet;
 	    }
 		
-		
+		//method for getting country code
+		public  ArrayList<Country> getCountryCodeList()
+	    {
+	    	ArrayList<Country> isdCodeResultSet=new ArrayList<Country>();
+	    	try
+	    	{
+	    	   String query="select ISDCODE from COUNTRY ";
+	    	   PreparedStatement psmt=dbConnection.prepareStatement(query);
+	   		  ResultSet resultSet=psmt.executeQuery();
+	   		  while(resultSet.next())
+	   		  {
+	   			  Country country= new Country();
+	   			 // country.setIsdCode(resultSet.getString("ISDCODE"));
+	   			  country.setIsdCode(resultSet.getString("ISDCODE"));
+	   			  isdCodeResultSet.add(country);
+	   		  }
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	return isdCodeResultSet;
+	    }
 
 }

@@ -4,6 +4,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ListIterator" %>
+<%  ArrayList<Country>  countryObject=null;%>
 
  <%
   // Project projectObject = new Project(); 
@@ -15,6 +16,8 @@
    ArrayList<Manager>  arraylistObject=null; 
    arraylistObject = operationObject.getManagerList();
   // out.println("manager name  :"+arraylistObject.get(1).getManagerName());
+  //getting country code (ISD code) from country table
+  countryObject=operationObject.getCountryCodeList();
    %>
 
 <!DOCTYPE html>
@@ -81,6 +84,7 @@ function validateForm() {
   var middleName = document.forms["regiserForm"]["middlename"].value;
   var lastName   = document.forms["regiserForm"]["lastname"].value;
   var email   = document.forms["regiserForm"]["email"].value;
+  var countryCode=document.forms["regiserForm"]["countrycode"].value;
   var mobileNumber   = document.forms["regiserForm"]["mobile"].value;
   //var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
@@ -145,6 +149,12 @@ function validateForm() {
         document.regiserForm.email.focus();
         return false;
      }
+       else if( countryCode === "Select Country code") {
+      	    alert("Country Code must be filled out");
+      	    document.regiserForm.managername.focus();
+      	    return false;
+          }
+      
        else if (mobileNumber == "" ) {
   		 alert("Mobile Number must be filled out! ");
   		 document.regiserForm.mobile.focus();
@@ -311,6 +321,18 @@ function validMobileNumber()
 			<tr>
 				<td><b>Email:</b></td>
 				<td><input type="text" name ="email" style="width: 173px" placeholder="Enter email id"></td>
+			</tr>
+			<tr>
+				<td><b>Country Code:</b></td>
+				<td>
+				    <select style="font-size:11px; width: 180px;"  name="countrycode" id="countrycode"  style="width: 173px" >   
+				          <option>Select Country code</option>
+				           <%for(int i=0;i<countryObject.size();i++){ %>
+       <option><%=countryObject.get(i).getIsdCode() %></option>
+       <%} %>
+				    </select>
+				
+				</td>
 			</tr>
 			<tr>
 				<td><b>Mobile Number:</b></td>
