@@ -1,7 +1,9 @@
 package com.velociter.ems.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.Operations;
+import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
+import com.velociter.ems.model.PersonalInformation;
 public class EditEmployeeDetailsServlet extends HttpServlet
 {
     /**
@@ -28,6 +32,9 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	HttpSession session=req.getSession(false);
     	Integer empId=(Integer)session.getAttribute("empId");
     	Integer familyId=(Integer)session.getAttribute("familyId");
+    	Integer personalInfoid = (Integer)session.getAttribute("personalInfoId");
+    	System.out.println("after getting personal infoid in from session "+personalInfoid);
+    	Integer addressId = (Integer)session.getAttribute("addressId");
     	
          String managerName=req.getParameter("managerName");
          int projectId=Integer.parseInt(req.getParameter("projectName"));
@@ -69,10 +76,53 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	family.setMotherName(motherName);
     	family.setSpouseName(spouseName);
     	System.out.println("family data :"+family.toString());
+    	
+    	//=====================================Merged Code Of Personal Information and Address=======================
+    	PersonalInformation personalObject = new PersonalInformation();
+    	personalObject.setPersonalInfoId(personalInfoid);  
+		personalObject.setDateOfBirth(req.getParameter("dateOfbirth"));
+		personalObject.setSex(req.getParameter("sex"));
+		personalObject.setPanNumber(req.getParameter("pannumber"));
+		personalObject.setAadharNumber(Long.parseLong(req.getParameter("aadharnumber")));
+		personalObject.setPassportNumber(req.getParameter("passportnumber"));
+		personalObject.setBankAccountNumber(Long.parseLong(req.getParameter("bankaccountNumber")));
+		personalObject.setNationality(req.getParameter("nationality"));
+		String marritalStatus = req.getParameter("marritalstatus");
+		System.out.println("marrital status :"+marritalStatus);
+		personalObject.setMaritalStatus(marritalStatus);
+		System.out.println("persona object data :"+personalObject.toString());
+		
+		//taking address information data from request object and storing into address object
+		Address addressObject = new Address();
+		addressObject.setAddressId(projectId);
+		addressObject.setCountryName(req.getParameter("country"));
+		addressObject.setStateName(req.getParameter("state"));
+		addressObject.setCityName(req.getParameter("city"));
+		addressObject.setPincodeNumber(Integer.parseInt(req.getParameter("pincode")));
+		String addressLine1Data = req.getParameter("addressLine1");
+		String addressLine2Data = req.getParameter("addressLine2");
+		
+		//here appending addressLine2 data with AddressLine1(Addresline1 + Addresline1) and storing into addressObject
+		String addressdata = addressLine1Data +"-"+addressLine2Data;
+		addressObject.setAddressLine1(addressdata);
+		System.out.println("check complete addres line1 line 2  :"+addressObject.getAddressLine1());
+		if(req.getParameter("streetnumber") == null)
+		{
+			
+		}
+		else
+		{
+		addressObject.setStreetNumber(Integer.parseInt(req.getParameter("streetnumber")));
+		}
+		addressObject.setHouseNumber(req.getParameter("housenumber"));
+		addressObject.setAddressType(Integer.parseInt(req.getParameter("addressType")));
+		System.out.println("address object data :"+addressObject.toString());
     	 try
    	    { 
 			             int employeeUpdateCount=0;    //It store the update count in employee table
 			    	     int familyUpdateCount=0;      //It store the update count in family table
+			    	     int personalInfoCount = 0;    // It store the update count in personal Information table
+			 			 int addressCount = 0;         // It store the update count in Addresses table
 			   		
 			    		 //Creating Operation class object for calling to the method
 			    		 Operations operationObject=new Operations();
@@ -91,21 +141,83 @@ public class EditEmployeeDetailsServlet extends HttpServlet
 			   	    familyUpdateCount=operationObject.updateFamilyDetails(family);   		
 			   	    }
 			   		
-			   		 
-			   		if(employeeUpdateCount >0 && familyUpdateCount>0)
-			   		{
-			   			resp.sendRedirect("Success.jsp");
-			   		}
-			   		else
-			   		{
-			   			resp.sendRedirect("Fail.jsp");
-			   		}	
-   	   }
-    	 catch(Exception ee)
-    	 {
-    		
-    		 ee.printStackTrace();
-    	 }
+			   		System.out.println("before if personalInfoid :"+personalInfoid+" "+" and addressId :"+addressId);
+			   		if(personalInfoid >0 && addressId >0 )   		 
+					{
+				// by using operationObject reference call updatePersonalInfo method of
+				personalInfoCount = operationObject.updatePersonalInfo(personalObject,personalInfoid);
+				addressCount = operationObject.updateAddressRecord(addressObject,addressId);
+		   						   		 
+					   		if(personalInfoCount >0 &&  addressCount >0  )
+					   		{
+					   			out.println("<h4 style='color: green;'> Both Records  Upadate SuccessFully !</h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								requestDispaterObject.include(req, resp);
+					   		}
+					   		else if(personalInfoCount == 0 ||  addressCount >0)
+					   		{
+					   			out.println("<h4 style='color: green;'>Address SuccessFully </h4> <h4 style='color: red;'>Personal Info Faild </h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								requestDispaterObject.include(req, resp);
+					   		}
+					   		else if(personalInfoCount >0 ||  addressCount == 0)
+					   		{
+					   			out.println("<h4 style='color: green;'>Personal Info SuccessFully </h4> <h4 style='color: red;'>Address  Faild </h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								requestDispaterObject.include(req, resp);
+					   		}
+					   		else
+					   		{
+					   			out.println("<h4 style='color: red;'>  Both  Records Not Upadate SuccessFully !</h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								requestDispaterObject.include(req, resp);
+					   		}	
+					}
+					else
+					{
+						
+						if (personalInfoid == 0 && addressId == 0  ) // If personalInfoid of employee is 0 in Personal_information table it means that employee has not added his personal detail							
+						{
+							// we taking employee id from session now tamprary we taken empid is personalinfoid
+							personalInfoid = empId;	
+							addressId = empId;
+							System.out.println("comtrol in if block personal info id :" + personalInfoid);
+							// Calling method addpersonalInfoDetails of Operations class using
+							personalInfoCount = operationObject.addpersonalInfoDetails(personalObject, personalInfoid);
+							addressCount = operationObject.addAddressDetails(addressObject, addressId);
+							int addressIdUpdateStatus = operationObject.updateAddressidInEmployeeTable(addressId);
+							int personalinfoIdUpdateStatus = operationObject.updatePersonalInfoidInEmployeeTable(personalInfoid);
+							if(personalInfoCount >0 &&  addressCount>0 )
+							{
+								out.println("<h4 style='color: green;'> PersonalInformation & address Records insert SuccessFully !</h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								requestDispaterObject.include(req, resp);
+							}
+							
+						} 	
+					}
+					
+//			   		if(employeeUpdateCount >0 && familyUpdateCount>0)
+//			   		{
+//			   			resp.sendRedirect("Success.jsp");
+//			   		}
+//			   		else
+//			   		{
+//			   			resp.sendRedirect("Fail.jsp");
+//			   		} 	
+   	     }//try closed here
+    	 catch (NullPointerException npex) {
+ 			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time </h4>");	
+ 		} 
+ 		catch (SQLException sqlException)  {
+ 			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time  </h4>");	
+ 			sqlException.printStackTrace();
+ 		}
+ 		catch(Exception e) {
+ 			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
+ 			e.printStackTrace();
+ 		}
     	
     }
+    
 }

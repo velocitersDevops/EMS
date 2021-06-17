@@ -14,7 +14,8 @@
 
    Integer empId=(Integer)session.getAttribute("empId");
    Integer familyId=(Integer)session.getAttribute("familyId");
-   
+   Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
+   Integer addressId = (Integer)session.getAttribute("addressId");
 </jsp:scriptlet>
 
 
@@ -145,11 +146,16 @@ button:hover {
 </jsp:scriptlet>
         
         <%
+        
 HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
 //out.println("project data  :"+operationObject.getProjectName());
  mapObject = operationObject.getProjectName();
+ PersonalInformation personalinfoObject = new PersonalInformation();
+ personalinfoObject = operationObject.getPersonalInformation(personalInfoId);
+ //out.println("personal info id  data :"+personalInfoId);
 
 %>
+        
         <jsp:include page="Header.jsp"></jsp:include>
 
 
@@ -197,9 +203,8 @@ Project Name <div   class="input-group " style="width:600px">
    Date Of Joining <p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
     
   </div>
-  <jsp:include page="Footer.jsp"></jsp:include>
+ 
   <jsp:scriptlet>
-  
   
   Family family=operationObject.getFamilyDetailsByFamilyId(familyId);
   if(familyId!=0 && family!=null)
@@ -212,7 +217,7 @@ Project Name <div   class="input-group " style="width:600px">
    Mother Name <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
    Spouse Name <%if(family.getSpouseName()==null)
 	   {%> 
-   <p><input id="spouseName" placeholder="NA (not available)"    oninput="this.className = ''" name="spouseName"></p>
+   <p><input id="spouseName" placeholder="NA"  oninput="this.className = ''" name="spouseName"></p>
    <%} else { %>
    <p><input id="spouseName" placeholder="Enter spouse Name" value=<%=family.getSpouseName() %>    oninput="this.className = ''" name="spouseName"></p>
  <%} %> </div>
@@ -233,14 +238,118 @@ Project Name <div   class="input-group " style="width:600px">
 }
   </jsp:scriptlet>
  
+ <%
+if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != null )
+{
+%>
+  <div class="tab"> Personal Information :<br><br>
+     <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
+    Date Of Birth <p><input disabled="disabled"  value="<%=personalinfoObject.getDateOfBirth() %>"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate" name="dateOfbirth"></p>
+    Sex :  <p><select disabled="disabled" name="sex" value="<%=personalinfoObject.getSex() %>" style="width: 90px; style="font-size:9px">
+                      <option  value="Male">Male </option>  
+                      <option  value="Female">Female </option>    
+                    </select></p>
+    PAN Number<p><input disabled="disabled"  value="<%=personalinfoObject.getPanNumber() %>" placeholder="PAN Number..." oninput="this.className = ''"id ="pannumber" name="pannumber"></p>
+    Aadhar Number<p><input disabled="disabled" value="<%=personalinfoObject.getAadharNumber() %>" placeholder="Aadhar Number..." oninput="this.className = ''" id ="aadharnumber" name="aadharnumber"></p>
+    Passport Number<b><lable style="color:green">(Optional)</lable></b>
+    <%if(personalinfoObject.getPassportNumber()==null)
+	   {%> 
+	   <p><input   placeholder="NA"  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
+     <%} else { %>
+        <p><input   placeholder="Enter Passport Number..."  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
+     <%} %>
+    Bank Account Number<p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  id ="bankAccountNumber"oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
+    Nationality<p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
+    Marital Status <p><select    oninput="this.className = ''" name="marritalstatus"  >
+                      <option  value="Single">Single </option>  
+                      <option  value="Married">Married </option>    
+                    </select></p>
+    </div>
+    <%} 
+     else
+     {%>
+     
+      
+    <div class="tab"> Personal Information :<br><br>
+   
+    Date Of Birth <p><input  type="date"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate"  name="dateOfbirth"></p>
+    <p>Sex :  <select name="sex"  style="width: 90px; style="font-size:9px" >
+                      <option  value="Male">Male </option>  
+                      <option  value="Female">Female </option>    
+                    </select></p>
+    PAN Number<p><input  placeholder="PAN Number..." oninput="this.className = ''" id ="pannumber" name="pannumber"></p>
+    AadharNumber<p><input  placeholder="Aadhar Number..." oninput="this.className = ''"  id ="aadharnumber" name="aadharnumber"></p>
+    Passport Number<b><lable style="color:green">(Optional)</lable></b><p><input value="" placeholder="Passport Number..." id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
+    Bank Account Number<p><input  placeholder="Bank Account Number..." oninput="this.className = ''" id ="bankaccountNumber" name="bankaccountNumber"></p>
+    Nationality<p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
+    Marital Status <p><select      oninput="this.className = ''" name="marritalstatus" >
+                      <option  value="Single">Single </option>  
+                      <option  value="Married">Married </option>    
+                    </select></p>
+    </div>
+     <% } 
+     %>
+     <%
+     Address getAddressObject = new Address();
+     getAddressObject = operationObject.getAddressDetails(addressId);
+     if(getAddressObject.getAddressId() != 0 && getAddressObject.getAddressLine1() != null)
+     {
+     %>
+  <div class="tab">Address:<br><br>
+  
+    Country<p><input value="<%=getAddressObject.getCountryName()  %>" placeholder="Enter Pin Code..." oninput="this.className = ''" id ="country" name="country"></p>
+    State<p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
+    City<p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
+    House Number<p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
+      <% 
+        String addressData =getAddressObject.getAddressLine1();
+        String[] bothAddresses = addressData.split("-"); 
+        out.println("address data :"+addressData); 
+      %> 
+    Address Line 1<p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
+    Address Line 2<b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+     Street Number<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    Pin Code<p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
+    Address Type <p><select  oninput="this.className = ''" name="addressType"  >
+                      <option  value="0">Permanent </option>  
+                      <option  value="1">Temporary </option>    
+                    </select>
+                    </p>
+   </div>
+  <%}
+     else
+     {%>
+      <div class="tab">Address:<br><br>
+  
+    Country<p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
+    State<p><input  placeholder="Enter State..." oninput="this.className = ''"id ="state" name="state"></p>
+    City<p><input  placeholder="Enter City Name..." oninput="this.className =''" id ="city" name="city"></p>
+    House Number<p><input  placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
+    Address Line 1<p><input  placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
+    Address Line 2<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+    Street Number<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    Pin Code<p><input  placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
+    Address Type
+    <select  oninput="this.className = ''" name="addressType"  >
+                      <option  value="0">Permanent </option>  
+                      <option  value="1">Temporary </option>    
+                    </select>
+                    </p>
+  
+   </div>
+    <jsp:include page="Footer.jsp"></jsp:include>
+   <%} %>
+ 
   <div style="overflow:auto;">
     <div style="float:right;decoration:none">
       <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Submit</button>
     </div>
   </div>
   <!-- Circles which indicates the steps of the form: -->
   <div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
     <span class="step"></span>
     <span class="step"></span>
     
@@ -297,6 +406,8 @@ function validateForm() {
   
   var alternateMobileNumberPattern=/[A-Za-z\s]+$/;
   var familyNamePattern=/^[a-zA-Z]+$/;
+  var bankAccountNumberPatter = /[A-Za-z\s]+$/;
+  var patternPassportNumber =/[A-Z]{1}[0-9]{7}/;
   var options = document.getElementById('inputGroupSelect05').selectedOptions;
   var alternateMobileNumber=document.getElementById('alternateMobileNumber').value;
   var spouseName=document.getElementById('spouseName').value;
@@ -355,6 +466,107 @@ function validateForm() {
 		 }
 		 }
 		 }
+	 
+	
+	// validation for Personal information fields
+  	if(currentTab==2)
+  		 {
+ 		  var  dob= document.getElementById("dobdate").value;
+		  var  panNumber= document.getElementById("pannumber").value;
+		  var  aadharNumber= document.getElementById("aadharnumber").value;
+		  var  passportNumber= document.getElementById("passportnumber").value;
+		  var  bankaccountNumber= document.getElementById("bankaccountNumber").value;
+		  var  nationalitY = document.getElementById("nationality").value;
+		  var  patternForPanNumber = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+		  var  patternForAadharNumber = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
+		  var  patternForPassport = /^[A-PR-WYa-pr-wy][1-9]\\d\\s?\\d{4}[1-9]$/;
+		  var  patternForBankAccNumber = /^[3-9][0-9]$/;
+		  var  patternForNationality =/^[a-zA-Z]$/;
+		  if(dob == "")
+		  {
+		     alert("Date Of Birth Must be Fill Out");
+			 valid=false;
+		  }
+		  else if(panNumber == "")
+		  {
+		     alert("Pan Number Must be Fill Out");
+			 valid=false;
+		  }
+		  else if(!(panNumber.match(patternForPanNumber))) 
+		  {
+			  alert("Please enter valid PAN Number(10 digits)");
+			  valid=false;
+		  }
+		  else if(aadharNumber =="")
+		  {
+			   alert("Aadhar Number Must be Fill Out");
+			   valid=false;
+		  }
+		  else if(!(aadharNumber.match(patternForAadharNumber))) 
+		  {
+			  alert("Please enter valid Aadhar Number(12 digits)");
+			  valid=false;
+		  }
+           else if(bankaccountNumber =="")
+		  {
+			   alert("Bank Account Number Must be Fill Out");
+			   valid=false;
+		  }
+            else if(!(bankaccountNumber.match(patternForBankAccNumber))) 
+		  {
+              if(bankaccountNumber.length >= 16 )
+            	{
+            	  alert("Please enter valid Bank Account  Number(Max 16 digits)");
+       			  valid=false;
+            	}
+		 }
+         else if(nationalitY =="")
+         {
+          alert("Nationality Must be Fill Out");
+		  valid=false;
+         }
+ 	}
+	
+	
+ // validation for Address fields
+  	if(currentTab==3)
+  		 {
+  		  var  country= document.getElementById("country").value;
+          var  stateName= document.getElementById("state").value;
+		  var  cityName = document.getElementById("city").value;
+		  var  addressline1= document.getElementById("addressLine1").value;
+		  var  pinCode= document.getElementById("pincode").value;
+		  var  addressline1= document.getElementById("addressLine1").value;
+          var  houseNo= document.getElementById("housenumber")
+		  
+		  if(country == "")
+		  {
+		     alert("Country Must be Fill Out");
+			 valid=false;
+		  }
+		  else if(stateName == "")
+		  {
+		     alert("State Must be Fill Out");
+		     valid=false;
+		  }
+		  else if(cityName == "")
+		  {
+		     alert("City Must be Fill Out");
+		     valid=false;
+		  }
+		  else if(addressline1 == "")
+		  {
+		     alert("Address Line1 Must be Fill Out");
+		     valid=false;
+		  } 
+		  else if(pinCode == "")
+		  {
+		     alert("PINCODE Must be Fill Out");
+		     valid=false;
+		  }
+		  
+  		 }
+ 
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("step")[currentTab].className += " finish";

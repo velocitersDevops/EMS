@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Country;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Manager;
+import com.velociter.ems.model.PersonalInformation;
 //import com.velociter.ems.model.PersonalInformation;
 import com.velociter.ems.model.Project;
 
@@ -420,5 +422,155 @@ public class Operations {
 	    	}
 	    	return isdCodeResultSet;
 	    }
+		
+		    //here we get Personal information of employee and send back to EmployeeDetaisl.jsp to display
+		  PersonalInformation personalObject = new PersonalInformation();
+			public PersonalInformation getPersonalInformation(int personalInfoId) throws NumberFormatException, SQLException
+			{
+					Statement personalStatementObject = dbConnection.createStatement();
+					String getPersonalDetailsQuery = "select * from PERSONAL_INFORMATIONS where PERSONAL_INFO_ID = "+personalInfoId;
+					ResultSet resultSetObject = personalStatementObject.executeQuery(getPersonalDetailsQuery);
+					// if Personal details available then get information
+					while (resultSetObject.next()) 
+					{
+						personalObject.setDateOfBirth(resultSetObject.getString("DOB"));
+						// here we send the date of joining to the changeDateFormate() to get date in
+						// "DD-MMM-YYYY" format
+						String dob = personalObject.getDateOfBirth();
+						String afterChangeDOB = commonOperationObject.changeDateFormate(dob);
+						personalObject.setDateOfBirth(afterChangeDOB);
+						personalObject.setSex(resultSetObject.getString("SEX"));
+						personalObject.setPanNumber(resultSetObject.getString("PANNUMBER"));
+						personalObject.setAadharNumber((Long.parseLong(resultSetObject.getString("AADHARNUMBER"))));
+						personalObject.setPassportNumber(resultSetObject.getString("PASSPORTNUMBER"));
+						personalObject.setBankAccountNumber((Long.parseLong(resultSetObject.getString("BANK_ACCOUNT_NUMBER"))));
+						personalObject.setNationality(resultSetObject.getString("NATIONALITY"));
+						personalObject.setMaritalStatus(resultSetObject.getString("MARITALSTATUS"));
+					}	
+				return  personalObject; 
+			}
+			
+			//Add Personal information Details of employee into Personal_information table
+			public int addpersonalInfoDetails(PersonalInformation personalObject,int personalInfoId) throws SQLException
+			{
+				int personalInfoRowCount=0;
+			        System.out.println("personal object data in  add personal method  :"+personalObject.toString());
+					String query="insert into PERSONAL_INFORMATIONS (PERSONAL_INFO_ID,DOB,SEX,PANNUMBER,AADHARNUMBER,PASSPORTNUMBER,BANK_ACCOUNT_NUMBER,NATIONALITY,MARITALSTATUS) VALUES (?,?,?,?,?,?,?,?,?)";
+					PreparedStatement psmt=dbConnection.prepareStatement(query);
+					psmt.setInt(1, personalInfoId);
+					String dob = personalObject.getDateOfBirth();
+					psmt.setString(2,commonOperationObject.changeDateFormate(dob));
+					psmt.setString(3,personalObject.getSex() );
+					psmt.setString(4,personalObject.getPanNumber() );
+					psmt.setLong(5, personalObject.getAadharNumber());
+					psmt.setString(6,personalObject.getPassportNumber());
+					psmt.setLong(7,personalObject.getBankAccountNumber() );
+					psmt.setString(8,personalObject.getNationality() );
+					psmt.setString(9,personalObject.getMaritalStatus() );
+					personalInfoRowCount=psmt.executeUpdate();	
+				
+				return personalInfoRowCount;
+			}
+            
+			//Add Address  Details of employee into Addresses table
+			public int addAddressDetails(Address addressObject,int addressId) throws SQLException
+			{
+				int addressRowCount=0;
+					System.out.println("control  in  add address method  :"+addressObject.toString());
+					String query="insert into ADDRESSES (ADDRESSID,ADDRESSLINE1,STREETNUMBER,CITY,STATE,PINCODE,COUNTRY,ADDRESSTYPE,HOUSENUMBER) VALUES (?,?,?,?,?,?,?,?,?)";
+					PreparedStatement psmt=dbConnection.prepareStatement(query);
+					addressObject.setAddressId(addressId);
+					psmt.setInt(1,addressObject.getAddressId() );
+					psmt.setString(2,addressObject.getAddressLine1());
+					psmt.setInt(3,addressObject.getStreetNumber());
+					psmt.setString(4,addressObject.getCityName() );
+					psmt.setString(5, addressObject.getStateName());
+					psmt.setInt(6,addressObject.getPincodeNumber());
+					psmt.setString(7,addressObject.getCountryName() );
+					psmt.setInt(8,addressObject.getAddressType() );
+					psmt.setString(9,addressObject.getHouseNumber() );
+					addressRowCount=psmt.executeUpdate();
+				return addressRowCount;
+			}
+			//here we get Address information of employee and send back to EmployeeDetaisl.jsp to display
+			Address addressObject = new Address();
+			public Address getAddressDetails(int addressid) throws NumberFormatException, SQLException
+			{
+					Statement addressStatementObject = dbConnection.createStatement();
+					String getAddressDetailsQuery = "select * from ADDRESSES where ADDRESSID = "+addressid;
+					ResultSet resultSetObject = addressStatementObject.executeQuery(getAddressDetailsQuery);
+					// if Address details available then get information
+					while (resultSetObject.next()) 
+					{
+						addressObject.setAddressId((Integer.parseInt(resultSetObject.getString("ADDRESSID"))));
+						addressObject.setAddressLine1(resultSetObject.getString("ADDRESSLINE1"));
+						addressObject.setStreetNumber(resultSetObject.getInt("STREETNUMBER"));
+						addressObject.setCityName(resultSetObject.getString("CITY"));
+						addressObject.setStateName(resultSetObject.getString("STATE"));
+						addressObject.setPincodeNumber((Integer.parseInt(resultSetObject.getString("PINCODE"))));
+						addressObject.setCountryName(resultSetObject.getString("COUNTRY"));
+						addressObject.setAddressType((resultSetObject.getInt("ADDRESSTYPE")));
+						addressObject.setHouseNumber((resultSetObject.getString("HOUSENUMBER")));	
+					}
+				return  addressObject; 
+			}
+			
+//			//here we are creating method to update personalInformation Record after edit by employee
+			private int personalInfoUpdateStatus;
+			public int updatePersonalInfo(PersonalInformation personalInfoObject,int personalInfoId) throws SQLException
+			{
+					System.out.println("controll is comming in personal info update");
+					System.out.println("dob date data :"+personalInfoObject.getDateOfBirth());
+					String personalInfoUpdateQuery = "UPDATE PERSONAL_INFORMATIONS  SET "
+							+"PASSPORTNUMBER='"+personalInfoObject.getPassportNumber()+"',BANK_ACCOUNT_NUMBER="+personalInfoObject.getBankAccountNumber()+" ,"
+							+"MARITALSTATUS= '"+personalInfoObject.getMaritalStatus()+"'  WHERE PERSONAL_INFO_ID ="+personalInfoId;
+					System.out.println("update personal query :"+personalInfoUpdateQuery);
+					PreparedStatement prepareStatementObject = dbConnection.prepareStatement(personalInfoUpdateQuery);
+					personalInfoUpdateStatus = prepareStatementObject.executeUpdate(personalInfoUpdateQuery);
+					// if address details update succesfully  then return number of update record 
+				System.out.println("personal info update status  :"+personalInfoUpdateStatus);
+				return personalInfoUpdateStatus;
+			}
+			
+			
+			//here we are creating method to update Address Record after edit by employee
+			private int addressUpdateStatus;
+			public int updateAddressRecord(Address addressobject,int addressid) throws SQLException
+			{
+					System.out.println("controll is comming in address update :"+addressobject.getPincodeNumber());
+					String addressUpdateQuery = "UPDATE ADDRESSES  SET   ADDRESSLINE1 ='"+addressobject.getAddressLine1()+"', STREETNUMBER = "+addressobject.getStreetNumber()+" , "
+							                  + "CITY= '"+addressobject.getCityName()+"' ,STATE= '"+addressobject.getStateName()+"',  PINCODE= "+addressobject.getPincodeNumber()+" ,"
+							                  + " COUNTRY= '"+addressobject.getCountryName()+"', ADDRESSTYPE = "+addressobject.getAddressType()+",   HOUSENUMBER='"+addressobject.getHouseNumber()+"'   WHERE ADDRESSID ="+addressid;
+					PreparedStatement prepareStatementObject = dbConnection.prepareStatement(addressUpdateQuery);
+					addressUpdateStatus = prepareStatementObject.executeUpdate(addressUpdateQuery);
+					// if address details update succesfully  then return number of update record 
+				    System.out.println("address update status  :"+addressUpdateStatus);
+				    return addressUpdateStatus;
+			}
+		
+			//Method for update personal info id In employee table
+			public int updatePersonalInfoidInEmployeeTable(int empId) throws SQLException
+			{
+				int updateStatuspersonalInfoId=0;
+				System.out.println("personal info id in update updatePersonalInfoidInEmployeeTable :"+empId);
+				String query="UPDATE EMPLOYEE SET PERSONAL_INFO_ID="+empId+" where EMPID="+empId;
+				PreparedStatement psmt=dbConnection.prepareStatement(query);
+				updateStatuspersonalInfoId = psmt.executeUpdate();
+				System.out.println("update status of personal info id :"+updateStatuspersonalInfoId);
+				return updateStatuspersonalInfoId;
+			}
+			
+			//Method for update personal info id In employee table
+			public int updateAddressidInEmployeeTable(int empId) throws SQLException
+			{
+				int updateStatusAddressId=0;
+				System.out.println("Address id in update updateAddressidInEmployeeTable :"+empId);
+				String query="UPDATE EMPLOYEE SET ADDRESSID="+empId+" where EMPID="+empId;
+				PreparedStatement psmt=dbConnection.prepareStatement(query);
+				updateStatusAddressId = psmt.executeUpdate();
+				System.out.println("update status of personal info id :"+updateStatusAddressId);
+				return updateStatusAddressId;
+			}
+
 
 }
