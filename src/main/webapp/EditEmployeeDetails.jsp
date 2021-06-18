@@ -16,11 +16,16 @@
    Integer familyId=(Integer)session.getAttribute("familyId");
    Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
    Integer addressId = (Integer)session.getAttribute("addressId");
+   //out.println("addressId is :"+addressId);
 </jsp:scriptlet>
 
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<fmt:setBundle basename="label"/> 
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,14 +167,14 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
-  <div class="tab">First Name
+  <div class="tab">
   
-    <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-   Middle Name: <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
-   Last Name <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
-   Email Id<p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
-   Mobile Number <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
-   Alternate Mobile Number (Optional)
+   <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
+   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
+   <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
+   <fmt:message key="label.emailid"></fmt:message><p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
+   <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
+   <fmt:message key="label.AltermobileNo"></fmt:message>
    <% if(employee.getAlternateContactNumber()==0)
 	   {%>
     <p><input id="alternateMobileNumber"  placeholder="NA (Not Available)" oninput="this.className = ''" name="alternateMobileNumber"></p>
@@ -178,7 +183,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
    {%>
     <p><input id="alternateMobileNumber" value=<%=employee.getAlternateContactNumber() %>  placeholder="Alternate Mobile Number not available..." oninput="this.className = ''" name="alternateMobileNumber"></p>
    <%} %>
-    ManagerName 
+     <fmt:message key="label.managerName"></fmt:message> 
     <div class="input-group" style="width:600px">
 <%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
       <select name="managerName" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
@@ -190,7 +195,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
   <br>
 <%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
 
-Project Name <div   class="input-group " style="width:600px">
+ <fmt:message key="label.projectName"></fmt:message> <div   class="input-group " style="width:600px">
                <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
                        <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
                           {%> 
@@ -200,7 +205,7 @@ Project Name <div   class="input-group " style="width:600px">
                       </select>
                       </div><br>
   
-   Date Of Joining <p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
+   <fmt:message key="label.joinDate"></fmt:message><p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
     
   </div>
  
@@ -213,9 +218,10 @@ Project Name <div   class="input-group " style="width:600px">
   
   </jsp:scriptlet>
   <div class="tab">Family Details:<br><br>
-   Father Name <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
-   Mother Name <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
-   Spouse Name <%if(family.getSpouseName()==null)
+   <fmt:message key="label.fatherName"></fmt:message> <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
+   <fmt:message key="label.moterName"></fmt:message> <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
+   <fmt:message key="label.spouseName"></fmt:message> 
+   <%if(family.getSpouseName()==null)
 	   {%> 
    <p><input id="spouseName" placeholder="NA"  oninput="this.className = ''" name="spouseName"></p>
    <%} else { %>
@@ -229,9 +235,9 @@ Project Name <div   class="input-group " style="width:600px">
  </jsp:scriptlet>
  
   <div class="tab">Family Details:<br>
-  Father Name  <p><input id="fatherName" placeholder="Father name..."    oninput="this.className = ''" name="fatherName"></p>
-  Mother Name  <p><input id="motherName" placeholder="Mother name..." oninput="this.className = ''" name="motherName"></p>
-  Spouse Name (Optional)  <p><input id="spouseName" placeholder="Spouse name..." oninput="this.className = ''" name="spouseName"></p>
+  <fmt:message key="label.fatherName"></fmt:message><p><input id="fatherName" placeholder="Father name..."    oninput="this.className = ''" name="fatherName"></p>
+  <fmt:message key="label.moterName"></fmt:message> <p><input id="motherName" placeholder="Mother name..." oninput="this.className = ''" name="motherName"></p>
+  <fmt:message key="label.spouseName"></fmt:message><p><input id="spouseName" placeholder="Spouse name..." oninput="this.className = ''" name="spouseName"></p>
   </div>
   
   <jsp:scriptlet>
@@ -243,24 +249,24 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
 {
 %>
   <div class="tab"> Personal Information :<br><br>
-     <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
-    Date Of Birth <p><input disabled="disabled"  value="<%=personalinfoObject.getDateOfBirth() %>"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate" name="dateOfbirth"></p>
-    Sex :  <p><select disabled="disabled" name="sex" value="<%=personalinfoObject.getSex() %>" style="width: 90px; style="font-size:9px">
+    <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
+    <fmt:message key="label.dob"></fmt:message>  <p><input disabled="disabled"  value="<%=personalinfoObject.getDateOfBirth() %>"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate" name="dateOfbirth"></p>
+    <fmt:message key="label.sex"></fmt:message>  <p><select disabled="disabled" name="sex" value="<%=personalinfoObject.getSex() %>" style="width: 90px; style="font-size:9px">
                       <option  value="Male">Male </option>  
                       <option  value="Female">Female </option>    
                     </select></p>
-    PAN Number<p><input disabled="disabled"  value="<%=personalinfoObject.getPanNumber() %>" placeholder="PAN Number..." oninput="this.className = ''"id ="pannumber" name="pannumber"></p>
-    Aadhar Number<p><input disabled="disabled" value="<%=personalinfoObject.getAadharNumber() %>" placeholder="Aadhar Number..." oninput="this.className = ''" id ="aadharnumber" name="aadharnumber"></p>
-    Passport Number<b><lable style="color:green">(Optional)</lable></b>
+    <fmt:message key="label.panNumber"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getPanNumber() %>" placeholder="PAN Number..." oninput="this.className = ''"id ="pannumber" name="pannumber"></p>
+    <fmt:message key="label.aadharNumber"></fmt:message><p><input disabled="disabled" value="<%=personalinfoObject.getAadharNumber() %>" placeholder="Aadhar Number..." oninput="this.className = ''" id ="aadharnumber" name="aadharnumber"></p>
+    <fmt:message key="label.passportNumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b>
     <%if(personalinfoObject.getPassportNumber()==null)
 	   {%> 
 	   <p><input   placeholder="NA"  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
      <%} else { %>
         <p><input   placeholder="Enter Passport Number..."  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
      <%} %>
-    Bank Account Number<p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  id ="bankAccountNumber"oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
-    Nationality<p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
-    Marital Status <p><select    oninput="this.className = ''" name="marritalstatus"  >
+    <fmt:message key="label.BankAccNumber"></fmt:message><p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  id ="bankAccountNumber"oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
+    <fmt:message key="label.nationality"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
+    <fmt:message key="label.maritalStatus"></fmt:message><p><select    oninput="this.className = ''" name="marritalstatus"  >
                       <option  value="Single">Single </option>  
                       <option  value="Married">Married </option>    
                     </select></p>
@@ -272,17 +278,17 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
       
     <div class="tab"> Personal Information :<br><br>
    
-    Date Of Birth <p><input  type="date"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate"  name="dateOfbirth"></p>
-    <p>Sex :  <select name="sex"  style="width: 90px; style="font-size:9px" >
+     <fmt:message key="label.dob"></fmt:message> <p><input  type="date"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate"  name="dateOfbirth"></p>
+     <fmt:message key="label.sex"></fmt:message>  <p><select name="sex"  style="width: 90px; style="font-size:9px" >
                       <option  value="Male">Male </option>  
                       <option  value="Female">Female </option>    
                     </select></p>
-    PAN Number<p><input  placeholder="PAN Number..." oninput="this.className = ''" id ="pannumber" name="pannumber"></p>
-    AadharNumber<p><input  placeholder="Aadhar Number..." oninput="this.className = ''"  id ="aadharnumber" name="aadharnumber"></p>
-    Passport Number<b><lable style="color:green">(Optional)</lable></b><p><input value="" placeholder="Passport Number..." id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
-    Bank Account Number<p><input  placeholder="Bank Account Number..." oninput="this.className = ''" id ="bankaccountNumber" name="bankaccountNumber"></p>
-    Nationality<p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
-    Marital Status <p><select      oninput="this.className = ''" name="marritalstatus" >
+    <fmt:message key="label.panNumber"></fmt:message><p><input  placeholder="PAN Number..." oninput="this.className = ''" id ="pannumber" name="pannumber"></p>
+    <fmt:message key="label.aadharNumber"></fmt:message><p><input  placeholder="Aadhar Number..." oninput="this.className = ''"  id ="aadharnumber" name="aadharnumber"></p>
+    <fmt:message key="label.passportNumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="" placeholder="Passport Number..." id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
+    <fmt:message key="label.BankAccNumber"></fmt:message><p><input  placeholder="Bank Account Number..." oninput="this.className = ''" id ="bankaccountNumber" name="bankaccountNumber"></p>
+    <fmt:message key="label.nationality"></fmt:message><p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
+    <fmt:message key="label.maritalStatus"></fmt:message> <p><select      oninput="this.className = ''" name="marritalstatus" >
                       <option  value="Single">Single </option>  
                       <option  value="Married">Married </option>    
                     </select></p>
@@ -297,20 +303,20 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      %>
   <div class="tab">Address:<br><br>
   
-    Country<p><input value="<%=getAddressObject.getCountryName()  %>" placeholder="Enter Pin Code..." oninput="this.className = ''" id ="country" name="country"></p>
-    State<p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
-    City<p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
-    House Number<p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
+    <fmt:message key="labelcountry."></fmt:message><p><input value="<%=getAddressObject.getCountryName()  %>" placeholder="Enter Pin Code..." oninput="this.className = ''" id ="country" name="country"></p>
+    <fmt:message key="label.state"></fmt:message><p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
+    <fmt:message key="label.city"></fmt:message><p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
+    <fmt:message key="label.houseNo"></fmt:message><p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
       <% 
         String addressData =getAddressObject.getAddressLine1();
         String[] bothAddresses = addressData.split("-"); 
        // out.println("address data :"+addressData); 
       %> 
-    Address Line 1<p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
-    Address Line 2<b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-     Street Number<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
-    Pin Code<p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
-    Address Type <p><select  oninput="this.className = ''" name="addressType"  >
+    <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
+    <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    <fmt:message key="label.pincode"></fmt:message><p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
+    <fmt:message key="label.addressType"></fmt:message><p><select  oninput="this.className = ''" name="addressType"  >
                       <option  value="0">Permanent </option>  
                       <option  value="1">Temporary </option>    
                     </select>
@@ -321,15 +327,15 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      {%>
       <div class="tab">Address:<br><br>
   
-    Country<p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
-    State<p><input  placeholder="Enter State..." oninput="this.className = ''"id ="state" name="state"></p>
-    City<p><input  placeholder="Enter City Name..." oninput="this.className =''" id ="city" name="city"></p>
-    House Number<p><input  placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
-    Address Line 1<p><input  placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
-    Address Line 2<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-    Street Number<b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
-    Pin Code<p><input  placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
-    Address Type
+    <fmt:message key="labelcountry."></fmt:message><p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
+    <fmt:message key="label.state"></fmt:message><p><input  placeholder="Enter State..." oninput="this.className = ''"id ="state" name="state"></p>
+    <fmt:message key="label.city"></fmt:message><p><input  placeholder="Enter City Name..." oninput="this.className =''" id ="city" name="city"></p>
+    <fmt:message key="label.houseNo"></fmt:message><p><input  placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
+    <fmt:message key="label.addressLine1"></fmt:message><p><input  placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
+    <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    <fmt:message key="label.pincode"></fmt:message><p><input  placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
+    <fmt:message key="label.addressType"></fmt:message>
     <select  oninput="this.className = ''" name="addressType"  >
                       <option  value="0">Permanent </option>  
                       <option  value="1">Temporary </option>    
@@ -425,17 +431,18 @@ function validateForm() {
     	   alert("Please enter valid number");
     	   valid=false;
     	  }
-          if(alternateMobileNumber.length!=10)
+        else if(alternateMobileNumber.length!=10)
         	  {
         	  alert("Please enter valid number");
         	  valid=false;
         	  }
         }
-	      if(values.length == limitForCondition.projectzero){
+	     
+         else if(values.length == limitForCondition.projectzero){
 	         alert("Please select atlest 1 project");
 	         valid=false;
 	       }
-	      if(values.length > limitForCondition.projectLimit){
+         else if(values.length > limitForCondition.projectLimit){
 	   	  alert("You Can select only 1 projects.");
 	   	 valid=false;
 	      } 
@@ -452,7 +459,7 @@ function validateForm() {
 			 alert ("Please enter valid father name");
 			 valid=false;
 			 }
-		 if(!motherName.match(familyNamePattern))
+		 else if(!motherName.match(familyNamePattern))
 			 {
 			 alert("Please enter valid mother name");
 			 valid=false;

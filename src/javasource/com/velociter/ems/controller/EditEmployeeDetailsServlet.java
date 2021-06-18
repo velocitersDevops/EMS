@@ -33,8 +33,9 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	Integer empId=(Integer)session.getAttribute("empId");
     	Integer familyId=(Integer)session.getAttribute("familyId");
     	Integer personalInfoid = (Integer)session.getAttribute("personalInfoId");
-    	System.out.println("after getting personal infoid in from session "+personalInfoid);
     	Integer addressId = (Integer)session.getAttribute("addressId");
+    	System.out.println("personal info id afetr session :"+personalInfoid);
+    	System.out.println("address  id afetr session :"+addressId);
     	
          String managerName=req.getParameter("managerName");
          int projectId=Integer.parseInt(req.getParameter("projectName"));
@@ -83,7 +84,11 @@ public class EditEmployeeDetailsServlet extends HttpServlet
 		personalObject.setDateOfBirth(req.getParameter("dateOfbirth"));
 		personalObject.setSex(req.getParameter("sex"));
 		personalObject.setPanNumber(req.getParameter("pannumber"));
-		personalObject.setAadharNumber(Long.parseLong(req.getParameter("aadharnumber")));
+		if(req.getParameter("aadharnumber")!=null && !req.getParameter("aadharnumber").equals(""))
+		{
+			personalObject.setAadharNumber(Long.parseLong(req.getParameter("aadharnumber")));
+		}
+		
 		personalObject.setPassportNumber(req.getParameter("passportnumber"));
 		personalObject.setBankAccountNumber(Long.parseLong(req.getParameter("bankaccountNumber")));
 		personalObject.setNationality(req.getParameter("nationality"));
@@ -94,7 +99,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet
 		
 		//taking address information data from request object and storing into address object
 		Address addressObject = new Address();
-		addressObject.setAddressId(projectId);
+		addressObject.setAddressId(addressId);
 		addressObject.setCountryName(req.getParameter("country"));
 		addressObject.setStateName(req.getParameter("state"));
 		addressObject.setCityName(req.getParameter("city"));
@@ -106,14 +111,11 @@ public class EditEmployeeDetailsServlet extends HttpServlet
 		String addressdata = addressLine1Data +"-"+addressLine2Data;
 		addressObject.setAddressLine1(addressdata);
 		System.out.println("check complete addres line1 line 2  :"+addressObject.getAddressLine1());
-		if(req.getParameter("streetnumber") == null)
+		if(req.getParameter("streetnumber")!=null && !req.getParameter("streetnumber").equals(""))
 		{
-			
+			 addressObject.setStreetNumber(Integer.parseInt(req.getParameter("streetnumber")));
 		}
-		else
-		{
-		addressObject.setStreetNumber(Integer.parseInt(req.getParameter("streetnumber")));
-		}
+		 	
 		addressObject.setHouseNumber(req.getParameter("housenumber"));
 		addressObject.setAddressType(Integer.parseInt(req.getParameter("addressType")));
 		System.out.println("address object data :"+addressObject.toString());

@@ -38,6 +38,8 @@ public class LoginServlet extends HttpServlet
  			 session.setAttribute("familyId", employee.getFamilyId());
  			 session.setAttribute("empId", employee.getEmployeeId());
  			 session.setAttribute("firstName",employee.getFirstName());
+ 			 session.setAttribute("personalInfoId",employee.getPersonalInfoId());
+ 			 session.setAttribute("addressId",employee.getAddressId());
  			 session.setAttribute("currentuser", employee);
  			 
  			response.sendRedirect("Welcome.jsp");
