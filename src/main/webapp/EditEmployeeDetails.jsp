@@ -304,7 +304,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
       <% 
         String addressData =getAddressObject.getAddressLine1();
         String[] bothAddresses = addressData.split("-"); 
-        out.println("address data :"+addressData); 
+       // out.println("address data :"+addressData); 
       %> 
     Address Line 1<p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
     Address Line 2<b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
@@ -469,63 +469,63 @@ function validateForm() {
 	 
 	
 	// validation for Personal information fields
-  	if(currentTab==2)
-  		 {
- 		  var  dob= document.getElementById("dobdate").value;
-		  var  panNumber= document.getElementById("pannumber").value;
-		  var  aadharNumber= document.getElementById("aadharnumber").value;
-		  var  passportNumber= document.getElementById("passportnumber").value;
-		  var  bankaccountNumber= document.getElementById("bankaccountNumber").value;
-		  var  nationalitY = document.getElementById("nationality").value;
-		  var  patternForPanNumber = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
-		  var  patternForAadharNumber = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
-		  var  patternForPassport = /^[A-PR-WYa-pr-wy][1-9]\\d\\s?\\d{4}[1-9]$/;
-		  var  patternForBankAccNumber = /^[3-9][0-9]$/;
-		  var  patternForNationality =/^[a-zA-Z]$/;
-		  if(dob == "")
-		  {
-		     alert("Date Of Birth Must be Fill Out");
-			 valid=false;
-		  }
-		  else if(panNumber == "")
-		  {
-		     alert("Pan Number Must be Fill Out");
-			 valid=false;
-		  }
-		  else if(!(panNumber.match(patternForPanNumber))) 
-		  {
-			  alert("Please enter valid PAN Number(10 digits)");
-			  valid=false;
-		  }
-		  else if(aadharNumber =="")
-		  {
-			   alert("Aadhar Number Must be Fill Out");
-			   valid=false;
-		  }
-		  else if(!(aadharNumber.match(patternForAadharNumber))) 
-		  {
-			  alert("Please enter valid Aadhar Number(12 digits)");
-			  valid=false;
-		  }
-           else if(bankaccountNumber =="")
-		  {
-			   alert("Bank Account Number Must be Fill Out");
-			   valid=false;
-		  }
-            else if(!(bankaccountNumber.match(patternForBankAccNumber))) 
-		  {
-              if(bankaccountNumber.length >= 16 )
-            	{
-            	  alert("Please enter valid Bank Account  Number(Max 16 digits)");
-       			  valid=false;
-            	}
-		 }
-         else if(nationalitY =="")
-         {
-          alert("Nationality Must be Fill Out");
-		  valid=false;
-         }
- 	}
+//   	if(currentTab==2)
+//   		 {
+//  		  var  dob= document.getElementById("dobdate").value;
+// 		  var  panNumber= document.getElementById("pannumber").value;
+// 		  var  aadharNumber= document.getElementById("aadharnumber").value;
+// 		  var  passportNumber= document.getElementById("passportnumber").value;
+// 		  var  bankaccountNumber= document.getElementById("bankaccountNumber").value;
+// 		  var  nationalitY = document.getElementById("nationality").value;
+// 		  var  patternForPanNumber = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+// 		  var  patternForAadharNumber = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
+// 		  var  patternForPassport = /^[A-PR-WYa-pr-wy][1-9]\\d\\s?\\d{4}[1-9]$/;
+// 		  var  patternForBankAccNumber = /^[3-9][0-9]$/;
+// 		  var  patternForNationality =/^[a-zA-Z]$/;
+// 		  if(dob == "")
+// 		  {
+// 		     alert("Date Of Birth Must be Fill Out");
+// 			 valid=false;
+// 		  }
+// 		  else if(panNumber == "")
+// 		  {
+// 		     alert("Pan Number Must be Fill Out");
+// 			 valid=false;
+// 		  }
+// 		  else if(!(panNumber.match(patternForPanNumber))) 
+// 		  {
+// 			  alert("Please enter valid PAN Number(10 digits)");
+// 			  valid=false;
+// 		  }
+// 		  else if(aadharNumber =="")
+// 		  {
+// 			   alert("Aadhar Number Must be Fill Out");
+// 			   valid=false;
+// 		  }
+// 		  else if(!(aadharNumber.match(patternForAadharNumber))) 
+// 		  {
+// 			  alert("Please enter valid Aadhar Number(12 digits)");
+// 			  valid=false;
+// 		  }
+//            else if(bankaccountNumber =="")
+// 		  {
+// 			   alert("Bank Account Number Must be Fill Out");
+// 			   valid=false;
+// 		  }
+//             else if(!(bankaccountNumber.match(patternForBankAccNumber))) 
+// 		  {
+//               if(bankaccountNumber.length >= 16 )
+//             	{
+//             	  alert("Please enter valid Bank Account  Number(Max 16 digits)");
+//        			  valid=false;
+//             	}
+// 		 }
+//          else if(nationalitY =="")
+//          {
+//           alert("Nationality Must be Fill Out");
+// 		  valid=false;
+//          }
+//  	}
 	
 	
  // validation for Address fields
