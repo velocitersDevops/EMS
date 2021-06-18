@@ -29,7 +29,7 @@
 <tr>
 <td width="20%"><img src="exstyle/Images/logo.jfif" style="width=150px"></td>
 <td width="80%"><h1 align="center"><font size="7" color="red" face="Castellar">EMPLOYEE MANAGMENT</font></h1></td>
-<td width="20%" align="right"><a  href="LogoutServlet" ><font size="5" color="white">Logout</font></a></td>
+<td width="20%" align="left"><a style="text-decoration:none" href="LogoutServlet" ><font size="5" color="white">Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></a></td>
 </tr>
 </table>
 </div>
