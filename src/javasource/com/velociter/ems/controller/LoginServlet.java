@@ -16,7 +16,10 @@ import com.velociter.ems.model.Employee;
 
 public class LoginServlet extends HttpServlet
 {
-    @Override
+    private static final long serialVersionUID = 1L;
+    public LoginServlet() {
+        super();
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
     	response.setContentType("text/html");
