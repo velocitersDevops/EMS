@@ -31,7 +31,7 @@
 				src="exstyle/Images/logo.jfif">
 		</div>
 		
-			<p style="text-align: center; padding-left: 550px; float: left; font-size: 30px; padding-top: 40px;">
+			<p style="text-align: center; padding-left: 300px; float: left; font-size: 30px; padding-top: 40px;">
 			<font size="7" color="red" face="Castellar">Employee
 				Management </font>
 		</p>
