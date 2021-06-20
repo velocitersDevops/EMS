@@ -12,6 +12,7 @@
 
 
 String firstName=(String)session.getAttribute("firstName");
+//Integer empid =Integer.parseInt(session.getAttribute(""));
 
 if(firstName==null)
 {
@@ -94,7 +95,8 @@ response.setDateHeader("Expire", 0);
                     <td><jsp:expression>employeeList.getMobileNumber()</jsp:expression></td>
                     <td><jsp:expression>employeeList.getEmailId()</jsp:expression></td>
                     <td><jsp:expression>employeeList.getDateOfJoining()</jsp:expression></td>
-                    <td><a href="" style="color:red">View Details</a></td>
+                     <%int employeeId =employeeList.getEmployeeId(); %> 
+                    <td><a href="EmployeeDetails.jsp?empid=<%=employeeId %>" style="color:red" >View Details</a></td>
                </tr>
                <jsp:scriptlet>
                
@@ -102,7 +104,6 @@ response.setDateHeader("Expire", 0);
                }
                catch(Exception e)
                {
-            	
             	  e.printStackTrace() ;
                }
             	  </jsp:scriptlet>
