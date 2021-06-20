@@ -176,7 +176,7 @@ public class Operations {
 	    	
 	    	try
 	    	{
-	    	   String query="select FIRSTNAME,LASTNAME,EMAIL,MOBILENUMBER,DOJ from EMPLOYEE ";
+	    	   String query="select EMPID,FIRSTNAME,LASTNAME,EMAIL,MOBILENUMBER,DOJ from EMPLOYEE ";
 	    	   PreparedStatement psmt=dbConnection.prepareStatement(query);
 	   		   
 	   		  ResultSet resultSet=psmt.executeQuery();
@@ -184,7 +184,7 @@ public class Operations {
 	   		  while(resultSet.next())
 	   		  {
 	   			  Employee employee=new Employee();
-	   			 
+	   			  employee.setEmployeeId(Integer.parseInt(resultSet.getString("EMPID")));
 	   			  employee.setFirstName(resultSet.getString("FIRSTNAME"));
 	   			  employee.setLastName(resultSet.getString("LASTNAME"));
 	   			  employee.setEmailId(resultSet.getString("EMAIL"));
@@ -208,7 +208,7 @@ public class Operations {
 		  try
 		  {
 			
-		String query="select FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME from EMPLOYEE where EMPID="+empId;
+		String query="select SALUTATION,FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME,CREATIONDATE,LASTMODIFIED_DATE from EMPLOYEE where EMPID="+empId;
 		PreparedStatement psmt=dbConnection.prepareStatement(query);
 		ResultSet resultSet=psmt.executeQuery();
 		
@@ -216,6 +216,7 @@ public class Operations {
 		{
 			employee=new Employee();
 			String firstName=resultSet.getString("FIRSTNAME");
+			employee.setSalutation(resultSet.getString("SALUTATION"));
 			employee.setFirstName(firstName);
 			employee.setMiddleName(resultSet.getString("MIDDLENAME"));
 			employee.setLastName(resultSet.getString("LASTNAME"));
@@ -225,6 +226,8 @@ public class Operations {
 			employee.setManagerName(resultSet.getString("MANAGERNAME"));
 			employee.setProjectId(resultSet.getInt("PROJECTID"));
 			employee.setAlternateContactNumber(Long.parseLong( resultSet.getString("ALTERNATEMOBILENUMBER")));
+			employee.setCreationDate(resultSet.getString("CREATIONDATE"));
+			employee.setLastModifiedDate(resultSet.getString("LASTMODIFIED_DATE"));
 		  }
 		  }
 		  catch(Exception e)
