@@ -8,4 +8,6 @@ limitForCondition = {
   passwordMaxLmit:12,
   passwordMinLmit:8,
   mobileNumberLimit:10,
+  bankAccNumberlimit:16,
+  pincodeLimit:6,
 }
