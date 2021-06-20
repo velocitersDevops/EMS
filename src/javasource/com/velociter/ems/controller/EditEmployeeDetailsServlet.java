@@ -146,15 +146,15 @@ public class EditEmployeeDetailsServlet extends HttpServlet
 			   		System.out.println("before if personalInfoid :"+personalInfoid+" "+" and addressId :"+addressId);
 			   		if(personalInfoid >0 && addressId >0 )   		 
 					{
-				// by using operationObject reference call updatePersonalInfo method of
-				personalInfoCount = operationObject.updatePersonalInfo(personalObject,personalInfoid);
-				addressCount = operationObject.updateAddressRecord(addressObject,addressId);
+				    // by using operationObject reference call updatePersonalInfo method of
+			    	personalInfoCount = operationObject.updatePersonalInfo(personalObject,personalInfoid);
+				    addressCount = operationObject.updateAddressRecord(addressObject,addressId);
 		   						   		 
 					   		if(personalInfoCount >0 &&  addressCount >0  )
 					   		{
 					   			out.println("<h4 style='color: green;'> Both Records  Upadate SuccessFully !</h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
-								requestDispaterObject.include(req, resp);
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp?msg="+1+"");
+								requestDispaterObject.forward(req, resp);
 					   		}
 					   		else if(personalInfoCount == 0 ||  addressCount >0)
 					   		{

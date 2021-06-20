@@ -12,10 +12,10 @@
 <%  ArrayList<Project>  projectObject=null;%>
 <jsp:scriptlet>
 
-   Integer empId=(Integer)session.getAttribute("empId");
-   Integer familyId=(Integer)session.getAttribute("familyId");
-   Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
-   Integer addressId = (Integer)session.getAttribute("addressId");
+Integer empId=(Integer)session.getAttribute("empId");
+Integer familyId=(Integer)session.getAttribute("familyId");
+Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
+Integer addressId = (Integer)session.getAttribute("addressId");
    //out.println("addressId is :"+addressId);
 </jsp:scriptlet>
 
@@ -31,6 +31,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
 <title>EditEmployeeDetails Page </title>
+<script src="js/JsProperties.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
 
@@ -65,6 +66,7 @@
 
 body {
   background-color: #f1f1f1;
+  margin: 10px auto;
 }
 
 #editForm {
@@ -157,6 +159,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
  mapObject = operationObject.getProjectName();
  PersonalInformation personalinfoObject = new PersonalInformation();
  personalinfoObject = operationObject.getPersonalInformation(personalInfoId);
+ 
  //out.println("personal info id  data :"+personalInfoId);
 
 %>
@@ -168,9 +171,8 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">
-  
    <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
+   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%String middleNameData =(employee.getMiddleName() != null) ?  employee.getMiddleName()  : "NA";%> <%=middleNameData  %> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
    <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
    <fmt:message key="label.emailid"></fmt:message><p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
@@ -250,6 +252,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
 %>
   <div class="tab"> Personal Information :<br><br>
     <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
+    <fmt:message key="label.nationality"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
     <fmt:message key="label.dob"></fmt:message>  <p><input disabled="disabled"  value="<%=personalinfoObject.getDateOfBirth() %>"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate" name="dateOfbirth"></p>
     <fmt:message key="label.sex"></fmt:message>  <p><select disabled="disabled" name="sex" value="<%=personalinfoObject.getSex() %>" style="width: 90px; style="font-size:9px">
                       <option  value="Male">Male </option>  
@@ -264,8 +267,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      <%} else { %>
         <p><input   placeholder="Enter Passport Number..."  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
      <%} %>
-    <fmt:message key="label.BankAccNumber"></fmt:message><p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  id ="bankAccountNumber"oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
-    <fmt:message key="label.nationality"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
+    <fmt:message key="label.BankAccNumber"></fmt:message><p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
     <fmt:message key="label.maritalStatus"></fmt:message><p><select    oninput="this.className = ''" name="marritalstatus"  >
                       <option  value="Single">Single </option>  
                       <option  value="Married">Married </option>    
@@ -277,7 +279,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      
       
     <div class="tab"> Personal Information :<br><br>
-   
+     <fmt:message key="label.nationality"></fmt:message><p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
      <fmt:message key="label.dob"></fmt:message> <p><input  type="date"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate"  name="dateOfbirth"></p>
      <fmt:message key="label.sex"></fmt:message>  <p><select name="sex"  style="width: 90px; style="font-size:9px" >
                       <option  value="Male">Male </option>  
@@ -287,7 +289,6 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
     <fmt:message key="label.aadharNumber"></fmt:message><p><input  placeholder="Aadhar Number..." oninput="this.className = ''"  id ="aadharnumber" name="aadharnumber"></p>
     <fmt:message key="label.passportNumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="" placeholder="Passport Number..." id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
     <fmt:message key="label.BankAccNumber"></fmt:message><p><input  placeholder="Bank Account Number..." oninput="this.className = ''" id ="bankaccountNumber" name="bankaccountNumber"></p>
-    <fmt:message key="label.nationality"></fmt:message><p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
     <fmt:message key="label.maritalStatus"></fmt:message> <p><select      oninput="this.className = ''" name="marritalstatus" >
                       <option  value="Single">Single </option>  
                       <option  value="Married">Married </option>    
@@ -303,7 +304,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      %>
   <div class="tab">Address:<br><br>
   
-    <fmt:message key="labelcountry."></fmt:message><p><input value="<%=getAddressObject.getCountryName()  %>" placeholder="Enter Pin Code..." oninput="this.className = ''" id ="country" name="country"></p>
+    <fmt:message key="label.country"></fmt:message><p><input disabled="disabled" id="country" placeholder="Enter Country Name" value="<%= getAddressObject.getCountryName() %>"    oninput="this.className = ''" name="country"></p>
     <fmt:message key="label.state"></fmt:message><p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
     <fmt:message key="label.city"></fmt:message><p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
     <fmt:message key="label.houseNo"></fmt:message><p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
@@ -327,7 +328,7 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      {%>
       <div class="tab">Address:<br><br>
   
-    <fmt:message key="labelcountry."></fmt:message><p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
+    <fmt:message key="label.country"></fmt:message><p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
     <fmt:message key="label.state"></fmt:message><p><input  placeholder="Enter State..." oninput="this.className = ''"id ="state" name="state"></p>
     <fmt:message key="label.city"></fmt:message><p><input  placeholder="Enter City Name..." oninput="this.className =''" id ="city" name="city"></p>
     <fmt:message key="label.houseNo"></fmt:message><p><input  placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
@@ -476,63 +477,64 @@ function validateForm() {
 	 
 	
 	// validation for Personal information fields
-//   	if(currentTab==2)
-//   		 {
-//  		  var  dob= document.getElementById("dobdate").value;
-// 		  var  panNumber= document.getElementById("pannumber").value;
-// 		  var  aadharNumber= document.getElementById("aadharnumber").value;
-// 		  var  passportNumber= document.getElementById("passportnumber").value;
-// 		  var  bankaccountNumber= document.getElementById("bankaccountNumber").value;
-// 		  var  nationalitY = document.getElementById("nationality").value;
-// 		  var  patternForPanNumber = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
-// 		  var  patternForAadharNumber = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
-// 		  var  patternForPassport = /^[A-PR-WYa-pr-wy][1-9]\\d\\s?\\d{4}[1-9]$/;
-// 		  var  patternForBankAccNumber = /^[3-9][0-9]$/;
-// 		  var  patternForNationality =/^[a-zA-Z]$/;
-// 		  if(dob == "")
-// 		  {
-// 		     alert("Date Of Birth Must be Fill Out");
-// 			 valid=false;
-// 		  }
-// 		  else if(panNumber == "")
-// 		  {
-// 		     alert("Pan Number Must be Fill Out");
-// 			 valid=false;
-// 		  }
-// 		  else if(!(panNumber.match(patternForPanNumber))) 
-// 		  {
-// 			  alert("Please enter valid PAN Number(10 digits)");
-// 			  valid=false;
-// 		  }
-// 		  else if(aadharNumber =="")
-// 		  {
-// 			   alert("Aadhar Number Must be Fill Out");
-// 			   valid=false;
-// 		  }
-// 		  else if(!(aadharNumber.match(patternForAadharNumber))) 
-// 		  {
-// 			  alert("Please enter valid Aadhar Number(12 digits)");
-// 			  valid=false;
-// 		  }
-//            else if(bankaccountNumber =="")
-// 		  {
-// 			   alert("Bank Account Number Must be Fill Out");
-// 			   valid=false;
-// 		  }
-//             else if(!(bankaccountNumber.match(patternForBankAccNumber))) 
-// 		  {
-//               if(bankaccountNumber.length >= 16 )
-//             	{
-//             	  alert("Please enter valid Bank Account  Number(Max 16 digits)");
-//        			  valid=false;
-//             	}
-// 		 }
-//          else if(nationalitY =="")
-//          {
-//           alert("Nationality Must be Fill Out");
-// 		  valid=false;
-//          }
-//  	}
+  	if(currentTab==2)
+  		 {
+  		  var  dob= document.getElementById("dobdate").value;
+ 		  var  panNumber= document.getElementById("pannumber").value;
+ 		  var  aadharNumber= document.getElementById("aadharnumber").value;
+ 		  var  passportNumber= document.getElementById("passportnumber").value;
+ 		  var  bankaccountNumber= document.getElementById("bankaccountNumber").value;
+		  var  nationaLity = document.getElementById("nationality").value;
+		  var  patternForPanNumber = /[A-Z]{5}[0-9]{4}[A-Z]{1}/;
+		  var  patternForAadharNumber = /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
+		  var  patternForPassport = /^[A-PR-WYa-pr-wy][1-9]\\d\\s?\\d{4}[1-9]$/;
+		  var  patternForBankAccNumber = /^[3-9][0-9]$/;
+		  var  patternForNationality =/^[a-zA-Z]$/;
+		 
+		  if(nationaLity =="")
+	      {
+	        alert("Nationality Must be Fill Out");
+			valid=false;
+	      }
+		  else if(dob == "")
+		  {
+		     alert("Date Of Birth Must be Fill Out");
+			 valid=false;
+		  }
+		  else if(panNumber == "")
+		  {
+		     alert("Pan Number Must be Fill Out");
+			 valid=false;
+		  }
+		  else if(!(panNumber.match(patternForPanNumber))) 
+		  {
+			  alert("Please enter valid PAN Number(10 digits)");
+			  valid=false;
+		  }
+		  else if(aadharNumber =="")
+		  {
+			   alert("Aadhar Number Must be Fill Out");
+			   valid=false;
+		  }
+		  else if(!(aadharNumber.match(patternForAadharNumber))) 
+		  {
+			  alert("Please enter valid Aadhar Number(12 digits)");
+			  valid=false;
+		  }
+           else if(bankaccountNumber =="")
+		  {
+			   alert("Bank Account Number Must be Fill Out");
+			   valid=false;
+		  }
+            else if(!(bankaccountNumber.match(patternForBankAccNumber))) 
+		  {
+              if(bankaccountNumber.length >= limitForCondition.bankAccNumberlimit)
+            	{
+            	  alert("Please enter valid Bank Account  Number(Max 16 digits)");
+       			  valid=false;
+            	}
+		 }  
+ 	}
 	
 	
  // validation for Address fields
@@ -545,11 +547,18 @@ function validateForm() {
 		  var  pinCode= document.getElementById("pincode").value;
 		  var  addressline1= document.getElementById("addressLine1").value;
           var  houseNo= document.getElementById("housenumber")
+          var  patternForAddress = /^[a-zA-Z0-9\s,.]{3,}$/ ;
+          var  patternForCountry =/[a-zA-Z]{4,}$/;
 		  
-		  if(country == "")
+		  if(country == "") 
 		  {
 		     alert("Country Must be Fill Out");
 			 valid=false;
+		  }
+		  else if(!(country.match(patternForCountry)))
+		  {
+		     alert("In Country Name Allow Only Characters");
+		     valid=false;
 		  }
 		  else if(stateName == "")
 		  {
@@ -561,6 +570,11 @@ function validateForm() {
 		     alert("City Must be Fill Out");
 		     valid=false;
 		  }
+		  else if(!(cityName.match(patternForCountry)))
+		  {
+		     alert("In City Name Allow Only Characters");
+		     valid=false;
+		  }
 		  else if(addressline1 == "")
 		  {
 		     alert("Address Line1 Must be Fill Out");
@@ -569,6 +583,11 @@ function validateForm() {
 		  else if(pinCode == "")
 		  {
 		     alert("PINCODE Must be Fill Out");
+		     valid=false;
+		  }
+		  else if(pinCode.length != limitForCondition.pincodeLimit)
+		  {
+		     alert("PINCODE 	Must And Sould Be 6 Digit ");
 		     valid=false;
 		  }
 		  
@@ -591,6 +610,15 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
-
+<% int status=0;
+ status = Integer.parseInt(request.getParameter("msg"));
+ System.out.println("update status "+status);
+ if(status == 1)  
+ {%> 
+ 	<h2 style='color: green; text-align:center;'> Both Records  Update SuccessFully !</h2>
+ <%} %>
+ %>
 </body>
+
+
 </html>
