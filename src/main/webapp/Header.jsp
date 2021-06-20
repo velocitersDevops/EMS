@@ -24,14 +24,20 @@
 </head>
 
 <body>
-<div>
-<table style= "background-color:black" >
-<tr>
-<td width="20%"><img src="exstyle/Images/logo.jfif" style="width=150px"></td>
-<td width="80%"><h1 align="center"><font size="7" color="red" face="Castellar">EMPLOYEE MANAGMENT</font></h1></td>
-<td width="20%" align="left"><a style="text-decoration:none" href="LogoutServlet" ><font size="5" color="white">Logout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></a></td>
-</tr>
-</table>
-</div>
+
+	<div class="header">
+		<div class="headerImage">
+			<img style="height: 180px; width: 180px;"
+				src="exstyle/Images/logo.jfif">
+		</div>
+		
+			<p style="text-align: center; padding-left: 550px; float: left; font-size: 30px; padding-top: 40px;">
+			<font size="7" color="red" face="Castellar">Employee
+				Management </font>
+		</p>
+			 <a href="LogoutServlet" style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Logout</a>
+			 <a href="Welcome.jsp" style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Home</a>
+			
+	</div>
 </body>
 </html>
