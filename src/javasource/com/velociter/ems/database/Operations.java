@@ -574,6 +574,27 @@ public class Operations {
 				System.out.println("update status of personal info id :"+updateStatusAddressId);
 				return updateStatusAddressId;
 			}
+			
+			//here getFourIds() taking employeeId and it will return familyid,addressId,PersonalInfoId to EmployeeDetails servlet
+			ArrayList<Integer> idData = new ArrayList<Integer>();
+			public ArrayList<Integer> getFourIds(int employeeId) throws SQLException
+			{
+				  String getFouridsquery="select EMPID,FAMILYID,PERSONAL_INFO_ID,ADDRESSID from EMPLOYEE WHERE EMPID = "+employeeId;
+		    	  PreparedStatement psmt=dbConnection.prepareStatement(getFouridsquery);
+		   		  ResultSet resultSet=psmt.executeQuery();
+		   		  while(resultSet.next())
+		   		  {
+		   			 
+		   			System.out.println("all ids :"+resultSet.getInt("EMPID")+" : "+resultSet.getInt("FAMILYID")+" :"+resultSet.getInt("PERSONAL_INFO_ID")+":"+resultSet.getInt("ADDRESSID"));
+		   			idData.add(resultSet.getInt("EMPID"));
+		   			idData.add(resultSet.getInt("FAMILYID"));
+		   			idData.add(resultSet.getInt("PERSONAL_INFO_ID"));
+		   			idData.add(resultSet.getInt("ADDRESSID"));
+		   			  
+		   		  }
+				return idData;
+				
+			}
 
 
 }
