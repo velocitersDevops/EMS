@@ -8,18 +8,31 @@
 <%@page import="com.velociter.ems.model.Family"%>
 <%@page import="com.velociter.ems.model.*"%>
 <%@page import="java.util.*"%>
-<%  ArrayList<Manager>  managerObject=null;%>
-<%  ArrayList<Project>  projectObject=null;%>
-<jsp:scriptlet>
+<%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
+<%
+String firstName =(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
+if(firstName==null)
+{
+	   response.sendRedirect("Login.jsp");
+}
+response.setHeader("Cache-Control", "no-cache");
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expire", 0);
 
-Integer empId=(Integer)session.getAttribute("empId");
-Integer familyId=(Integer)session.getAttribute("familyId");
-Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
-Integer addressId = (Integer)session.getAttribute("addressId");
+  ArrayList<Manager>  managerObject=null;
+  ArrayList<Project>  projectObject=null;
+
+//getting session value by constants
+Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
+Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
+Integer personalInfoId = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
+Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
+
 System.out.println("personalInfoId is :"+personalInfoId);
 System.out.println(" familyId is :"+familyId);
 System.out.println("addressId is :"+addressId);
-</jsp:scriptlet>
+%>
 
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -183,7 +196,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
   <div class="tab">
 
    <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%>placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
+   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
    <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
    <fmt:message key="label.emailid"></fmt:message><p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
@@ -628,5 +641,6 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script> 
+<jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

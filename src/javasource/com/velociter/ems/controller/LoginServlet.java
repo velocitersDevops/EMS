@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.velociter.ems.database.DatabaseConnection;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
-import com.velociter.ems.model.EmployeeInterface;
+import com.velociter.ems.interfaces.EmployeeInterface;
 
 public class LoginServlet extends HttpServlet implements EmployeeInterface
 {

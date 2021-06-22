@@ -13,14 +13,11 @@ import javax.servlet.http.HttpSession;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Employee;
-import com.velociter.ems.model.EmployeeInterface;
+import com.velociter.ems.interfaces.EmployeeInterface;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.PersonalInformation;
 public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeInterface
 {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

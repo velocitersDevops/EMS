@@ -6,14 +6,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.velociter.ems.database.Operations"%>
 <%@page import="com.velociter.ems.model.Employee"%>
-<%@page import="com.velociter.ems.model.EmployeeInterface"%>
+<%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%  ArrayList<Employee>  employeeObject=null;%>
 
 <jsp:scriptlet>
 
 
 String firstName=(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
-//Integer empid =Integer.parseInt(session.getAttribute());
+//Integer empid =session.getAttribute(EmployeeInterface.EMPLOYEEID);
 
 if(firstName==null)
 {

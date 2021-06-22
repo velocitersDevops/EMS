@@ -1,5 +1,5 @@
 
-<%@page import="com.velociter.ems.model.EmployeeInterface"%>
+<%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%
 
 String message=(String)session.getAttribute(EmployeeInterface.MESSAGE);

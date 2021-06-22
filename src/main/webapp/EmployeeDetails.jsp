@@ -6,7 +6,7 @@
     <%@ page import="com.velociter.ems.model.Address" %>
     <%@ page import="com.velociter.ems.model.PersonalInformation" %>
     <%@ page import="java.util.ArrayList" %>
-    <%@page import="com.velociter.ems.model.EmployeeInterface"%>
+    <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
     
     <%
     String firstName=(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
@@ -16,7 +16,6 @@
   {
    response.sendRedirect("Login.jsp");	
   }
-  
   response.setHeader("Cache-Control", "no-cache");
   response.setHeader("Cache-Control", "no-store");
   response.setHeader("Pragma", "no-cache");

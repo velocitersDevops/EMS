@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
-import com.velociter.ems.model.EmployeeInterface;
+import com.velociter.ems.interfaces.EmployeeInterface;
 
 //@WebServlet("/EmployeeRegisterServlet")
 public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInterface{
