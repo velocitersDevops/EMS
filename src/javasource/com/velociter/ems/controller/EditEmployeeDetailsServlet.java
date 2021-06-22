@@ -13,9 +13,10 @@ import javax.servlet.http.HttpSession;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Employee;
+import com.velociter.ems.model.EmployeeInterface;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.PersonalInformation;
-public class EditEmployeeDetailsServlet extends HttpServlet
+public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeInterface
 {
     /**
 	 * 
@@ -30,10 +31,10 @@ public class EditEmployeeDetailsServlet extends HttpServlet
     	PrintWriter out=resp.getWriter();
     	 
     	HttpSession session=req.getSession(false);
-    	Integer empId=(Integer)session.getAttribute("empId");
-    	Integer familyId=(Integer)session.getAttribute("familyId");
-    	Integer personalInfoid = (Integer)session.getAttribute("personalInfoId");
-    	Integer addressId = (Integer)session.getAttribute("addressId");
+    	Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
+    	Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
+    	Integer personalInfoid = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
+    	Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
     	System.out.println("personal info id afetr session :"+personalInfoid);
     	System.out.println("address  id afetr session :"+addressId);
     	

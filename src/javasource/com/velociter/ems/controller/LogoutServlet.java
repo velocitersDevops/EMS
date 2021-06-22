@@ -17,13 +17,8 @@ public class LogoutServlet extends HttpServlet
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
   {
 	  HttpSession session = request.getSession();
-      session.invalidate();
-      
-      
-      
+      session.invalidate(); 
       RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");
-      
-    
       rd.forward(request, response);
       response.setHeader("Cache-Control", "no-cache");
       response.setHeader("Cache-Control", "no-store");

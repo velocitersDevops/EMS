@@ -14,26 +14,19 @@ import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
-
-
-
+import com.velociter.ems.model.EmployeeInterface;
 
 //@WebServlet("/EmployeeRegisterServlet")
-public class EmployeeRegisterServlet extends HttpServlet {
+public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInterface{
 	private static final long serialVersionUID = 1L;
     
     public EmployeeRegisterServlet() {
-        super();
-       
+        super();   
     }
-
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/html");
@@ -59,7 +52,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 		//String projectids[] =request.getParameterValues("ceckvalues");
 		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
 		System.out.println("project id :"+employeeObject.getProjectId());
-		
+		employeeObject.setPassword(request.getParameter("passsword"));
 	
 //		 projectIds = new int[projectids.length];
 //		StringBuffer stringBufferObject = new StringBuffer();
@@ -71,7 +64,6 @@ public class EmployeeRegisterServlet extends HttpServlet {
         
 		//here we convert String buffer data into string
 		//String projectid = stringBufferObject.toString();
-		employeeObject.setPassword(request.getParameter("passsword"));
 //		employeeObject.setProjectId(projectid);
 		
 		// here we are going to check employee already exist with emailid or not
@@ -105,7 +97,7 @@ public class EmployeeRegisterServlet extends HttpServlet {
 					//requestDispaterObject.include(request, response);
 					
 					HttpSession session=request.getSession();
-					session.setAttribute("message", "Registration Successful");
+					session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
 					response.sendRedirect("Login.jsp");
 				}
 			}

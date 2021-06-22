@@ -13,8 +13,9 @@ import javax.servlet.http.HttpSession;
 import com.velociter.ems.database.DatabaseConnection;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
+import com.velociter.ems.model.EmployeeInterface;
 
-public class LoginServlet extends HttpServlet
+public class LoginServlet extends HttpServlet implements EmployeeInterface
 {
     private static final long serialVersionUID = 1L;
     public LoginServlet() {
@@ -38,12 +39,13 @@ public class LoginServlet extends HttpServlet
  		 {
  			
  			 HttpSession session =request.getSession();
- 			 session.setAttribute("familyId", employee.getFamilyId());
- 			 session.setAttribute("empId", employee.getEmployeeId());
- 			 session.setAttribute("firstName",employee.getFirstName());
- 			 session.setAttribute("personalInfoId",employee.getPersonalInfoId());
- 			 session.setAttribute("addressId",employee.getAddressId());
- 			 session.setAttribute("currentuser", employee);
+ 			 session.setAttribute(EmployeeInterface.FAMILYID, employee.getFamilyId());
+ 			 session.setAttribute(EmployeeInterface.EMPLOYEEID, employee.getEmployeeId());
+ 			 session.setAttribute(EmployeeInterface.PERSONALINFO_ID,employee.getPersonalInfoId());
+ 			 session.setAttribute(EmployeeInterface.ADDRESSID,employee.getAddressId());
+ 			 session.setAttribute(EmployeeInterface.FIRSTNAME,employee.getFirstName());
+ 			 session.setAttribute(EmployeeInterface.CURRENT_USER, employee);
+ 			 System.out.println("session value check emploee id :"+session.getAttribute(EMPLOYEEID));
  			 
  			response.sendRedirect("Welcome.jsp");
  			

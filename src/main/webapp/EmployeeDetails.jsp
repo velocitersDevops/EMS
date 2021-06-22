@@ -6,11 +6,12 @@
     <%@ page import="com.velociter.ems.model.Address" %>
     <%@ page import="com.velociter.ems.model.PersonalInformation" %>
     <%@ page import="java.util.ArrayList" %>
+    <%@page import="com.velociter.ems.model.EmployeeInterface"%>
     
     <%
-    String firstName=(String)session.getAttribute("firstName");
+    String firstName=(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
     Integer employeeId =(Integer.parseInt(request.getParameter("empid")));
-   // System.out.println("Employee id by url in employeeDetails.jsp :"+employeeId);
+    // System.out.println("first name :"+firstName);
   if(firstName==null)
   {
    response.sendRedirect("Login.jsp");	
@@ -169,7 +170,7 @@
 					 <td><label >Bank Account Number:</label> </td> <td><%String bankAccDataata =(personalObject.getBankAccountNumber() != 0) ? bankAccDataata=Long.toString(personalObject.getBankAccountNumber() ): "NA";  %> <%=bankAccDataata  %> </td>
 					</tr>
 					<tr>
-					 <td><label >Nationailty:</label> </td> <td><%String nationalityData = (personalObject.getNationality()!= null ) ? personalObject.getNationality() : "NA";  %> <%=nationalityData  %> </td>
+					 <td><label >Nationality:</label> </td> <td><%String nationalityData = (personalObject.getNationality()!= null ) ? personalObject.getNationality() : "NA";  %> <%=nationalityData  %> </td>
 					</tr>
 					<tr>
 					 <td><label >Marital Status:</label> </td> <td><%String maritalStatusData = (personalObject.getMaritalStatus()!= null ) ? personalObject.getMaritalStatus() : "NA";  %> <%=maritalStatusData  %> </td>
@@ -178,14 +179,14 @@
 			     </fieldset>
 			  </td>
 		</tr>
-		
+
 		<tr>
              <td>
 			     <fieldset>
 					<legend>Family Details:</legend>
 					<table >
 					<tr>
-					 <td><label >Father's Name:</label> </td> <td> <%String fatherNamedata =(familyObject != null) ?  familyObject.getFatherName() :"NA";  %> <%=fatherNamedata  %> </td>
+					 <td><label >Father's Name:</label> </td> <td> <%String fatherNamedata =(familyObject.getFatherName() != null) ? familyObject.getFatherName() : "NA";%> <%=fatherNamedata%> </td>
 					</tr>
 					<tr>
 					 <td><label >Mother's Name:</label> </td> <td><%String motherNamedata =(familyObject.getMotherName() != null) ? familyObject.getMotherName() : "NA";  %> <%=motherNamedata  %> </td>

@@ -16,7 +16,9 @@ Integer empId=(Integer)session.getAttribute("empId");
 Integer familyId=(Integer)session.getAttribute("familyId");
 Integer personalInfoId = (Integer)session.getAttribute("personalInfoId");
 Integer addressId = (Integer)session.getAttribute("addressId");
-   //out.println("addressId is :"+addressId);
+System.out.println("personalInfoId is :"+personalInfoId);
+System.out.println(" familyId is :"+familyId);
+System.out.println("addressId is :"+addressId);
 </jsp:scriptlet>
 
 
@@ -66,14 +68,14 @@ Integer addressId = (Integer)session.getAttribute("addressId");
 
 body {
   background-color: #f1f1f1;
-  margin: 10px auto;
+  margin:  auto;
 }
 
 #editForm {
   background-color: #ffffff;
   margin: 100px auto;
   font-family: Raleway;
-  padding: 40px;
+  padding: 5px;
   width: 50%;
   min-width: 300px;
 }
@@ -146,10 +148,12 @@ button:hover {
 
 
 <jsp:scriptlet>
+
 	Operations operationObject=new Operations();
 	Employee employee=operationObject.getEmployeeDetailsByEmployeeId(empId);
 	managerObject=operationObject.getManagerList();
 	projectObject=operationObject.getProjectList();
+	System.out.println("    addressId is :"+addressId);
 </jsp:scriptlet>
         
         <%
@@ -160,25 +164,32 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
  PersonalInformation personalinfoObject = new PersonalInformation();
  personalinfoObject = operationObject.getPersonalInformation(personalInfoId);
  
- //out.println("personal info id  data :"+personalInfoId);
+ System.out.println("personal info id  data :"+personalInfoId);
 
 %>
         
         <jsp:include page="Header.jsp"></jsp:include>
 
-
+ <% int status=0;
+ String data = request.getParameter("msg");
+ System.out.println("update status "+status); 
+   if(data != null) 
+ {%>  <br>
+ 	<h5 style='color: green; text-align:center;'>Records  Update SuccessFully !</h5>
+ <%} %>
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab">
+
    <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%String middleNameData =(employee.getMiddleName() != null) ?  employee.getMiddleName()  : "NA";%> <%=middleNameData  %> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
+   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%>placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
    <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
    <fmt:message key="label.emailid"></fmt:message><p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
    <fmt:message key="label.AltermobileNo"></fmt:message>
    <% if(employee.getAlternateContactNumber()==0)
-	   {%>
+	   { %>
     <p><input id="alternateMobileNumber"  placeholder="NA (Not Available)" oninput="this.className = ''" name="alternateMobileNumber"></p>
    <% }
    else
@@ -221,7 +232,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
   </jsp:scriptlet>
   <div class="tab">Family Details:<br><br>
    <fmt:message key="label.fatherName"></fmt:message> <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
-   <fmt:message key="label.moterName"></fmt:message> <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>   oninput="this.className = ''" name="motherName"></p>
+   <fmt:message key="label.moterName"></fmt:message>  <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>  oninput="this.className = ''" name="motherName"></p>
    <fmt:message key="label.spouseName"></fmt:message> 
    <%if(family.getSpouseName()==null)
 	   {%> 
@@ -310,11 +321,18 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
     <fmt:message key="label.houseNo"></fmt:message><p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
       <% 
         String addressData =getAddressObject.getAddressLine1();
+      if(addressData.indexOf('-') ==-1)
+      {%>
+      <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=getAddressObject.getAddressLine1() %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
+      <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+      <%}else
+      {
         String[] bothAddresses = addressData.split("-"); 
        // out.println("address data :"+addressData); 
       %> 
     <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
     <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
+    <%} %>
     <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
     <fmt:message key="label.pincode"></fmt:message><p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
     <fmt:message key="label.addressType"></fmt:message><p><select  oninput="this.className = ''" name="addressType"  >
@@ -609,16 +627,6 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
-</script>
-<% int status=0;
- status = Integer.parseInt(request.getParameter("msg"));
- System.out.println("update status "+status);
- if(status == 1)  
- {%> 
- 	<h2 style='color: green; text-align:center;'> Both Records  Update SuccessFully !</h2>
- <%} %>
- %>
+</script> 
 </body>
-
-
 </html>
