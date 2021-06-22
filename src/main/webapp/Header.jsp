@@ -20,7 +20,7 @@
 
   <link href="exstyle/style.css" rel="stylesheet">
   
-<title>Header Page</title>
+<title></title>
 </head>
 
 <body>
