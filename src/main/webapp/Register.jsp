@@ -84,7 +84,7 @@ function validateForm() {
   var middleName = document.forms["regiserForm"]["middlename"].value;
   var lastName   = document.forms["regiserForm"]["lastname"].value;
   var email   = document.forms["regiserForm"]["email"].value;
-  var countryCode=document.forms["regiserForm"]["countrycode"].value;
+//   var countryCode=document.forms["regiserForm"]["countrycode"].value;
   var mobileNumber   = document.forms["regiserForm"]["mobile"].value;
   //var alterContactNumber   = document.forms["regiserForm"]["altercontactno"].value;
   var managerName   = document.forms["regiserForm"]["managername"].value;
@@ -149,11 +149,7 @@ function validateForm() {
         document.regiserForm.email.focus();
         return false;
      }
-       else if( countryCode === "Select Country code") {
-      	    alert("Country Code must be filled out");
-      	    document.regiserForm.managername.focus();
-      	    return false;
-          }
+      
       
        else if (mobileNumber == "" ) {
   		 alert("Mobile Number must be filled out! ");
@@ -287,7 +283,34 @@ function validMobileNumber()
             }
         }
     </script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/css/intlTelInput.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.8/js/intlTelInput-jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var code = "+91"; // Assigning value from model.
+            $('#txtPhone').val(code);
+            $('#txtPhone').intlTelInput({
+                autoHideDialCode: false,
+                autoPlaceholder: "ON",
+                dropdownContainer: document.body,
+                formatOnDisplay: false,
+                hiddenInput: "full_number",
+                initialCountry: "auto",
+                nationalMode: false,
+                placeholderNumberType: "MOBILE",
+                preferredCountries: ['US'],
+                separateDialCode: true,
+                utilsScript: "js/utils.js"
+                
+            });
+            $('#manager').click(function(){
+          	  $('#dialCode').val($("#txtPhone").intlTelInput("getSelectedCountryData").dialCode);
+          	  $('#mobileNumber').val($('#txtPhone').val());
+          	 
+          	 }); 
+        });
+    </script>
 
 </head>
 <body>
@@ -322,26 +345,29 @@ function validMobileNumber()
 				<td><b>Email:</b></td>
 				<td><input type="text" name ="email" style="width: 173px" placeholder="Enter email id"></td>
 			</tr>
-			<tr>
-				<td><b>Country Code:</b></td>
-				<td>
-				    <select style="font-size:11px; width: 180px;"  name="countrycode" id="countrycode"  style="width: 173px" >   
-				          <option>Select Country code</option>
-				           <%for(int i=0;i<countryObject.size();i++){ %>
-       <option><%=countryObject.get(i).getIsdCode() %></option>
-       <%} %>
-				    </select>
+<!-- 			<tr> -->
+<!-- 				<td><b>Country Code:</b></td> -->
+<!-- 				<td> -->
+<!-- 				    <select style="font-size:11px; width: 180px;"  name="countrycode" id="countrycode"  style="width: 173px" >    -->
+<!-- 				          <option>Select Country code</option> -->
+<%-- 				           <%for(int i=0;i<countryObject.size();i++){ %> --%>
+<%--        <option><%=countryObject.get(i).getIsdCode() %></option> --%>
+<%--        <%} %> --%>
+<!-- 				    </select> -->
 				
-				</td>
-			</tr>
+<!-- 				</td> -->
+<!-- 			</tr> -->
 			<tr>
 				<td><b>Mobile Number:</b></td>
-				<td><input type="text" name ="mobile" style="width: 173px" onkeypress = " return  validMobileNumber() " placeholder="Enter mobile number"></td>
+<!-- 				<td><input type="text" name ="mobile" style="width: 173px" onkeypress = " return  validMobileNumber() " placeholder="Enter mobile number"></td> -->
+                    <td><input style="width:180px" type="tel" id="txtPhone"  name ="mobile" onkeypress = " return  validMobileNumber() "  placeholder="Mobile No...">
+     <input type="hidden" id="dialCode" name="dialCode">
+     <input type="hidden" id="mobileNumber" name="mobileNumber"></td>
 			</tr>
 			
 			<tr>
 				<td><b>Manager Name:</b></td>
-<!-- 				<td><input type="text" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+<!-- 				<td><input type="text" id="managerName" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
                     <td> 
                      <select style="font-size:11px; width: 180px;"  name="managername" id="manager"  style="width: 173px">
                            <option> Select Manager</option>

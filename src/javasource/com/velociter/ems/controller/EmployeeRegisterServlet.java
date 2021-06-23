@@ -43,8 +43,8 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		employeeObject.setMiddleName(request.getParameter("middlename"));
 		employeeObject.setLastName(request.getParameter("lastname"));
 		employeeObject.setEmailId(request.getParameter("email"));
-		employeeObject.setisdCode(request.getParameter("countrycode"));
-		employeeObject.setMobileNumber(Long.parseLong(request.getParameter("mobile")));
+		employeeObject.setisdCode(request.getParameter("dialCode"));
+		employeeObject.setMobileNumber(Long.parseLong(request.getParameter("mobileNumber")));
 //		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
 		employeeObject.setManagerName(request.getParameter("managername"));
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
