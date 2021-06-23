@@ -150,26 +150,26 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		   						   		 
 					   		if(personalInfoCount >0 &&  addressCount >0  )
 					   		{
-					   			out.println("<h4 style='color: green;'> Both Records  Upadate SuccessFully !</h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp?msg="+1+"");
+					   			//out.println("<h4 style='color: green;'>  Records  Upadate SuccessFully !</h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp?status="+1+"");
 								requestDispaterObject.forward(req, resp);
 					   		}
 					   		else if(personalInfoCount == 0 ||  addressCount >0)
 					   		{
 					   			out.println("<h4 style='color: green;'>Address SuccessFully </h4> <h4 style='color: red;'>Personal Info Faild </h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp");
 								requestDispaterObject.include(req, resp);
 					   		}
 					   		else if(personalInfoCount >0 ||  addressCount == 0)
 					   		{
 					   			out.println("<h4 style='color: green;'>Personal Info SuccessFully </h4> <h4 style='color: red;'>Address  Faild </h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp");
 								requestDispaterObject.include(req, resp);
 					   		}
 					   		else
 					   		{
-					   			out.println("<h4 style='color: red;'>  Both  Records Not Upadate SuccessFully !</h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+					   			//out.println("<h4 style='color: red;'>   Records Not Upadate SuccessFully !</h4>");
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp?status="+0+"");
 								requestDispaterObject.include(req, resp);
 					   		}	
 					}
@@ -189,8 +189,13 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 							int personalinfoIdUpdateStatus = operationObject.updatePersonalInfoidInEmployeeTable(personalInfoid);
 							if(personalInfoCount >0 &&  addressCount>0 )
 							{
-								out.println("<h4 style='color: green;'> PersonalInformation & address Records insert SuccessFully !</h4>");
-								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("EditEmployeeDetails.jsp");
+								
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp?status="+2+"");
+								requestDispaterObject.include(req, resp);
+							}else
+							{
+								
+								RequestDispatcher requestDispaterObject = req.getRequestDispatcher("UpdateStatus.jsp?status="+3+"");
 								requestDispaterObject.include(req, resp);
 							}
 							

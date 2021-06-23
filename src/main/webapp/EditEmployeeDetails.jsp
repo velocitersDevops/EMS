@@ -183,13 +183,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
         
         <jsp:include page="Header.jsp"></jsp:include>
 
- <% int status=0;
- String data = request.getParameter("msg");
- System.out.println("update status "+status); 
-   if(data != null) 
- {%>  <br>
- 	<h5 style='color: green; text-align:center;'>Records  Update SuccessFully !</h5>
- <%} %>
+ 
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
@@ -198,7 +192,7 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
    <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
    <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
    <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
-   <fmt:message key="label.emailid"></fmt:message><p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
+   <fmt:message key="label.emailid"></fmt:message> <p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
    <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
    <fmt:message key="label.AltermobileNo"></fmt:message>
    <% if(employee.getAlternateContactNumber()==0)
