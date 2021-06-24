@@ -119,6 +119,9 @@
 					 <td><label >Last Name:</label> </td> <td><%String lastnamedata =(employeeObject.getLastName() != null) ? employeeObject.getLastName() : "NA";  %> <%=lastnamedata  %> </td>
 					</tr>
 					<tr>
+					 <td><label >Country Code:</label> </td> <td><%String isdcode =(employeeObject.getisdCode() != null) ? employeeObject.getisdCode(): "NA";  %> <%=""+isdcode  %> </td>
+					</tr>
+					<tr>
 					 <td><label >Mobile No:</label> </td> <td><%String mobiledata =(employeeObject.getMobileNumber() != 0) ? mobiledata=Long.toString(employeeObject.getMobileNumber() ): "NA";  %> <%=mobiledata  %> </td>
 					</tr>
 					<tr>
