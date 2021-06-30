@@ -10,4 +10,5 @@ public interface EmployeeInterface {
 	  public static final String CURRENT_USER   ="currentuser";
 	  public static final String MESSAGE   ="message";
 	 
+	  public int add(Object object) throws Exception ;
 }

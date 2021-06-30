@@ -11,7 +11,7 @@ public class DatabaseConnection {
 		try {
 
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "Velociter", "velociter");
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "VelociterHBM", "velociter");
 
 		} catch (ClassNotFoundException e) {
 			System.err.println("Class Not Found ! Plases cheack");

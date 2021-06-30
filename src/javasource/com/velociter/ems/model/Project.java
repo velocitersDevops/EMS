@@ -4,15 +4,16 @@ import java.util.Arrays;
 
 public class Project {
 
-	private int projectId[];
+	private int projectId;
 	private String projectName;
 	private String projectDescription;
 	private String startDate;
 	private String endDate;
-	public int[] getProjectId() {
+
+	public int getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(int[] projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
 	public String getProjectName() {
@@ -41,10 +42,10 @@ public class Project {
 	}
 	@Override
 	public String toString() {
-		return "Project [projectId=" + Arrays.toString(projectId) + ", projectName=" + projectName
-				+ ", projectDescription=" + projectDescription + ", startDate=" + startDate + ", endDate=" + endDate
-				+ "]";
+		return "Project [projectId=" + projectId + ", projectName=" + projectName + ", projectDescription="
+				+ projectDescription + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
+	
 	
 	
 }
