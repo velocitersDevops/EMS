@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.velociter.ems.database.Operations;
-import com.velociter.ems.model.Employee;
+import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.interfaces.EmployeeInterface;
+import com.velociter.ems.model.Employee;
 
 //@WebServlet("/EmployeeRegisterServlet")
 public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInterface{
@@ -53,24 +53,13 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
 		System.out.println("project id :"+employeeObject.getProjectId());
 		employeeObject.setPassword(request.getParameter("passsword"));
-	
-//		 projectIds = new int[projectids.length];
-//		StringBuffer stringBufferObject = new StringBuffer();
-//		for(int i = 0;i < projectIds.length;i++)
-//		{
-//			stringBufferObject.append(projectids[i]).append(",");
-//			System.out.println("project id in string buffer :"+stringBufferObject);
-//		}
-        
-		//here we convert String buffer data into string
-		//String projectid = stringBufferObject.toString();
-//		employeeObject.setProjectId(projectid);
 		
 		// here we are going to check employee already exist with emailid or not
-		Operations registerObject = new Operations();
+		//Operations registerObject = new Operations();
+		EmployeeDAO employeeDaoObject = new EmployeeDAO();
 		int registerStatus=0;
 		try {
-			if (registerObject.checkExistingEmail(employeeObject) == false) {
+			if (employeeDaoObject.checkExistingEmail(employeeObject) == false) {
 				
 				out.println("<h4 style='color: red;'>Entered EmailId OR Mobile Number Already Registerd ! Try With Another Emailid OR Mobile Number</h4>");
 				RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
@@ -79,7 +68,7 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 			} else {
 				
 				
-					registerStatus = registerObject.registerEmployee(employeeObject);
+					registerStatus = employeeDaoObject.add(employeeObject);
 			
 				// debug
 				System.out.println("status of register :" + registerStatus);
@@ -108,14 +97,15 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");	
 		parsex.printStackTrace();
         }
-		catch (SQLException sqlException)  {
-			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");	
-			sqlException.printStackTrace();
-		}
 		catch(Exception e) {
 			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public int add(Object object) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

@@ -31,6 +31,24 @@
     <url-pattern>/EditEmployeeDetailsServlet</url-pattern>
   </servlet-mapping>
   
+   <servlet>
+    <servlet-name>AddProjectServlet</servlet-name>
+    <servlet-class>com.velociter.ems.controller.AddProjectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddProjectServlet</servlet-name>
+    <url-pattern>/AddProjectServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>AddManagerServlet</servlet-name>
+    <servlet-class>com.velociter.ems.controller.AddManagerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddManagerServlet</servlet-name>
+    <url-pattern>/AddManagerServlet</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>com.velociter.ems.controller.LogoutServlet</servlet-class>
