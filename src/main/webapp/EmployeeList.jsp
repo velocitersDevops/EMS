@@ -5,13 +5,11 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.velociter.ems.database.Operations"%>
+<%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
-<%  ArrayList<Employee>  employeeObject=null;%>
 
 <jsp:scriptlet>
-
-
 String firstName=(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
 //Integer empid =session.getAttribute(EmployeeInterface.EMPLOYEEID);
 
@@ -62,33 +60,22 @@ response.setDateHeader("Expire", 0);
      <table >
             <thead style="position:static;">
                <tr>
-                  <td>FIRST NAME</td>
-                  <td>LAST NAME</td>
-                  <td>MOBILE NO</td>
-                  <td>EMAIL ID</td>
-                  <td>DATE OF JOINING</td>
-                  <td>VEIW DETAILS</td>
+                  <td><b>FIRST NAME</b></td>
+                  <td><b>LAST NAME</b></td>
+                  <td><b>MOBILE NO</b></td>
+                  <td><b>EMAIL ID</b></td>
+                  <td><b>DATE OF JOINING</b></td>
+                  <td><b>VEIW DETAILS</b></td>
                </tr>
                </thead>
-               <jsp:scriptlet>
-               
-               
+               <% 
                try
                {
-            	   
-            	   Operations operationObject=new Operations();
-            	   
-            	 
-            	   employeeObject= operationObject.getEmployeeList();
-              
-       		 
-                  for( Employee employeeList:employeeObject)
-                	  
-       	
-                  {
-       			 
-       		 
-               </jsp:scriptlet>
+            	 EmployeeDAO employeeDaoObject = new EmployeeDAO();
+            	 ArrayList<Employee> employeeObject = new ArrayList<Employee>(employeeDaoObject.getEmployeeList());
+                 for( Employee employeeList:employeeObject)
+                 {
+                %>
                
                <tr>
                     <td><jsp:expression>employeeList.getFirstName()</jsp:expression></td>
