@@ -14,7 +14,7 @@ import com.velociter.ems.database.CommanOperations;
 import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.model.Project;
 
-//@WebServlet("/AddProjectServlet")
+
 public class AddProjectServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -39,16 +39,18 @@ public class AddProjectServlet extends HttpServlet {
 	EmployeeDAO  employeeDaoObject  = new EmployeeDAO();
 	int addProjectStatus = employeeDaoObject.addProject(projectObject);
 	System.out.println("status in servlet ="+addProjectStatus);
+	
 	if(addProjectStatus == 0)
 	{
 		out.println("<h4 style='color: red;'>Add project Operation is Faild</h4>");
 		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-		requestDispaterObject.forward(request, response);
+		requestDispaterObject.include(request, response);
 	}else
 	{
 		out.println("<h4 style='color: green;'>Add project Operation is success</h4>");
 		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-		requestDispaterObject.forward(request, response);
+		requestDispaterObject.include(request, response);
 	}
+	
 	}
 }

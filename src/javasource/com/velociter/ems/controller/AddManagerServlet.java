@@ -15,6 +15,11 @@ import com.velociter.ems.model.Manager;
 //@WebServlet("/AddManager")
 public class AddManagerServlet extends HttpServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		PrintWriter  out = response.getWriter();
@@ -26,18 +31,18 @@ public class AddManagerServlet extends HttpServlet {
 		
 		//create EmployeeDAO object to persist the Manager name into MANAGERtable
 		EmployeeDAO employeeDaoObject = new EmployeeDAO();
-		int addManagerStatus = employeeDaoObject.addManager(managerObject);
-		out.println("status in servlet ="+addManagerStatus);
-		if(addManagerStatus >= 0)
+		//int addManagerStatus = 0;
+		//out.println("status in servlet ="+addManagerStatus);
+		if(employeeDaoObject.addManager(managerObject) != 0 )
 		{
 			out.println("<h4 style='color: green;'>Add Manager Name Operation success</h4>");
 			RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-			requestDispaterObject.forward(request, response);
+			requestDispaterObject.include(request, response);
 		}else
 		{
 			out.println("<h4 style='color: red;'>Add Manager Name Operation is Faild</h4>");
 			RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-			requestDispaterObject.forward(request, response);
+			requestDispaterObject.include(request, response);
 		}
 	}
 
