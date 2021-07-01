@@ -57,9 +57,9 @@ public class EmployeeDAO  implements EmployeeInterface
 		SessionFactory factory = meta.getSessionFactoryBuilder().build();
 		Session session = factory.openSession();
 		Transaction trnObject = session.beginTransaction();
-		int managerstatus =(Integer)session.save(managerObject);  
+		int managerstatus = (int)session.save(managerObject);  
 		trnObject.commit();
-		System.out.println("manager status in ()  :"+managerstatus);
+		//System.out.println("manager status in ()  :"+ managerstatus);
 		return managerstatus;
     }
 
@@ -128,46 +128,39 @@ public class EmployeeDAO  implements EmployeeInterface
 		    } 
 	 }
 	 
-	 /*	//======================================================================================================================================
+	 //=====================================================LoginCode================================================================================
 		
-	public int register(Employee employeeObject) throws ParseException{ 
-		Employee empObject =new Employee(); 
-		 int i=0;  
-		 System.out.println("user data in UserDao:"+employeeObject.toString());
-		
-		SessionFactory factory = meta.getSessionFactoryBuilder().build();
-		Session session = factory.openSession();
-		Transaction t = session.beginTransaction(); 
-		//empObject.setEmployeeId(employeeObject.getEmployeeId());
-		empObject.setFirstName(employeeObject.getFirstName());
-		empObject.setMiddleName(employeeObject.getMiddleName());
-		empObject.setLastName(employeeObject.getLastName());
-		empObject.setSalutation(employeeObject.getSalutation());
-		empObject.setEmailId(employeeObject.getEmailId());
-		empObject.setisdCode(employeeObject.getisdCode());
-		empObject.setMobileNumber(employeeObject.getMobileNumber());
-		empObject.setManagerName(employeeObject.getManagerName());
-		//empObject.setDateOfJoining(employeeObject.);
-		
-		empObject.setCreationDate(commonOperationObject.getCreationDate());
-		String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(employeeObject.getDateOfJoining());
-		empObject.setDateOfJoining(afterChangeDateOfJoin);
-		empObject.setProjectId(employeeObject.getProjectId());
-		empObject.setPassword(employeeObject.getPassword());
-		empObject.setLastModifiedDate(commonOperationObject.getCreationDate());
-		 System.out.println("Employee Data Before save:"+employeeObject.toString());
-		i=(Integer)session.save(empObject);  
+	  public Employee loginEmployee(String email, String password)
+	  {
+			Employee employee = null;
+			 StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+			 Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
 
-		t.commit();  
-		session.close();  
-		System.out.println("i value  :"+i);
-		return i;  
-		 
-		 }  
-	//======================================================================================================================================
-	public List<Manager> getManagerNames()
+			SessionFactory factory = meta.getSessionFactoryBuilder().build();
+			Session session = factory.openSession();
+			Transaction t = session.beginTransaction();
+			
+			System.out.println("email and password in empDao:" + email + " " + password);
+			
+			try {
+				String query = "from Employee as E where E.emailId=:email and E.password=:password";
+				Query queryObject = session.createQuery(query);
+				queryObject.setParameter("email", email);
+				queryObject.setParameter("password", password);
+				employee = (Employee) queryObject.getSingleResult();
+				System.out.println("empid after login :"+employee.getEmployeeId());
+				System.out.println("if wrong password Employee data " +employee.toString() );
+				t.commit();
+			}catch(Exception e)
+			{
+				employee =null;
+//				System.out.println("if wrong password Employee data " + employee.toString());
+			}
+			return employee;
+		}
+	 /*	//======================================================================================================================================
+		public List<Manager> getManagerNames()
 	{
-		
 		SessionFactory factory = meta.getSessionFactoryBuilder().build();
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
@@ -303,24 +296,6 @@ public class EmployeeDAO  implements EmployeeInterface
 	  t.commit();
 	  return addressObject;   
 	   }
-	  //=====================================================LoginCode================================================================================
-		
-	  public Employee getEmployeeByEmailAndPassword(String email, String password)
-	  {
-			Employee employee = null;
-			SessionFactory factory = meta.getSessionFactoryBuilder().build();
-			Session session = factory.openSession();
-			Transaction t = session.beginTransaction();
-			System.out.println("email and password in empDao:" + email + " " + password);
-			String query = "from Employee as E where E.emailId=:email and E.password=:password";
-			Query queryObject = session.createQuery(query);
-			queryObject.setParameter("email", email);
-			queryObject.setParameter("password", password);
-			employee = (Employee) queryObject.getSingleResult();
-			List list = queryObject.list();
-			System.out.println("Employee data after login" + list.toString());
-			t.commit();
-			return employee;
-		}
+	 
 	 */
 }

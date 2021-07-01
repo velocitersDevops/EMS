@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.DatabaseConnection;
+import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.interfaces.EmployeeInterface;
@@ -27,17 +28,16 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
     	PrintWriter out=response.getWriter();
     	String email=request.getParameter("email");
     	String password=request.getParameter("password");
-    	
  	   try
  	   {
  		 
- 		   Operations operationObject=new Operations();
- 		   DatabaseConnection.getDBConnection();
- 		   Employee employee= operationObject.getEmployeeByEmailAndPassword(email, password);
- 		 
+ 		   //Operations operationObject=new Operations();
+ 		   //DatabaseConnection.getDBConnection();
+ 		   //Employee employee= operationObject.getEmployeeByEmailAndPassword(email, password);
+ 		   EmployeeDAO  employeeDaoObject = new EmployeeDAO();
+ 		   Employee employee = employeeDaoObject.loginEmployee(email, password);
  		 if(employee!=null)
  		 {
- 			
  			 HttpSession session =request.getSession();
  			 session.setAttribute(EmployeeInterface.FAMILYID, employee.getFamilyId());
  			 session.setAttribute(EmployeeInterface.EMPLOYEEID, employee.getEmployeeId());
@@ -46,9 +46,10 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
  			 session.setAttribute(EmployeeInterface.FIRSTNAME,employee.getFirstName());
  			 session.setAttribute(EmployeeInterface.CURRENT_USER, employee);
  			 System.out.println("session value check emploee id :"+session.getAttribute(EMPLOYEEID));
- 			 
+ 			 System.out.println("session value check family id :"+session.getAttribute(FAMILYID));
+ 			 System.out.println("session value check personalinfo id :"+session.getAttribute(PERSONALINFO_ID));
+ 			 System.out.println("session value check address id :"+session.getAttribute(ADDRESSID));
  			response.sendRedirect("Welcome.jsp");
- 			
  		 }
  		 else
  		 {   out.println("<h1>Invalid Email and password</h1>");
@@ -63,4 +64,9 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
  	   }
 
     }
+	@Override
+	public int add(Object object) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
