@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="com.velociter.ems.database.Operations" %>
+    <%@ page import="com.velociter.ems.database.EmployeeDAO" %>
     <%@ page import="com.velociter.ems.model.Family" %>
     <%@ page import="com.velociter.ems.model.Employee" %>
     <%@ page import="com.velociter.ems.model.Address" %>
@@ -26,14 +26,14 @@
   //  that simple means that information will not display.
 
    Employee employee=new Employee();
-   Operations operationObject = new Operations();
-   ArrayList<Integer> idData = new ArrayList<Integer>();
-   idData = operationObject.getFourIds(employeeId);
-   int empId =idData.get(0);
-   int personalInfoId =idData.get(1);
-   int familyId = idData.get(2);
-   int addressId = idData.get(3);
- 
+   EmployeeDAO employeeDaoObject = new EmployeeDAO();
+  
+   employee = employeeDaoObject.getFourIds(employeeId);
+   int empId =employee.getEmployeeId();
+   int personalInfoId = employee.getPersonalInfoId();
+   int familyId = employee.getFamilyId();
+   int addressId = employee.getAddressId();
+   out.println("empid :"+empId+ "  ,"+"personalInfoId  :"+personalInfoId+ " , "+familyId +" , "+"addressId :"+addressId);
     Employee employeeObject = new Employee();
     Family familyObject = new Family();
     Address addressObject = new Address();
@@ -43,22 +43,22 @@
      
     if(empId !=0)
      {
-    	 employeeObject = operationObject.getEmployeeDetailsByEmployeeId(employeeId);
-    	 //System.out.println(" employee data :"+employeeObject.toString());
+    	employeeObject = employeeDaoObject.getEmployeeDetails(employeeId);
+    	//System.out.println(" employee data :"+employeeObject.toString());
      }
      if(personalInfoId !=0)
      {
-    	personalObject = operationObject.getPersonalInformation(employeeId);
-    	//System.out.println(" personal data :"+personalObject.toString());
+    	personalObject = employeeDaoObject.getPersonalInformation(personalInfoId);
+    	out.println(" personal data :"+personalObject.toString());
      }
      if(familyId != 0)
      {
-     	 familyObject =  operationObject.getFamilyDetailsByFamilyId(employeeId);
+     	 familyObject = employeeDaoObject.getFamilyDetails(familyId);
      	 //System.out.println(" employee id  in family :"+employeeId);
      }
       if(addressId !=0)
      {
-     	addressObject = operationObject.getAddressDetails(employeeId);
+     	addressObject = employeeDaoObject.getAddressDetails(addressId);
      	//System.out.println(" address data :"+addressObject.toString());
      }
     %>
@@ -160,7 +160,7 @@
 					 <td><label >Sex:</label> </td> <td><%String sexData=(personalObject.getSex() != null) ? personalObject.getSex() : "NA";  %> <%=sexData  %></td>
 					</tr>
 					<tr>
- 					 <td><label >PAN Number:</label> </td> <td> <%String pandData = (personalObject.getPanNumber() != null ) ? personalObject.getPanNumber() : "NA";  %> <%=projectIdData  %></td> 
+ 					 <td><label >PAN Number:</label> </td> <td> <%String panData = (personalObject.getPanNumber() != null ) ? personalObject.getPanNumber() : "NA";  %> <%= panData %></td> 
 					</tr>                                       
 					<tr>
 					 <td><label >Aadhar Number:</label> </td> <td><%String aadharData =(personalObject.getAadharNumber() != 0) ? aadharData=Long.toString(personalObject.getAadharNumber() ): "NA";  %> <%=aadharData  %> </td>
@@ -225,7 +225,13 @@
 					 <td><label >House No.:</label> </td> <td><%String housenumberData =(addressObject.getHouseNumber() != null) ? addressObject.getHouseNumber(): "NA";  %> <%=housenumberData  %> </td>
 					</tr>
 					<tr>
-					 <td><label >Address Type:</label> </td> <td><%String addressTypeData =(addressObject.getAddressType() == 0) ? "Permanent Address": "Temprary Address";  %> <%=addressTypeData  %> </td>
+					 
+					 <%if(addressObject.getAddressId() == 0){%>
+						 <td><label >Address Type:</label> </td> <td>NA</td>
+					 <% }else{%>
+					   <td><label >Address Type:</label> </td> <td><%String addressTypeData =(addressObject.getAddressType() == 0) ? "Permanent Address": "Temprary Address";  %> <%=addressTypeData  %> </td>
+					 <%} %>
+						 
 					</tr>
 					
 			     </fieldset>
