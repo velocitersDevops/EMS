@@ -19,7 +19,7 @@
 		<br><br><br><br><br>
 	
 			     <fieldset>
-					<legend align="center">ADD PROJECT DETAILS</legend>
+					<legend align="center">ADD MANAGER NAME</legend>
 					<table align="center">
 					<tr>
 					 <td><label >Manager Name:</label> </td> <td><input type ="text" name ="managerName" size="30"> </td>
@@ -28,5 +28,6 @@
 					</tr>
 					</table>
 		 	     </fieldset>
+		 	     </form>
 </body>
 </html>

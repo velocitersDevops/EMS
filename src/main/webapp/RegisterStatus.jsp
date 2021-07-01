@@ -7,6 +7,7 @@
 <title>Register Status Page</title>
 </head>
 <body>
+<jsp:include page="HomePageHeader.jsp"></jsp:include> 
 
 </body>
 </html>
