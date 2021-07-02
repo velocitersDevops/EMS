@@ -1,25 +1,17 @@
 <%@ page import="com.velociter.ems.model.*" %>
-<%@ page import="com.velociter.ems.database.Operations" %>
+<%@ page import="com.velociter.ems.database.EmployeeDAO" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.ListIterator" %>
 <%  ArrayList<Country>  countryObject=null;%>
-
  <%
-  // Project projectObject = new Project(); 
-   Operations operationObject = new Operations();
-   HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
-  //out.println("project data  :"+operationObject.getProjectName());
-   mapObject = operationObject.getProjectName();
-  
-   ArrayList<Manager>  arraylistObject=null; 
-   arraylistObject = operationObject.getManagerList();
+   Project projectObject = new Project(); 
+   EmployeeDAO employeeDaoObject = new EmployeeDAO();
+   HashMap<Integer,String> mapObject=new HashMap<Integer,String>(employeeDaoObject.getProjectNames());//Creating HashMap  
+   ArrayList<Manager>  arraylistObject= new   ArrayList<Manager>(employeeDaoObject.getManagerNames());
   // out.println("manager name  :"+arraylistObject.get(1).getManagerName());
-  //getting country code (ISD code) from country table
-  countryObject=operationObject.getCountryCodeList();
    %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +33,6 @@ table.left {
   border: 0px solid black;
 }
 </style>
-
-
 <style type="text/css">
  .multipleSelection {
             width: 170px;
@@ -60,7 +50,6 @@ table.left {
             display: none;
             border: 1px #8DF5E5 solid;
         }
-         
         #checkBoxes label:hover {
             background-color: #f0ffff;
         }
@@ -225,10 +214,7 @@ function validateForm() {
  	    document.regiserForm.confirmpassword.focus();
  	    return false;
    }
-  
-
 }
-
 //Change the type of input to password or text
 function mouseoverevent() {  
 var getPasword = document.getElementById("typepass");  
@@ -265,15 +251,11 @@ function validMobileNumber()
 	    return false;
        }
 }
-
-
 </script>
  <script>
         var show = true;
-  
         function showCheckboxes() {
             var checkboxes =  document.getElementById("checkBoxes");
-  
             if  (show){
                 checkboxes.style.display = "block";
                 show = false;

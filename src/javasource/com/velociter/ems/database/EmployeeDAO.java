@@ -223,41 +223,51 @@ public class EmployeeDAO  implements EmployeeInterface
 			
 		  public PersonalInformation getPersonalInformation(int id)
 		 {
-	      PersonalInformation personalInfo = null;
-	      StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
-	  	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();  	
-		  SessionFactory factory = meta.getSessionFactoryBuilder().build();
-		  Session session = factory.openSession();
-		  Transaction t = session.beginTransaction();   
-		  System.out.println("id in Details:"+id);
-		  String getQuery="from PersonalInformation as P where P.personalInfoId=:id ";
-		  Query query=session.createQuery(getQuery);
-		  query.setParameter("id", id);
-		  personalInfo=(PersonalInformation) query.getSingleResult();
-		  List list= query.list();
-		  System.out.println("Employee data after login"+list.toString());
-		  t.commit();
-		  return personalInfo;   
+			  PersonalInformation personalInfo = null;
+			  try {
+			      StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+			  	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();  	
+				  SessionFactory factory = meta.getSessionFactoryBuilder().build();
+				  Session session = factory.openSession();
+				  Transaction t = session.beginTransaction();   
+				  System.out.println("id in Details:"+id);
+				  String getQuery="from PersonalInformation as P where P.personalInfoId=:id ";
+				  Query query=session.createQuery(getQuery);
+				  query.setParameter("id", id);
+				  personalInfo=(PersonalInformation) query.getSingleResult();
+				  List list= query.list();
+				  System.out.println("Employee data after login"+list.toString());
+				  t.commit();
+			  }catch(Exception e)
+			  {
+				  personalInfo = null;
+			  }
+		        return personalInfo;   
 		   }
 		  
 		//=========================================getting family details================================================================================
 			
-		  public Family getFamilyDetails(int id)
+		  public Family getFamilyDetails(int familyId)
 		 {
 		  Family familyObject = null;
-	      StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
-	  	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();  	
-		  SessionFactory factory = meta.getSessionFactoryBuilder().build();
-		  Session session = factory.openSession();
-		  Transaction t = session.beginTransaction();   
-		  System.out.println("id in Details:"+id);
-		  String getQuery="from Family as F where F.familyId=:id ";
-		  Query query=session.createQuery(getQuery);
-		  query.setParameter("id", id);
-		  familyObject=(Family) query.getSingleResult();
-		  List list= query.list();
-		  System.out.println("Employee data after login"+list.toString());
-		  t.commit();
+		  try {
+			  StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		  	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();  	
+			  SessionFactory factory = meta.getSessionFactoryBuilder().build();
+			  Session session = factory.openSession();
+			  Transaction t = session.beginTransaction();   
+			  System.out.println("id in Details:"+familyId);
+			  String getQuery="from Family as F where F.familyId=:id ";
+			  Query query=session.createQuery(getQuery);
+			  query.setParameter("id", familyId);
+			  familyObject=(Family) query.getSingleResult();
+			  List list= query.list();
+			  System.out.println("Employee data after login"+list.toString());
+			  t.commit();
+		  }catch(Exception e)
+		  {
+			  familyObject = null;
+		  }
 		  return familyObject;   
 		   }
 		  
@@ -281,10 +291,12 @@ public class EmployeeDAO  implements EmployeeInterface
 		  return addressObject;   
 		   }
 		 
-/*		//======================================================================================================================================
+	//======================================================================================================================================
 	
 		public List<Manager> getManagerNames()
 	{
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
 		SessionFactory factory = meta.getSessionFactoryBuilder().build();
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
@@ -296,7 +308,7 @@ public class EmployeeDAO  implements EmployeeInterface
 		session.close(); 
 		return listObject; 
 	}
- //======================================================================================================================================
+	//======================================================================================================================================
 	
 	public HashMap<Integer,String>  getProjectNames()
 	{
@@ -318,7 +330,7 @@ public class EmployeeDAO  implements EmployeeInterface
 		System.out.println("list project data :"+listObjects.toString());
 		return mapObject; 
 	}
-	 //======================================================================================================================================
+	/* //======================================================================================================================================
 	
 	  public Employee getEmployeeDetails(int id)
 	 {
