@@ -12,7 +12,7 @@
     <%
     String firstName=(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
     Integer employeeId =(Integer.parseInt(request.getParameter("empid")));
-    // System.out.println("first name :"+firstName);
+   // System.out.println("first name :"+firstName);
   if(firstName==null)
   {
    response.sendRedirect("Login.jsp");	
@@ -50,7 +50,7 @@
      if(personalInfoId !=0)
      {
     	personalObject = employeeDaoObject.getPersonalInformation(personalInfoId);
-    	out.println(" personal data :"+personalObject.toString());
+    	//out.println(" personal data :"+personalObject.toString());
      }
      if(familyId != 0)
      {
@@ -189,7 +189,7 @@
 					<legend>Family Details:</legend>
 					<table >
 					<tr>
-					 <td><label >Father's Name:</label> </td> <td> <%String fatherNamedata =(familyObject.getFatherName() != null) ? familyObject.getFatherName() : "NA";%> <%=fatherNamedata%> </td>
+					 <td><label >Father's Name:</label> </td> <td> <%  String fatherNamedata =(familyObject.getFatherName() != null) ? familyObject.getFatherName() : "NA";%> <%=fatherNamedata%> </td>
 					</tr>
 					<tr>
 					 <td><label >Mother's Name:</label> </td> <td><%String motherNamedata =(familyObject.getMotherName() != null) ? familyObject.getMotherName() : "NA";  %> <%=motherNamedata  %> </td>
