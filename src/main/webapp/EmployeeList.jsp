@@ -4,7 +4,6 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.velociter.ems.database.Operations"%>
 <%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
@@ -94,12 +93,7 @@ response.setDateHeader("Expire", 0);
                {
             	  e.printStackTrace() ;
                }
-            	  </jsp:scriptlet>
-               
-               
-                     
-               
-            
+            	  </jsp:scriptlet>     
      </table>
      </div>
      <br><br>
