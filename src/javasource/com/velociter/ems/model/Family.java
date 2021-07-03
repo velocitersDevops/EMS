@@ -6,6 +6,7 @@ public class Family
 	private String fatherName;
 	private String motherName;
 	private String spouseName;
+	/* private Employee employee; */
 	
 	public int getFamilyId() {
 		return familyId;
