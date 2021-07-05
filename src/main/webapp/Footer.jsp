@@ -7,7 +7,7 @@
 <title>Footer Page</title>
 <link href="exstyle/style.css" rel="stylesheet">
 </head>
-<body>
+<body  style="font-family:Futara">
 <div class="footer">
 <footer  >
 @Copyright Velociter Solutions Pvt Ltd.2021 

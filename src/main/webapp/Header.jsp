@@ -23,7 +23,7 @@
 <title></title>
 </head>
 
-<body>
+<body  style="font-family:Futara">
 
 	<div class="header">
 		<div class="headerImage">
