@@ -1,7 +1,7 @@
 
+<%@page import="org.hibernate.internal.build.AllowSysOut"%>
 <%@page import="java.sql.*"%>
-<%@page import="com.velociter.ems.database.DatabaseConnection"%>
-<%@page import="com.velociter.ems.database.Operations"%>
+<%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
@@ -11,6 +11,7 @@
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%
 String firstName =(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
+//out.println("first name is :"+firstName);
 if(firstName==null)
 {
 	   response.sendRedirect("Login.jsp");
@@ -20,8 +21,7 @@ response.setHeader("Cache-Control", "no-store");
 response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expire", 0);
 
-  ArrayList<Manager>  managerObject=null;
-  ArrayList<Project>  projectObject=null;
+
 
 //getting session value by constants
 Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
@@ -69,11 +69,6 @@ System.out.println("addressId is :"+addressId);
     <script src=
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
     </script>
-
-
-
-
-
 <style>
 * {
   box-sizing: border-box;
@@ -157,33 +152,24 @@ button:hover {
 <script src="js/JsProperties.js"></script>
 </head>
 <body>
+<% 
 
-
-
-<jsp:scriptlet>
-
-	Operations operationObject=new Operations();
-	Employee employee=operationObject.getEmployeeDetailsByEmployeeId(empId);
-	managerObject=operationObject.getManagerList();
-	projectObject=operationObject.getProjectList();
-	System.out.println("    addressId is :"+addressId);
-</jsp:scriptlet>
-        
-        <%
-        
-HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashMap  
-//out.println("project data  :"+operationObject.getProjectName());
- mapObject = operationObject.getProjectName();
- PersonalInformation personalinfoObject = new PersonalInformation();
- personalinfoObject = operationObject.getPersonalInformation(personalInfoId);
- 
- System.out.println("personal info id  data :"+personalInfoId);
-
-%>
-        
-        <jsp:include page="Header.jsp"></jsp:include>
-
- 
+    EmployeeDAO employeeDaoObject = new EmployeeDAO();
+	Employee employee=employeeDaoObject.getEmployeeDetails(empId);
+	ArrayList<Manager> managerObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
+	HashMap<Integer,String> mapObject=new HashMap<Integer,String>(employeeDaoObject.getProjectNames());//Creating HashMap
+	System.out.println("    addressId is :"+addressId);    
+     
+    //out.println("project data  :"+operationObject.getProjectName());
+    PersonalInformation personalinfoObject = new PersonalInformation();
+    System.out.println("personal info id  data :"+personalInfoId);
+    Address getAddressObject = new Address();
+    System.out.println("address  id  data :"+addressId);
+    //out.println("employee Data "+employee.toString());
+    
+    
+ %>        
+    <jsp:include page="Header.jsp"></jsp:include>
 <form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
   <h1>Edit Employee Details:</h1>
   <!-- One "tab" for each step in the form: -->
@@ -224,18 +210,17 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
                           
                       </select>
                       </div><br>
-  
-   <fmt:message key="label.joinDate"></fmt:message><p><input  disabled="disabled" type="date" value=<%= employee.getDateOfJoining()%>  placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
+
+   <fmt:message key="label.joinDate"></fmt:message><p><input  type="text" disabled="disabled" value="<%= employee.getDateOfJoining() %>" placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
     
   </div>
  
   <jsp:scriptlet>
-  
-  Family family=operationObject.getFamilyDetailsByFamilyId(familyId);
-  if(familyId!=0 && family!=null)
+  Family family=null;
+  if(familyId!=0)
   {
-	   family=operationObject.getFamilyDetailsByFamilyId(familyId);
-  
+	   //family=operationObject.getFamilyDetailsByFamilyId(familyId);
+	   family= employeeDaoObject.getFamilyDetails(familyId);
   </jsp:scriptlet>
   <div class="tab">Family Details:<br><br>
    <fmt:message key="label.fatherName"></fmt:message> <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
@@ -265,8 +250,12 @@ HashMap<Integer,String> mapObject=new HashMap<Integer,String>();//Creating HashM
   </jsp:scriptlet>
  
  <%
-if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != null )
-{
+
+
+	 personalinfoObject = employeeDaoObject.getPersonalInformation(personalInfoId) ;
+ if(personalinfoObject != null )
+ {
+	// System.out.println("personalinfoObject data  :"+personalinfoObject.toString());
 %>
   <div class="tab"> Personal Information :<br><br>
     <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
@@ -315,10 +304,11 @@ if( personalinfoObject.getDateOfBirth()!=null && personalinfoObject.getSex() != 
      <% } 
      %>
      <%
-     Address getAddressObject = new Address();
-     getAddressObject = operationObject.getAddressDetails(addressId);
-     if(getAddressObject.getAddressId() != 0 && getAddressObject.getAddressLine1() != null)
+    
+     
+     if(addressId!=0)
      {
+    	 getAddressObject = employeeDaoObject.getAddressDetails(addressId);
      %>
   <div class="tab">Address:<br><br>
   
@@ -437,7 +427,7 @@ function validateForm() {
   var x, y, i, valid = true;
   
   var alternateMobileNumberPattern=/[A-Za-z\s]+$/;
-  var familyNamePattern=/^[a-zA-Z]+$/;
+  var familyNamePattern= /^[a-zA-Z\s]{3,}$/ ;
   var bankAccountNumberPatter = /[A-Za-z\s]+$/;
   var patternPassportNumber =/[A-Z]{1}[0-9]{7}/;
   var options = document.getElementById('inputGroupSelect05').selectedOptions;
