@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.velociter.ems.database.DatabaseConnection;
 import com.velociter.ems.database.EmployeeDAO;
-import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.interfaces.EmployeeInterface;
 
@@ -60,7 +57,8 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
  	   }
  	   catch(Exception e)
  	   {
- 		e.printStackTrace();
+ 		  out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
+		  e.printStackTrace();
  	   }
 
     }
