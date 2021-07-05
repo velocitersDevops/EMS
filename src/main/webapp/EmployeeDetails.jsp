@@ -34,7 +34,7 @@
    int personalInfoId = employee.getPersonalInfoId();
    int familyId = employee.getFamilyId();
    int addressId = employee.getAddressId();
-   out.println("empid :"+empId+ "  ,"+"personalInfoId  :"+personalInfoId+ " , "+familyId +" , "+"addressId :"+addressId);
+   //out.println("empid :"+empId+ "  ,"+"personalInfoId  :"+personalInfoId+ " , "+familyId +" , "+"addressId :"+addressId);
     Employee employeeObject = new Employee();
     Family familyObject = new Family();
     Address addressObject = new Address();
@@ -96,7 +96,7 @@
  }  
 </style>
 </head>
-<body >
+<body  style="font-family:Futara">
 <br><br>
  <table class="center"> 
 

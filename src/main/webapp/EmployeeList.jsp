@@ -36,7 +36,7 @@ padding: 10px;
 <link rel="stylesheet" href="exstyle/style.css">
 <title>Employee List</title>
 </head>
-<body>
+<body  style="font-family:Futara">
 
 <%
   response.setHeader("Cache-Control", "no-cache");
@@ -55,16 +55,16 @@ response.setDateHeader("Expire", 0);
 <center>
 <h2>Employee List</h2>
 <br><br>
-<div style="overflow-y:auto;height:400px;border:solid black 2px;width:850px">
+<div style="overflow-y:auto;height:400px;border:solid black 2px;width:1200px">
      <table >
             <thead style="position:static;">
                <tr>
-                  <td><b>FIRST NAME</b></td>
-                  <td><b>LAST NAME</b></td>
-                  <td><b>MOBILE NO</b></td>
-                  <td><b>EMAIL ID</b></td>
-                  <td><b>DATE OF JOINING</b></td>
-                  <td><b>VEIW DETAILS</b></td>
+                  <td style="width:200px"><b>FIRST NAME</b></td>
+                  <td style="width:200px"><b>LAST NAME</b></td>
+                  <td style="width:200px"><b>MOBILE NO</b></td>
+                  <td style="width:200px"><b>EMAIL ID</b></td>
+                  <td style="width:200px"><b>DATE OF JOINING</b></td>
+                  <td style="width:200px"><b>VEIW DETAILS</b></td>
                </tr>
                </thead>
                <% 
