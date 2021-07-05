@@ -238,11 +238,13 @@ public class EmployeeDAO  implements EmployeeInterface
 				  List list= query.list();
 				  System.out.println("Employee data after login"+list.toString());
 				  t.commit();
+				  return personalInfo;
 			  }catch(Exception e)
 			  {
-				  personalInfo = null;
+				  return null;
+				  //personalInfo = null;
+				  //System.out.println("persoanl data :"+personalInfo.toString());
 			  }
-		        return personalInfo;   
 		   }
 		  
 		//=========================================getting family details================================================================================
@@ -291,6 +293,24 @@ public class EmployeeDAO  implements EmployeeInterface
 		  return addressObject;   
 		   }
 		 
+		//============================getting Address Details===========================================================================================
+			
+		  public Manager getManagerList()
+		 {
+			  Manager managerObject = null;
+	      StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+	  	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();  	
+		  SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		  Session session = factory.openSession();
+		  Transaction t = session.beginTransaction();   
+		  String getQuery="from Manager";
+		  Query query=session.createQuery(getQuery);
+		  managerObject=(Manager) query.getSingleResult();
+		  List list= query.list();
+		  System.out.println("Manager Object data  :"+managerObject.toString());
+		  t.commit();
+		  return managerObject;   
+		   }
 	//======================================================================================================================================
 	
 		public List<Manager> getManagerNames()
@@ -330,29 +350,240 @@ public class EmployeeDAO  implements EmployeeInterface
 		System.out.println("list project data :"+listObjects.toString());
 		return mapObject; 
 	}
-	/* //======================================================================================================================================
+
+/*	//=============================================Add Family Details====================================================================
+	public int addFamilyDetails(Family family,int employeeId)
+	{
+		int addFamilyStatus =0;
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		System.out.println("controll is comming in addFamilyDetails ");	
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+        Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+        System.out.println("family id before update :"+family.getFamilyId());
+        session.save(family);
+        tx.commit();
+        session.close();
+        System.out.println("addFamilyStatus is :"+addFamilyStatus);
+	    return addFamilyStatus;	
+	}
+	//===================================================Update Employee Details==============================================================
+	public int updateEmployeeDetail(Employee employee)
+	{
+     try {
+    	 StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+ 		 Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+ 		 System.out.println("controll is comming in updateEmployeeDetail()");	
+ 		 SessionFactory factory = meta.getSessionFactoryBuilder().build();
+         Session session = factory.openSession();
+         Transaction tx = session.beginTransaction();
+         System.out.println("employee id before update :"+employee.getEmployeeId());
+         //session.update(employee);
+         session.get(Employee.class,employee.getEmployeeId());
+         tx.commit();
+         session.close();
+ 		return 1;
+		}catch(Exception e)
+		{
+			return 0;
+		}
+		
+	}
 	
-	  public Employee getEmployeeDetails(int id)
-	 {
-	  Employee employee = null;
-	  StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
-	  Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
-	  SessionFactory factory = meta.getSessionFactoryBuilder().build();
-	  Session session = factory.openSession();
-	  Transaction t = session.beginTransaction();   
-	  System.out.println("id in Details:"+id);
-	  String getQuery="from Employee as E where E.employeeId=:id ";
-	  Query query=session.createQuery(getQuery);
-	  query.setParameter("id", id);
-	  employee=(Employee) query.getSingleResult();
-	  List list= query.list();
-	  System.out.println("Employee data after login"+list.toString());
-	  t.commit();
-	  return employee;   
-	   }
-	 	
-	 
-	  
-	  
-	 */
+	//===================================================Update Family Id In Employee table==============================================================
+		public int updateFamilyIdInEmployeeTable(int empId)
+		{
+			Employee employeeObject = new Employee();
+			try {
+				StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+				Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+				System.out.println("controll is comming in updateEmployeeDetail()");	
+				SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		        Session session = factory.openSession();
+		        Transaction tx = session.beginTransaction();
+		        employeeObject.setEmployeeId(empId);
+		        //employeeObject.setFamilyId(empId);
+		        System.out.println("family id before update :"+employeeObject.getEmployeeId());
+		        employeeObject=session.get(Employee.class,empId);
+		        employeeObject.setFamilyId(empId);
+		        session.saveOrUpdate(employeeObject);
+		        tx.commit();
+		        session.close();
+		        return 1;
+			}catch(Exception e)
+			{
+				return 0;
+			}	
+		}
+	
+		//===================================================Update Family Details==============================================================
+		public int updateFamilyDetails(Family family)
+		{
+			Family familyObject = new Family();
+			try
+			{
+				StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+				Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+				System.out.println("controll is comming in updateFamilyDetails()");	
+				SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		        Session session = factory.openSession();
+		        Transaction tx = session.beginTransaction();
+		        familyObject.setFamilyId(family.getFamilyId());
+		        familyObject.setFatherName(family.getFatherName());
+		        familyObject.setMotherName(family.getMotherName());
+		        familyObject.setSpouseName(family.getSpouseName());
+		        session.get(Family.class,family.getFamilyId());
+		        System.out.println("family id before update :"+familyObject.getFamilyId());
+		        session.update(familyObject);
+		        tx.commit();
+		        session.close();
+				return 1;
+			}catch(Exception e)
+			{
+				return 0;
+			}
+			
+		}
+		//===================================================Update PersonalInfo Details==============================================================
+		public int updatePersonalInfoDetails(PersonalInformation pesonalInfoObject)
+		{
+			PersonalInformation personalObject = new PersonalInformation(); 
+			try
+			{
+				StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+				Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+				System.out.println("controll is comming in updatePersonalInfoDetails()");	
+				SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		        Session session = factory.openSession();
+		        Transaction tx = session.beginTransaction();
+		        personalObject.setPersonalInfoId(pesonalInfoObject.getPersonalInfoId());
+		        personalObject.setBankAccountNumber(pesonalInfoObject.getBankAccountNumber());
+		        personalObject.setMaritalStatus(pesonalInfoObject.getMaritalStatus());
+		        System.out.println("persoanl info id before update :"+personalObject.getPersonalInfoId());
+		        session.update(personalObject);
+		        tx.commit();
+		        session.close();
+				return 1;
+			}catch(Exception e)
+			{
+				return 0;
+			}
+		}
+		//===================================================Update Address Details==============================================================
+			public int updateAddressRecord(Address address)
+			{
+				Address addressObject =new Address();
+				try
+				{
+					StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+					Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+					System.out.println("controll is comming in updatePersonalInfoDetails()");	
+					SessionFactory factory = meta.getSessionFactoryBuilder().build();
+			        Session session = factory.openSession();
+			        Transaction tx = session.beginTransaction();
+			        addressObject.setAddressId(address.getAddressId());
+			        addressObject.setCountryName(address.getCountryName());
+			        addressObject.setStateName(address.getStateName());
+			        addressObject.setCityName(address.getCityName());
+			        addressObject.setAddressLine1(address.getAddressLine1());
+			        addressObject.setHouseNumber(address.getHouseNumber());
+			        addressObject.setPincodeNumber(address.getPincodeNumber());
+			        addressObject.setStreetNumber(address.getStreetNumber());
+			        addressObject.setAddressType(address.getAddressType());
+			        System.out.println("address id before update :"+addressObject.getAddressId());
+			        session.update(addressObject);
+			        tx.commit();
+			        session.close();
+					return 1;
+				}catch(Exception e)
+				{
+					return 0;
+				}
+			}
+	//===================================================Add PersonalInformation Details===================================================================
+				public int addpersonalInfoDetails(PersonalInformation personalObject)
+				{
+					int personalInfoStatus =0;
+					StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+					Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+					System.out.println("controll is comming in addpersonalInfoDetails ");	
+					SessionFactory factory = meta.getSessionFactoryBuilder().build();
+			        Session session = factory.openSession();
+			        Transaction tx = session.beginTransaction();
+			        System.out.println("family id before update :"+personalObject.getPersonalInfoId());
+			        session.save(personalObject);
+			        tx.commit();
+			        session.close();
+				    return personalInfoStatus;	
+				}
+	//===================================================Add Address Details===================================================================
+				public int addAddressDetails(Address addressObject)
+				{
+					int addressStatus =0;
+					StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+					Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+					System.out.println("controll is comming in addpersonalInfoDetails ");	
+					SessionFactory factory = meta.getSessionFactoryBuilder().build();
+			        Session session = factory.openSession();
+			        Transaction tx = session.beginTransaction();
+			        System.out.println("family id before update :"+addressObject.getAddressId());
+			        session.save(addressObject);
+			        tx.commit();
+			        session.close();
+				    return addressStatus;	
+				}
+	//===================================================update Address id in employee table===================================================================
+				public int updateAddressidInEmployeeTable(int addressId)
+				{
+					Employee employeeObject = new Employee();
+					try {
+						StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+						Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+						System.out.println("controll is comming in updateEmployeeDetail()");	
+						SessionFactory factory = meta.getSessionFactoryBuilder().build();
+				        Session session = factory.openSession();
+				        Transaction tx = session.beginTransaction();
+				        employeeObject.setEmployeeId(addressId);
+				        //employeeObject.setFamilyId(empId);
+				        System.out.println("family id before update :"+employeeObject.getEmployeeId());
+				        employeeObject=session.get(Employee.class,addressId);
+				        employeeObject.setAddressId(addressId);
+				        session.saveOrUpdate(employeeObject);
+				        tx.commit();
+				        session.close();
+				        return 1;
+					}catch(Exception e)
+					{
+						System.out.println("controll in catch block");
+						return 0;
+					}	
+				}	
+				//===================================================update personal info id in employee table===================================================================
+				public int updatePersonalInfoidInEmployeeTable(int personalInfoid)
+				{
+					Employee employeeObject = new Employee();
+					try {
+						StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+						Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+						System.out.println("controll is comming in updateEmployeeDetail()");	
+						SessionFactory factory = meta.getSessionFactoryBuilder().build();
+				        Session session = factory.openSession();
+				        Transaction tx = session.beginTransaction();
+				        employeeObject.setEmployeeId(personalInfoid);
+				        //employeeObject.setFamilyId(empId);
+				        System.out.println("personalInfo id before update :"+employeeObject.getPersonalInfoId());
+				        employeeObject=session.get(Employee.class,personalInfoid);
+				        employeeObject.setPersonalInfoId(personalInfoid);
+				        session.saveOrUpdate(employeeObject);
+				        tx.commit();
+				        session.close();
+				        return 1;
+					}catch(Exception e)
+					{
+						System.out.println("controll in catch block");
+						return 0;
+					}	
+				}						
+		*/
 }
