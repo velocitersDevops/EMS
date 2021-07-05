@@ -32,8 +32,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
     	Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
     	Integer personalInfoid = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
     	Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
-    	System.out.println("personal info id afetr session :"+personalInfoid);
-    	System.out.println("address  id afetr session :"+addressId);
+    	 System.out.println("empid :"+empId+ "  ,"+"personalInfoId  :"+personalInfoid+ " ,familyId "+familyId +" , "+"addressId :"+addressId);
     	
          String managerName=req.getParameter("managerName");
          int projectId=Integer.parseInt(req.getParameter("projectName"));
@@ -120,6 +119,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
     	 try
    	    { 
 			             int employeeUpdateCount=0;    //It store the update count in employee table
+			             int familyAddCount =0;
 			    	     int familyUpdateCount=0;      //It store the update count in family table
 			    	     int personalInfoCount = 0;    // It store the update count in personal Information table
 			 			 int addressCount = 0;         // It store the update count in Addresses table
@@ -127,13 +127,16 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 			    		 //Creating Operation class object for calling to the method
 			    		 Operations operationObject=new Operations();
 			    		 //by using operationObject reference call updateEmployeeDetail method of operation class
+			    		 System.out.println("employee data in updateEmployeeDetail() :"+employee.toString());
 			    		 employeeUpdateCount=operationObject.updateEmployeeDetail(employee);
 			   		
 			   		if(familyId==0)   //If family id of employee is 0 in employee table it means that employee has not added his family details
 			   		{
-			   			//Calling method addFamilyDetails of Operations class using operationObject reference
-			   		  familyUpdateCount= operationObject.addFamilyDetails(family,employee.getEmployeeId());
-			   		//Update the family id of employee in employee table from family table
+			   		  //Calling method addFamilyDetails of Operations class using operationObject reference
+			   			System.out.println("check family data befor add  :"+family.toString());
+			   			familyAddCount= operationObject.addFamilyDetails(family,employee.getEmployeeId());
+			   	      System.out.println("familyAddCount :"+familyAddCount);
+			   		  //Update the family id of employee in employee table from family table
 			   		  operationObject.updateFamilyIdInEmployeeTable(empId);
 			   		}
 			   		else      //if the employee has added his family detail then it will be updated
@@ -224,5 +227,11 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
  		}
     	
     }
+
+	@Override
+	public int add(Object object) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
     
 }
