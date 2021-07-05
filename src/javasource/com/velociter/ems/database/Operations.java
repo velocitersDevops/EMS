@@ -208,7 +208,7 @@ public class Operations {
 		  try
 		  {
 			
-		String query="select SALUTATION,FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME,CREATIONDATE,LASTMODIFIED_DATE from EMPLOYEE where EMPID="+empId;
+		String query="select SALUTATION,FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,ISDCODE,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME,CREATIONDATE,LASTMODIFIED_DATE from EMPLOYEE where EMPID="+empId;
 		PreparedStatement psmt=dbConnection.prepareStatement(query);
 		ResultSet resultSet=psmt.executeQuery();
 		
@@ -220,6 +220,7 @@ public class Operations {
 			employee.setFirstName(firstName);
 			employee.setMiddleName(resultSet.getString("MIDDLENAME"));
 			employee.setLastName(resultSet.getString("LASTNAME"));
+			employee.setisdCode(resultSet.getString("ISDCODE"));
 			employee.setEmailId(resultSet.getString("EMAIL"));
 			employee.setMobileNumber(Long.parseLong( resultSet.getString("MOBILENUMBER")));
 			employee.setDateOfJoining(resultSet.getString("DOJ"));
@@ -266,7 +267,8 @@ public class Operations {
 		
 		//Update employee details
 		public int  updateEmployeeDetail(Employee employee)
-		{
+		{  
+			System.out.println("employee data in updateEmployeeDetail() :"+employee.toString());
 			int employeeUpdateCount=0;
 			try
 			{
@@ -279,6 +281,7 @@ public class Operations {
 				employee.setLastModifiedDate(commonOperationObject.getCreationDate());
 				psmt.setString(4,employee.getLastModifiedDate());
 				employeeUpdateCount=psmt.executeUpdate();
+				System.out.println("employeeUpdateCount status :"+employeeUpdateCount);
 			}
 			catch(Exception e)
 			{
@@ -300,7 +303,8 @@ public class Operations {
 				psmt.setString(2, family.getFatherName());
 				psmt.setString(3, family.getMotherName());
 				psmt.setString(4, family.getSpouseName());
-				familyRowCount=psmt.executeUpdate();	
+				familyRowCount=psmt.executeUpdate();
+				System.out.println("familyRowCount  :"+familyRowCount);
 			}
 			catch(Exception e)
 			{
