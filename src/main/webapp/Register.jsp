@@ -16,8 +16,13 @@
 <html>
 <head>
 <script src="js/JsProperties.js"></script>
+<link href="exstyle/style.css" rel="stylesheet">
 <title>Register Page</title>
 <style>
+input
+{
+font-family: Futara;
+}
 table {
   border: 6px solid black;
   border-collapse: collapse;
@@ -295,7 +300,7 @@ function validMobileNumber()
     </script>
 
 </head>
-<body>
+<body style="font-family:Futara">
  <jsp:include page="HomePageHeader.jsp"></jsp:include> 
  <a href="AddProject.jsp">Add Project</a> &nbsp;&nbsp;&nbsp; <a href="AddManager.jsp">Add Manager</a>
 <form  name="regiserForm" action="register" onsubmit="return validateForm()"  method ="post" >

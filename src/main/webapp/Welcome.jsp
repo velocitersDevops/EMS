@@ -19,7 +19,7 @@
 <title>Welcome Page</title>
 <link href="exstyle/style.css" rel="stylesheet">
 </head>
-<body>
+<body style="font-family:Georgia">
 <%
 response.setHeader("Cache-Control", "no-cache");
 response.setHeader("Cache-Control", "no-store");

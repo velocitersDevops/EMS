@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<link href="exstyle/style.css" rel="stylesheet">
 
 <meta charset="ISO-8859-1">
 
@@ -18,7 +18,12 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"
 ></script>
-
+<style>
+input
+{
+font-family: Futara;
+}
+</style>
 
 
 <script>
@@ -79,7 +84,7 @@ function validation()
     </script>
 </head>
 
-<body>
+<body  style="font-family:Futara">
 
   <%
   response.setHeader("Cache-Control", "no-cache");
@@ -94,17 +99,17 @@ response.setDateHeader("Expire", 0);
           <center style="padding-left:250px">
             <fieldset>
                 <!-- Legend tag using -->
-                <legend>Login:</legend>
+                <b></b><legend>Login:</b></legend>
                 
                 <table >
                 <tr>
-              <td><fmt:message key="label.emailid"></fmt:message></td>
+              <td><b><fmt:message key="label.emailid"></fmt:message><b></td>
               <td><input type="text" name="email" id="email"><span id="emailerror"></span></td>
                 </tr>
                 
                 <tr>
-               <td><fmt:message key="label.password"></fmt:message></td>
-               <td> <input type="password" name="password" id="password"><span id="passworderror"></span></td>
+               <td><b><fmt:message key="label.password"></fmt:message></b></td>
+               <td><input type="password" name="password" id="password"><span id="passworderror"></span></td>
                 </tr>
                 <tr>
                <td><button type="submit" id="" >Submit </button></td>
