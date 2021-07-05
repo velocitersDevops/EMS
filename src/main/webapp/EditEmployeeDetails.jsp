@@ -3,8 +3,8 @@
 <%@page import="java.sql.*"%>
 <%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Map" %>
+<%@page import="java.util.HashMap" %>
+<%@page import="java.util.Map" %>
 <%@page import="com.velociter.ems.model.Family"%>
 <%@page import="com.velociter.ems.model.*"%>
 <%@page import="java.util.*"%>
@@ -82,7 +82,7 @@ body {
 #editForm {
   background-color: #ffffff;
   margin: 100px auto;
-  font-family: Raleway;
+  font-family: Futara; 
   padding: 5px;
   width: 50%;
   min-width: 300px;
@@ -96,7 +96,7 @@ input {
   padding: 10px;
   width: 100%;
   font-size: 17px;
-  font-family: Raleway;
+  font-family: Futara;
   border: 1px solid #aaaaaa;
 }
 
