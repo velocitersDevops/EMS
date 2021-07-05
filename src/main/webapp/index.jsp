@@ -8,7 +8,7 @@
 <title>HomePage</title>
 
 </head>
-<body >
+<body  style="font-family:Futara" >
 <jsp:include page="HomePageHeader.jsp"></jsp:include>
 <table width="50%" style="float:left">
 <tr>
