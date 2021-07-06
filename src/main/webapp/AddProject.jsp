@@ -4,6 +4,10 @@
 <html>
 <head>
 <style>
+input
+{
+font-family: Futara;
+}
  fieldset {
       height: 100%;
       width: 50%;
@@ -13,7 +17,7 @@
 <meta charset="ISO-8859-1">
 <title>Add Project Page</title>
 </head>
-<body>
+<body  style="font-family:Futara">
  <jsp:include page="HomePageHeader.jsp"></jsp:include> 
 <form action ="AddProjectServlet" method="post">
 		<br><br><br><br><br>
