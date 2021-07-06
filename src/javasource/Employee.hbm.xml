@@ -27,7 +27,7 @@
             <property name="addressId" column="ADDRESSID"/>
             <property name="salutation" column="SALUTATION"/>
             <property name="firstName" column="FIRSTNAME"/>
-            <property name="middleName" column="MIDDLENAME"/>
+            <property name="middleName" type="string"> <column name="MIDDLENAME"  not-null="true" default="NA" /> </property>
             <property name="lastName" column="LASTNAME"/>
             <property name="dateOfJoining" column="DOJ"/>
             <property name="managerName" column="MANAGERNAME"/>
