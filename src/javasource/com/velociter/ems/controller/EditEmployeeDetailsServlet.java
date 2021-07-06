@@ -97,7 +97,10 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		//taking address information data from request object and storing into address object
 		Address addressObject = new Address();
 		addressObject.setAddressId(addressId);
-		addressObject.setCountryName(req.getParameter("country"));
+		System.out.println("CNAME2"+req.getParameter("country"));
+		addressObject.setCountryName("india");
+		System.out.println("country name"+addressObject.getCountryName());
+		//System.out.println("CNAME2"+req.getParameter("country"));
 		addressObject.setStateName(req.getParameter("state"));
 		addressObject.setCityName(req.getParameter("city"));
 		addressObject.setPincodeNumber(Integer.parseInt(req.getParameter("pincode")));

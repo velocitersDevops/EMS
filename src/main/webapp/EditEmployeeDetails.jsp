@@ -1,5 +1,4 @@
 
-<%@page import="org.hibernate.internal.build.AllowSysOut"%>
 <%@page import="java.sql.*"%>
 <%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
@@ -312,7 +311,7 @@ button:hover {
      %>
   <div class="tab">Address:<br><br>
   
-    <fmt:message key="label.country"></fmt:message><p><input disabled="disabled" id="country" placeholder="Enter Country Name" value="<%= getAddressObject.getCountryName() %>"    oninput="this.className = ''" name="country"></p>
+    <fmt:message key="label.country"></fmt:message><p><input  value="<%= getAddressObject.getCountryName() %>"  placeholder="Enter Country Name"  oninput="this.className = ''" id="country" name="country"></input></p>
     <fmt:message key="label.state"></fmt:message><p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
     <fmt:message key="label.city"></fmt:message><p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
     <fmt:message key="label.houseNo"></fmt:message><p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
@@ -564,7 +563,7 @@ function validateForm() {
           var  houseNo= document.getElementById("housenumber")
           var  patternForAddress = /^[a-zA-Z0-9\s,.]{3,}$/ ;
           var  patternForCountry =/[a-zA-Z]{4,}$/;
-		  
+		  alert(country);
 		  if(country == "") 
 		  {
 		     alert("Country Must be Fill Out");
