@@ -192,9 +192,14 @@ button:hover {
     <div class="input-group" style="width:600px">
 <%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
       <select name="managerName" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-       <%for(int i=0;i<managerObject.size();i++){ %>
-       <option><%=managerObject.get(i).getManagerName() %></option>
-       <%} %>
+<%--       <option selected><%=employee.getManagerName() %></option> --%>
+       <%for(int i=0;i<managerObject.size();i++){ String name=managerObject.get(i).getManagerName();String name1=employee.getManagerName(); %>
+<%--        <option selected><%=employee.getManagerName() %></option> --%>
+       <%if(managerObject.get(i).getManagerName().equals(employee.getManagerName())){ %>
+  <option selected><%=employee.getManagerName() %></option>
+       <%}else { %>
+       <option ><%= managerObject.get(i).getManagerName()%></option>
+       <%}} %>
        </select>
        </div>    
   <br>
@@ -204,8 +209,11 @@ button:hover {
                <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
                        <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
                           {%> 
+                            <%if(projectIdAndName.getKey()==employee.getProjectId()){ %>
+                            <option  selected value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %></option>
+                            <% } else { %>
                             <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %></option>                 
-                          <%}%> 
+                          <%}}%> 
                           
                       </select>
                       </div><br>
@@ -328,8 +336,11 @@ button:hover {
       %> 
     <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
     <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-    <%} %>
+    <%} if(getAddressObject.getStreetNumber()!=0){ %>
+    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=getAddressObject.getStreetNumber() %>" placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    <%} else { %>
     <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
+    <%} %>
     <fmt:message key="label.pincode"></fmt:message><p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
     <fmt:message key="label.addressType"></fmt:message><p><select  oninput="this.className = ''" name="addressType"  >
                       <option  value="0">Permanent </option>  
@@ -563,7 +574,7 @@ function validateForm() {
           var  houseNo= document.getElementById("housenumber")
           var  patternForAddress = /^[a-zA-Z0-9\s,.]{3,}$/ ;
           var  patternForCountry =/[a-zA-Z]{4,}$/;
-		  alert(country);
+		  //alert(country);
 		  if(country == "") 
 		  {
 		     alert("Country Must be Fill Out");

@@ -119,11 +119,11 @@ public class EmployeeDAO  implements EmployeeInterface
 			session.close(); 
 		    if(listObject.isEmpty() ==true)
 		    {
-		    	return true; //it means user can register becaouse emaild and mobile number is new
+		    	return true; //it means user can register because emaild and mobile number is new
 		    }
 		    else
 		    {
-		    	return false;//it means user can not register becaouse emaild and mobile number is already Register
+		    	return false;//it means user can not register because emaild and mobile number is already Register
 		    } 
 	 }
 	 
@@ -263,7 +263,8 @@ public class EmployeeDAO  implements EmployeeInterface
 			  t.commit();
 		  }catch(Exception e)
 		  {
-			  familyObject = null;
+			  e.printStackTrace();
+			  //familyObject = null;
 		  }
 		  return familyObject;   
 		   }

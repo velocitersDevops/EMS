@@ -365,7 +365,7 @@ function validMobileNumber()
                            {
                             	managerName = iterator.next().getManagerName();
                            %>  
-                            <option value=" <%= managerName%>" > <%= managerName%><br> </option>      
+                            <option value="<%=managerName%>" > <%=managerName%><br> </option>      
                          <%}%>  
                     </select>  
                     

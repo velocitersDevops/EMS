@@ -106,9 +106,16 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		addressObject.setPincodeNumber(Integer.parseInt(req.getParameter("pincode")));
 		String addressLine1Data = req.getParameter("addressLine1");
 		String addressLine2Data = req.getParameter("addressLine2");
-		
+		String addressdata=null;
 		//here appending addressLine2 data with AddressLine1(Addresline1 + Addresline1) and storing into addressObject
-		String addressdata = addressLine1Data +"-"+addressLine2Data;
+		if(addressLine2Data!="")
+		{
+		 addressdata = addressLine1Data +"-"+addressLine2Data;
+		}
+		else
+		{
+		addressdata=addressLine1Data;
+		}
 		addressObject.setAddressLine1(addressdata);
 		System.out.println("check complete addres line1 line 2  :"+addressObject.getAddressLine1());
 		if(req.getParameter("streetnumber")!=null && !req.getParameter("streetnumber").equals(""))
