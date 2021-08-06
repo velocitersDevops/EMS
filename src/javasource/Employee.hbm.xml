@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+       <hibernate-mapping>
+       <class name="com.velociter.ems.model.Employee" table="EMPLOYEE">
+       <id name="employeeId" column="EMPID">
+       <generator class="increment"></generator>
+       </id>  
+<!--       <property name="salutation" type="string"> <column name="SALUTATION" length="10" not-null="false" default="Not Provided" /> </property> -->
+<!-- 	   <property name="firstName" type="string"> <column name="FIRSTNAME" length="10" not-null="false" default="Not Provided" /> </property>          -->
+<!-- 	   <property name="middleName" type="string"> <column name="MIDDLENAME" length="10" not-null="true" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="lastName" type="string"> <column name="LASTNAME" length="10" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="dateOfJoining" type="string"> <column name="DOJ" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="managerName" type="string"> <column name="MANAGERNAME" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="projectId" type="int"> <column name="PROJECTID" length="15" not-null="false" default="0" /> </property>       -->
+<!-- 	   <property name="emailId" type="string"> <column name="EMAIL" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="isdCode" type="string"> <column name="ISDCODE" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="mobileNumber" type="long"> <column name="MOBILENUMBER" length="15" not-null="false" default="0" /> </property>       -->
+<!-- 	   <property name="alternateContactNumber" type="string"> <column name="ALTERCONTACTNO" length="15" not-null="true" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="password" type="string"> <column name="PASSWORD" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="creationDate" type="int"> <column name="CREATIONDATE" length="15" not-null="false" default="Not Provided" /> </property>       -->
+<!-- 	   <property name="lastModifiedDate" type="string"> <column name="LASTMODIFIED_DATE" length="15" not-null="false" default="Not Provided" /> </property>       -->
+            <property name="personalInfoId" column="PERSONAL_INFO_ID"/>
+            <property name="familyId" column="FAMILYID"/>
+            <property name="addressId" column="ADDRESSID"/>
+            <property name="salutation" column="SALUTATION"/>
+            <property name="firstName" column="FIRSTNAME"/>
+            <property name="middleName" type="string"> <column name="MIDDLENAME"  not-null="true" default="NA" /> </property>
+            <property name="lastName" column="LASTNAME"/>
+            <property name="dateOfJoining" column="DOJ"/>
+            <property name="managerName" column="MANAGERNAME"/>
+            <property name="projectId" column="PROJECTID"/>
+            <property name="emailId" column="EMAIL" unique="true"/>
+            <property name="isdCode" column="ISDCODE"/>
+            <property name="mobileNumber" column="MOBILENUMBER" unique="true"/>
+            <property name="alternateContactNumber" column="ALTERNATEMOBILENUMBER"/>
+            <property name="password" column="PASSWORD"/>
+            <property name="creationDate" column="CREATIONDATE"/>
+            <property name="lastModifiedDate" column="LASTMODIFIED_DATE"/>
+        </class> 
+       </hibernate-mapping>
