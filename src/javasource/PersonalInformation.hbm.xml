@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+          <hibernate-mapping>
+          <class name="com.velociter.ems.model.PersonalInformation" table="PERSONAL_INFORMATIONS">
+          <id name="personalInfoId" column="PERSONAL_INFO_ID">
+          <generator class="increment"></generator>
+          </id>
+	       <property name="dateOfBirth" column="DOB"></property>
+	       <property name="sex" column="SEX"></property>
+	       <property name="panNumber" column="PANNUMBER"></property>
+	       <property name="aadharNumber" column="AADHARNUMBER"></property>
+           <property name="passportNumber" column="PASSPORTNUMBER"></property>
+	       <property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+	       <property name="nationality" column="NATIONALITY"></property>
+	       <property name="maritalStatus" column="MARITALSTATUS"></property>
+          </class>
+          </hibernate-mapping>
