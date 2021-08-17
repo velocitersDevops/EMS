@@ -24,9 +24,17 @@ response.setDateHeader("Expire", 0);
 
 //getting session value by constants
 Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
-Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
-Integer personalInfoId = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
-Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
+// Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
+// Integer personalInfoId = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
+// Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
+
+   Employee employee=new Employee();
+   EmployeeDAO employeeDaoObject = new EmployeeDAO();
+  
+   employee = employeeDaoObject.getFourIds(empId);   //getting Id's of employee to display his data in page
+   int personalInfoId = employee.getPersonalInfoId(); //personalInfoId of employee from employee table
+   int familyId = employee.getFamilyId();             //familyId of employee from employee table
+   int addressId = employee.getAddressId();           //address Id of employee from employee table
 
 System.out.println("personalInfoId is :"+personalInfoId);
 System.out.println(" familyId is :"+familyId);
@@ -153,8 +161,8 @@ button:hover {
 <body>
 <% 
 
-    EmployeeDAO employeeDaoObject = new EmployeeDAO();
-	Employee employee=employeeDaoObject.getEmployeeDetails(empId);
+    employeeDaoObject = new EmployeeDAO();
+	 employee=employeeDaoObject.getEmployeeDetails(empId);
 	ArrayList<Manager> managerObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
 	HashMap<Integer,String> mapObject=new HashMap<Integer,String>(employeeDaoObject.getProjectNames());//Creating HashMap
 	System.out.println("    addressId is :"+addressId);    
@@ -425,8 +433,9 @@ function nextPrev(n) {
   // if you have reached the end of the form...
   if (currentTab >= x.length) {
     // ... the form gets submitted:
+    
     document.getElementById("editForm").submit();
-    return false;
+     return false;
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);

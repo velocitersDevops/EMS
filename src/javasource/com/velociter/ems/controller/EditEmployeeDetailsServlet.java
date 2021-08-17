@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.database.Operations;
 import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Employee;
@@ -29,9 +30,17 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
     	 
     	HttpSession session=req.getSession(false);
     	Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
-    	Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
-    	Integer personalInfoid = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
-    	Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
+//    	Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
+//    	Integer personalInfoid = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
+//    	Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
+    	
+    	   Employee employee=new Employee();
+    	   EmployeeDAO employeeDaoObject = new EmployeeDAO(); 
+    	  
+    	   employee = employeeDaoObject.getFourIds(empId);   //getting id's of employee from Employee table
+    	   int personalInfoid = employee.getPersonalInfoId();//getting personalIndfoid from employee table
+    	   int familyId = employee.getFamilyId();            //getting family id of employee from employee table
+    	   int addressId = employee.getAddressId();          //getting addressId of employee from employee table
     	 System.out.println("empid :"+empId+ "  ,"+"personalInfoId  :"+personalInfoid+ " ,familyId "+familyId +" , "+"addressId :"+addressId);
     	
          String managerName=req.getParameter("managerName");
@@ -48,7 +57,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
     	String motherName=req.getParameter("motherName");
     	String spouseName=req.getParameter("spouseName");
     	//Creating employee object and set the data
-    	Employee employee=new Employee();
+    	 employee=new Employee();
     	//employee.setFirstName(firstName);
     	//employee.setMiddleName(middleName);
     	//employee.setLastName(lastName);

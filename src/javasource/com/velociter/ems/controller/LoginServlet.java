@@ -36,14 +36,14 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
  		 if(employee!=null)
  		 {
  			 HttpSession session =request.getSession();
- 			 session.setAttribute(EmployeeInterface.FAMILYID, employee.getFamilyId());
+// 			 session.setAttribute(EmployeeInterface.FAMILYID, employee.getFamilyId());
  			 session.setAttribute(EmployeeInterface.EMPLOYEEID, employee.getEmployeeId());
- 			 session.setAttribute(EmployeeInterface.PERSONALINFO_ID,employee.getPersonalInfoId());
- 			 session.setAttribute(EmployeeInterface.ADDRESSID,employee.getAddressId());
+// 			 session.setAttribute(EmployeeInterface.PERSONALINFO_ID,employee.getPersonalInfoId());
+// 			 session.setAttribute(EmployeeInterface.ADDRESSID,employee.getAddressId());
  			 session.setAttribute(EmployeeInterface.FIRSTNAME,employee.getFirstName());
  			 session.setAttribute(EmployeeInterface.CURRENT_USER, employee);
  			 System.out.println("session value check emploee id :"+session.getAttribute(EMPLOYEEID));
- 			 System.out.println("session value check family id :"+session.getAttribute(FAMILYID));
+// 			 System.out.println("session value check family id :"+session.getAttribute(FAMILYID));
  			 System.out.println("session value check personalinfo id :"+session.getAttribute(PERSONALINFO_ID));
  			 System.out.println("session value check address id :"+session.getAttribute(ADDRESSID));
  			response.sendRedirect("Welcome.jsp");
