@@ -1,15 +1,34 @@
 package com.velociter.ems.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ADDRESSES")
 public class Address {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ADDRESSID", updatable = false, nullable = false)
 	private int addressId;
+	@Column(name = "ADDRESSLINE1")
 	private String addressLine1;
+	@Column(name = "STREETNUMBER")
 	private int streetNumber;
+	@Column(name = "CITY")
 	private String cityName;
+	@Column(name = "STATE")
 	private String stateName;
+	@Column(name = "PINCODE")
 	private int pincodeNumber;
+	@Column(name = "COUNTRY")
 	private String countryName;
+	@Column(name = "ADDRESSTYPE")
 	private int addressType;
+	@Column(name = "HOUSENUMBER")
 	private String houseNumber;
 	
 	

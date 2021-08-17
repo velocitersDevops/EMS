@@ -1,15 +1,34 @@
 package com.velociter.ems.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PERSONAL_INFORMATIONS")
 public class PersonalInformation {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "PERSONAL_INFO_ID", updatable = false, nullable = false)
 	private int personalInfoId ;
+	@Column(name = "DOB")
 	private String dateOfBirth  ;
+	@Column(name = "SEX")
 	private String sex ;
+	@Column(name = "PANNUMBER")
 	private String panNumber ;
+	@Column(name = "AADHARNUMBER")
 	private long aadharNumber ;
+	@Column(name = "PASSPORTNUMBER")
 	private String passportNumber;
+	@Column(name = "BANK_ACCOUNT_NUMBER")
 	private long bankAccountNumber;
+	@Column(name = "NATIONALITY")
 	private String nationality;
+	@Column(name = "MARITALSTATUS")
 	private String maritalStatus;
 	
 	public int getPersonalInfoId() {
