@@ -10,7 +10,7 @@
 <title>Header Page</title>
 </head>
 
-<body  style="font-family:Futara">
+<body style="font-family: Futara">
 
 	<div class="header">
 		<div class="headerImage">

@@ -26,6 +26,7 @@ font-family: Futara;
 table {
   border: 6px solid black;
   border-collapse: collapse;
+  margin-bottom: 50px;
 }
 
 table.center {
