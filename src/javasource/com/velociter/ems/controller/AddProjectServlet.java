@@ -43,13 +43,13 @@ public class AddProjectServlet extends HttpServlet {
 	if(addProjectStatus == 0)
 	{
 		out.println("<h4 style='color: red;'>Add project Operation is Faild</h4>");
-		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-		requestDispaterObject.include(request, response);
+//		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
+//		requestDispaterObject.include(request, response);
 	}else
 	{
 		out.println("<h4 style='color: green;'>Add project Operation is success</h4>");
-		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-		requestDispaterObject.include(request, response);
+//		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
+//		requestDispaterObject.include(request, response);
 	}
 	
 	}
