@@ -17,18 +17,22 @@ import com.velociter.ems.interfaces.EmployeeInterface;
 import com.velociter.ems.model.Employee;
 
 //@WebServlet("/EmployeeRegisterServlet")
-public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInterface{
+public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInterface {
 	private static final long serialVersionUID = 1L;
-    
-    public EmployeeRegisterServlet() {
-        super();   
-    }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	public EmployeeRegisterServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
@@ -41,10 +45,10 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		employeeObject.setSalutation(request.getParameter("salutation"));
 		employeeObject.setFirstName(request.getParameter("firstname"));
 		employeeObject.setMiddleName(request.getParameter("middlename"));
-		System.out.println("EMPLOYEE middle name :"+employeeObject.getMiddleName());
-		String empName=  employeeObject.getMiddleName().isEmpty()?"NA":employeeObject.getMiddleName();
-		System.out.println(""+empName);
-		employeeObject.setMiddleName(""+empName);
+		System.out.println("EMPLOYEE middle name :" + employeeObject.getMiddleName());
+		String empName = employeeObject.getMiddleName().isEmpty() ? "NA" : employeeObject.getMiddleName();
+		System.out.println("" + empName);
+		employeeObject.setMiddleName("" + empName);
 		employeeObject.setLastName(request.getParameter("lastname"));
 		employeeObject.setEmailId(request.getParameter("email"));
 		employeeObject.setisdCode(request.getParameter("dialCode"));
@@ -52,67 +56,68 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 //		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
 		employeeObject.setManagerName(request.getParameter("managername"));
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
-		
-		//String projectids[] =request.getParameterValues("ceckvalues");
+
+		// String projectids[] =request.getParameterValues("ceckvalues");
 		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
-		System.out.println("project id :"+employeeObject.getProjectId());
+		System.out.println("project id :" + employeeObject.getProjectId());
 		employeeObject.setPassword(request.getParameter("passsword"));
-		
+
 		// here we are going to check employee already exist with emailid or not
-		//Operations registerObject = new Operations();
+		// Operations registerObject = new Operations();
 		EmployeeDAO employeeDaoObject = new EmployeeDAO();
-		int registerStatus=0;
+		int registerStatus = 0;
 		try {
 			if (employeeDaoObject.checkExistingEmail(employeeObject) == false) {
-				
-				out.println("<h4 style='color: red;'>Entered EmailId OR Mobile Number Already Registerd ! Try With Another Emailid OR Mobile Number</h4>");
-				RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-				requestDispaterObject.include(request, response);
+
+				out.println("Entered EmailId OR Mobile Number Already Registerd ! Try With Another Emailid OR Mobile Number.");
+//				RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
+//				requestDispaterObject.include(request, response);
+				out.print("False");
 
 			} else {
-				
-				
-					registerStatus = employeeDaoObject.add(employeeObject);
-			
+
+				registerStatus = employeeDaoObject.add(employeeObject);
 				// debug
 				System.out.println("status of register :" + registerStatus);
 				// registerStatus = registerObject.registerEmployee(employeeObject);
 				// status of registration send back to the Register page
 
 				if (registerStatus == 0) {
-				
+
 					out.println("<h4 align='center'  style='color: red;'>Registration Failed</h4>");
-					RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-					requestDispaterObject.include(request, response);
+//					RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
+//					requestDispaterObject.include(request, response);
 				} else {
-					//out.println("<h4 align='center' style='color: green;'>Registration success</h4>");
-					//RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
-					//requestDispaterObject.include(request, response);
-					
-					HttpSession session=request.getSession();
+					// out.println("<h4 align='center' style='color: green;'>Registration
+					// success</h4>");
+					// RequestDispatcher requestDispaterObject =
+					// request.getRequestDispatcher("RegisterStatus.jsp");
+					// requestDispaterObject.include(request, response);
+
+					HttpSession session = request.getSession();
 					session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
-					response.sendRedirect("Login.jsp");
+//					response.sendRedirect("Login.jsp");
+					out.print("True");
 				}
 			}
 		} catch (NullPointerException npex) {
-			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time </h4>");	
-		} 
-        catch (ParseException parsex)  {
-		out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");	
-		parsex.printStackTrace();
-        }
-		catch(Exception e) {
-			out.println("<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
+			out.println(
+					"<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time </h4>");
+		} catch (ParseException parsex) {
+			out.println(
+					"<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time [Parse] </h4>");
+			parsex.printStackTrace();
+		} catch (Exception e) {
+			out.println(
+					"<h4 align='center'  style='color: red;'>Unable To Connect With Server ! Please Try Again After Some Time</h4>");
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public int add(Object object) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
-	
 
 }
