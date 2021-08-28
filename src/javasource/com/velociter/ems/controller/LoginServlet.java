@@ -46,12 +46,14 @@ public class LoginServlet extends HttpServlet implements EmployeeInterface
 // 			 System.out.println("session value check family id :"+session.getAttribute(FAMILYID));
  			 System.out.println("session value check personalinfo id :"+session.getAttribute(PERSONALINFO_ID));
  			 System.out.println("session value check address id :"+session.getAttribute(ADDRESSID));
- 			response.sendRedirect("Welcome.jsp");
+ 			//response.sendRedirect("Welcome.jsp");
+ 			 out.print("True");
  		 }
  		 else
- 		 {   out.println("<h1>Invalid Email and password</h1>");
- 			 RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");  
-             rd.include(request, response);  
+ 		 {     out.print("false");
+ 			 // out.println("<h1>Invalid Email and password</h1>");
+ 			 //RequestDispatcher rd=request.getRequestDispatcher("Login.jsp");  
+            // rd.include(request, response);  
  		 }
  		 
  	   }
