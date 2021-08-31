@@ -8,6 +8,14 @@
      <servlet-name>register</servlet-name> 
     <servlet-class>com.velociter.ems.controller.EmployeeRegisterServlet</servlet-class> 
    </servlet> 
+   <context-param>  
+      <param-name>Email</param-name>  
+       <param-value>abc@gmail.com</param-value>  
+   </context-param>
+   <context-param>  
+      <param-name>password</param-name>  
+       <param-value>abc@123</param-value>  
+   </context-param>
    <servlet-mapping> 
     <servlet-name>register</servlet-name> 
      <url-pattern>/register</url-pattern>
