@@ -332,7 +332,7 @@ div.scroll {
 			var myDateOFjoin = new Date(dateofjoin);
 			var currentDate = new Date();
 			var checkString = /^[a-zA-Z]+$/;
-			var mailformat = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+			var mailformat = /^\w.+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 			var checkNamewithspace = /^[a-zA-Z\s]*$/;
 			var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
 			var passwordPattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
@@ -445,6 +445,7 @@ div.scroll {
 					type : "post",
 					success : function(data) {
 						if (data == 'True') {
+							
 							$(location).attr('href', 'Login.jsp');
 						} else {
 							alert("You Have Already Register!! Try with Another Email and Mobile.")
@@ -452,7 +453,7 @@ div.scroll {
 					}
 				});
 			}
-				return true;
+				return false;
 		}
 	</script>
 	<jsp:include page="Footer.jsp"></jsp:include>

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,13 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		// and directaly storing te employee information into the model
 		// class(Employee.java)
 		// by using setter methods
+		
+		// by using setter methods
+				ServletContext context=getServletConfig().getServletContext();
+				String user=context.getInitParameter("Email");  //admin Email
+				String pass=context.getInitParameter("password");  //admin password
+				//out.print(user);  //for debugging 
+				//out.print(pass);  //for debugging
 
 		Employee employeeObject = new Employee();
 		employeeObject.setSalutation(request.getParameter("salutation"));
@@ -95,10 +103,39 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 					// requestDispaterObject.include(request, response);
 
 					HttpSession session = request.getSession();
-					session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
+				//	session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
 //					response.sendRedirect("Login.jsp");
+					
+				
+					String to=request.getParameter("email");
+					String subject="Thankyou for Registering with EMS";
+					String msg="hii "+request.getParameter("firstname")+"\n"
+					+"\n"	
+					+"Your login Credential "+"\n"		
+					+"Email    : "+request.getParameter("email")+"\n"
+					+"Password : "+request.getParameter("passsword")+"\n"
+					+"\n"
+					+"Note.Please do not share your login credential to anyone"+"\n"
+					+"Regards"+"\n"
+					+"Ems Team"+"\n"
+					+"Thank You";
+				
+					boolean mailStatus=Mailer.send(to, subject, msg,user,pass);
+				
+					//response.sendRedirect("Login.jsp");
+					System.out.print("mail sended");
+					
+					if(mailStatus==true)
+					{
 					out.print("True");
-				}
+					session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
+					//out.print("True");
+				    }
+					else
+					{
+						out.print("");
+					}
+					}
 			}
 		} catch (NullPointerException npex) {
 			out.println(
