@@ -22,7 +22,7 @@ fieldset {
 </head>
 <body style="font-family: Futara">
 	<jsp:include page="HomePageHeader.jsp"></jsp:include>
-	<form class="form" id="myForm" action="" method="post">
+	<form class="form" id="myForm" name="projectForm" action="" method="post">
 		<br> <br> <br> <br> <br>
 		<fieldset>
 			<legend align="center">ADD PROJECT DETAILS</legend>
@@ -63,22 +63,50 @@ fieldset {
 			var dataString = 'projectName=' + projectName + '&description='
 					+ description + '&startdate=' + startdate + '&enddate='
 					+ enddate;
-			alert("Do You Want to Add Project !!!!");
-			jQuery.ajax({
-				url : "AddProjectServlet",
-				data : dataString,
-				type : "POST",
-				success : function(data) {
-					$("#myForm").html(data);
-					alert("Successfully Added Project !!!!");
-				},
-				error : function() {
-					alert("Something Want Wrong !!!!");
-				}
-			});
-			return true;
+			var checkString = /^[a-zA-Z]+$/;
+			var descriptionPattern = /^[a-zA-Z]*\s[a-zA-Z]/;
+			if (projectName == "") {
+				alert("projectName must be filled out");
+				document.projectForm.projectName.focus();
+				return false;
+			} else if (!(projectName.match(checkString)) && !(projectName.match(descriptionPattern))) {
+				alert("projectName should be containt only characters ");
+				document.projectForm.projectName.focus();
+				return false;
+			} else if (description ==" ") {
+				alert("description Name must be filled out");
+				document.projectForm.description.focus();
+				return false;
+			} else if (!(description.match(descriptionPattern))) {
+				alert("description should be containt only characters ");
+				document.projectForm.description.focus();
+				return false;
+			} else if (startdate == "") {
+				alert("startdate must be filled out");
+				document.projectForm.startdate.focus();
+				return false;
+			} else if (enddate == "") {
+				alert("enddate must be filled out");
+				document.projectForm.enddate.focus();
+				return false;
+			} else {
+				alert("Do You Want to Add Project!!!!");
+				jQuery.ajax({
+					url : "AddProjectServlet",
+					data : dataString,
+					type : "POST",
+					success : function(data) {
+						alert(data);
+						if (data == 'True') {
+							alert("Successfully Added Project!!");
+						} else {
+							alert("You Have Already Have Proejct!! Try with Another Project.")
+						}
+					} 
+				}); 
+			} 
+			return true; 
 		}
 	</script>
-
 </body>
 </html>
