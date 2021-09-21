@@ -39,15 +39,17 @@ public class AddProjectServlet extends HttpServlet {
 	EmployeeDAO  employeeDaoObject  = new EmployeeDAO();
 	int addProjectStatus = employeeDaoObject.addProject(projectObject);
 	System.out.println("status in servlet ="+addProjectStatus);
-	
 	if(addProjectStatus == 0)
 	{
 		out.println("<h4 style='color: red;'>Add project Operation is Faild</h4>");
+		out.print("False");
 //		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
 //		requestDispaterObject.include(request, response);
 	}else
 	{
 		out.println("<h4 style='color: green;'>Add project Operation is success</h4>");
+		System.out.println("Your are in True!!!!!");
+		out.print("True");
 //		RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
 //		requestDispaterObject.include(request, response);
 	}
