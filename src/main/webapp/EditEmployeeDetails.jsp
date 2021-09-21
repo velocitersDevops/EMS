@@ -2,401 +2,680 @@
 <%@page import="java.sql.*"%>
 <%@page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@page import="com.velociter.ems.model.Employee"%>
-<%@page import="java.util.HashMap" %>
-<%@page import="java.util.Map" %>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.velociter.ems.model.Family"%>
 <%@page import="com.velociter.ems.model.*"%>
 <%@page import="java.util.*"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%
-String firstName =(String)session.getAttribute(EmployeeInterface.FIRSTNAME);
+	String firstName = (String) session.getAttribute(EmployeeInterface.FIRSTNAME);
 //out.println("first name is :"+firstName);
-if(firstName==null)
-{
-	   response.sendRedirect("Login.jsp");
+if (firstName == null) {
+	response.sendRedirect("Login.jsp");
 }
 response.setHeader("Cache-Control", "no-cache");
 response.setHeader("Cache-Control", "no-store");
 response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expire", 0);
 
-
-
 //getting session value by constants
-Integer empId=(Integer)session.getAttribute(EmployeeInterface.EMPLOYEEID);
+Integer empId = (Integer) session.getAttribute(EmployeeInterface.EMPLOYEEID);
+System.out.println("EmployeeID  : " + empId);
 // Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
 // Integer personalInfoId = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
 // Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
 
-   Employee employee=new Employee();
-   EmployeeDAO employeeDaoObject = new EmployeeDAO();
-  
-   employee = employeeDaoObject.getFourIds(empId);   //getting Id's of employee to display his data in page
-   int personalInfoId = employee.getPersonalInfoId(); //personalInfoId of employee from employee table
-   int familyId = employee.getFamilyId();             //familyId of employee from employee table
-   int addressId = employee.getAddressId();           //address Id of employee from employee table
+Employee employee = new Employee();
+EmployeeDAO employeeDaoObject = new EmployeeDAO();
 
-System.out.println("personalInfoId is :"+personalInfoId);
-System.out.println(" familyId is :"+familyId);
-System.out.println("addressId is :"+addressId);
+employee = employeeDaoObject.getFourIds(empId); //getting Id's of employee to display his data in page
+int personalInfoId = employee.getPersonalInfoId(); //personalInfoId of employee from employee table
+int familyId = employee.getFamilyId(); //familyId of employee from employee table
+int addressId = employee.getAddressId(); //address Id of employee from employee table
+
+System.out.println("personalInfoId is :" + personalInfoId);
+System.out.println(" familyId is :" + familyId);
+System.out.println("addressId is :" + addressId);
 %>
 
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page isELIgnored="false" %>
-<fmt:setBundle basename="label"/> 
+<%@ page isELIgnored="false"%>
+<fmt:setBundle basename="label" />
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-<title>EditEmployeeDetails Page </title>
+<title>EditEmployeeDetails Page</title>
 <script src="js/JsProperties.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Raleway"
+	rel="stylesheet">
 
 
-<link rel="stylesheet" href=
-"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
-  
-    <script src=
-"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
     </script>
-  
-    <script src=
-"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js">
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js">
     </script>
-  
-    <!-- Default bootstrap CSS link taken from the 
+
+<!-- Default bootstrap CSS link taken from the 
         bootstrap website-->
-    <link rel="stylesheet" href=
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  
-    <script src=
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
     </script>
 <style>
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-  background-color: #f1f1f1;
-  margin:  auto;
+	background-color: #f1f1f1;
+	margin: auto;
 }
 
 #editForm {
-  background-color: #ffffff;
-  margin: 100px auto;
-  font-family: Futara; 
-  padding: 5px;
-  width: 50%;
-  min-width: 300px;
+	background-color: #ffffff;
+	margin: 100px auto;
+	font-family: Futara;
+	padding: 5px;
+	width: 50%;
+	min-width: 300px;
 }
 
 h1 {
-  text-align: center;  
+	text-align: center;
 }
 
 input {
-  padding: 10px;
-  width: 100%;
-  font-size: 17px;
-  font-family: Futara;
-  border: 1px solid #aaaaaa;
+	padding: 10px;
+	width: 100%;
+	font-size: 17px;
+	font-family: Futara;
+	border: 1px solid #aaaaaa;
 }
 
 /* Mark input boxes that gets an error on validation: */
 input.invalid {
-  background-color: #ffdddd;
+	background-color: #ffdddd;
 }
 
 /* Hide all steps by default: */
 .tab {
-  display: none;
+	display: none;
 }
 
 button {
-  background-color: #04AA6D;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 17px;
-  font-family: Raleway;
-  cursor: pointer;
+	background-color: #04AA6D;
+	color: #ffffff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 17px;
+	font-family: Raleway;
+	cursor: pointer;
 }
 
 button:hover {
-  opacity: 0.8;
+	opacity: 0.8;
 }
 
 #prevBtn {
-  background-color: #bbbbbb;
+	background-color: #bbbbbb;
 }
 
 /* Make circles that indicate the steps of the form: */
 .step {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbbbbb;
-  border: none;  
-  border-radius: 50%;
-  display: inline-block;
-  opacity: 0.5;
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbbbbb;
+	border: none;
+	border-radius: 50%;
+	display: inline-block;
+	opacity: 0.5;
 }
 
 .step.active {
-  opacity: 1;
+	opacity: 1;
 }
 
 /* Mark the steps that are finished and valid: */
 .step.finish {
-  background-color: #04AA6D;
+	background-color: #04AA6D;
 }
 </style>
 <script src="js/JsProperties.js"></script>
 </head>
 <body>
-<% 
-
-    employeeDaoObject = new EmployeeDAO();
-	 employee=employeeDaoObject.getEmployeeDetails(empId);
+	<%
+		employeeDaoObject = new EmployeeDAO();
+	employee = employeeDaoObject.getEmployeeDetails(empId);
 	ArrayList<Manager> managerObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
-	HashMap<Integer,String> mapObject=new HashMap<Integer,String>(employeeDaoObject.getProjectNames());//Creating HashMap
-	System.out.println("    addressId is :"+addressId);    
-     
-    //out.println("project data  :"+operationObject.getProjectName());
-    PersonalInformation personalinfoObject = new PersonalInformation();
-    System.out.println("personal info id  data :"+personalInfoId);
-    Address getAddressObject = new Address();
-    System.out.println("address  id  data :"+addressId);
-    //out.println("employee Data "+employee.toString());
-    
-    
- %>        
-    <jsp:include page="Header.jsp"></jsp:include>
-<form id="editForm" action="EditEmployeeDetailsServlet" method="POST" onsubmit="return validateForm()">
-  <h1>Edit Employee Details:</h1>
-  <!-- One "tab" for each step in the form: -->
-  <div class="tab">
+	HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap
+	System.out.println("    addressId is :" + addressId);
 
-   <fmt:message key="label.firstName"></fmt:message> <p><input  disabled="disabled" value=<%= employee.getFirstName()%> placeholder="First name..." oninput="this.className = ''" name="firstName"></p>
-   <fmt:message key="label.middleName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMiddleName()%> placeholder="Middle name..." oninput="this.className = ''" name="middleName"></p>
-   <fmt:message key="label.lastName"></fmt:message> <p><input disabled="disabled" value=<%= employee.getLastName()%> placeholder="Last name..." oninput="this.className = ''" name="lastName"></p>
-   <fmt:message key="label.emailid"></fmt:message> <p><input disabled="disabled" value=<%= employee.getEmailId()%> placeholder="Email Id..." oninput="this.className = ''" name="emailId"></p>
-   <fmt:message key="label.mobileNo"></fmt:message> <p><input disabled="disabled" value=<%= employee.getMobileNumber()%> placeholder="Mobile Number..." oninput="this.className = ''" name="mobileNumber"></p>
-   <fmt:message key="label.AltermobileNo"></fmt:message>
-   <% if(employee.getAlternateContactNumber()==0)
-	   { %>
-    <p><input id="alternateMobileNumber"  placeholder="NA (Not Available)" oninput="this.className = ''" name="alternateMobileNumber"></p>
-   <% }
-   else
-   {%>
-    <p><input id="alternateMobileNumber" value=<%=employee.getAlternateContactNumber() %>  placeholder="Alternate Mobile Number not available..." oninput="this.className = ''" name="alternateMobileNumber"></p>
-   <%} %>
-     <fmt:message key="label.managerName"></fmt:message> 
-    <div class="input-group" style="width:600px">
-<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
-      <select name="managerName" class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-<%--       <option selected><%=employee.getManagerName() %></option> --%>
-       <%for(int i=0;i<managerObject.size();i++){ String name=managerObject.get(i).getManagerName();String name1=employee.getManagerName(); %>
-<%--        <option selected><%=employee.getManagerName() %></option> --%>
-       <%if(managerObject.get(i).getManagerName().equals(employee.getManagerName())){ %>
-  <option selected><%=employee.getManagerName() %></option>
-       <%}else { %>
-       <option ><%= managerObject.get(i).getManagerName()%></option>
-       <%}} %>
-       </select>
-       </div>    
-  <br>
-<%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
+	//out.println("project data  :"+operationObject.getProjectName());
+	PersonalInformation personalinfoObject = new PersonalInformation();
+	System.out.println("personal info id  data :" + personalInfoId);
+	Address getAddressObject = new Address();
+	System.out.println("address  id  data :" + addressId);
+	//out.println("employee Data "+employee.toString());
+	%>
+	<jsp:include page="Header.jsp"></jsp:include>
+	<form id="editForm" action="EditEmployeeDetailsServlet" method="POST"
+		onsubmit="return validateForm()">
+		<h1>Edit Employee Details:</h1>
+		<!-- One "tab" for each step in the form: -->
+		<div class="tab">
 
- <fmt:message key="label.projectName"></fmt:message> <div   class="input-group " style="width:600px">
-               <select   name="projectName"  class="custom-select selectpicker" id="inputGroupSelect05" aria-label="Example select with button addon">
-                       <%  for(Map.Entry<Integer,String> projectIdAndName : mapObject.entrySet()) 
-                          {%> 
-                            <%if(projectIdAndName.getKey()==employee.getProjectId()){ %>
-                            <option  selected value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %></option>
-                            <% } else { %>
-                            <option value="<%= projectIdAndName.getKey() %>" > <%=projectIdAndName.getValue() %></option>                 
-                          <%}}%> 
-                          
-                      </select>
-                      </div><br>
+			<fmt:message key="label.firstName"></fmt:message>
+			<p>
+				<input disabled="disabled" value=<%=employee.getFirstName()%>
+					placeholder="First name..." oninput="this.className = ''"
+					name="firstName">
+			</p>
+			<fmt:message key="label.middleName"></fmt:message>
+			<p>
+				<input disabled="disabled" value=<%=employee.getMiddleName()%>
+					placeholder="Middle name..." oninput="this.className = ''"
+					name="middleName">
+			</p>
+			<fmt:message key="label.lastName"></fmt:message>
+			<p>
+				<input disabled="disabled" value=<%=employee.getLastName()%>
+					placeholder="Last name..." oninput="this.className = ''"
+					name="lastName">
+			</p>
+			<fmt:message key="label.emailid"></fmt:message>
+			<p>
+				<input disabled="disabled" value=<%=employee.getEmailId()%>
+					placeholder="Email Id..." oninput="this.className = ''"
+					name="emailId">
+			</p>
+			<fmt:message key="label.mobileNo"></fmt:message>
+			<p>
+				<input disabled="disabled" value=<%=employee.getMobileNumber()%>
+					placeholder="Mobile Number..." oninput="this.className = ''"
+					name="mobileNumber">
+			</p>
+			<fmt:message key="label.AltermobileNo"></fmt:message>
+			<%
+				if (employee.getAlternateContactNumber() == 0) {
+			%>
+			<p>
+				<input id="alternateMobileNumber" placeholder="NA (Not Available)"
+					oninput="this.className = ''" name="alternateMobileNumber">
+			</p>
+			<%
+				} else {
+			%>
+			<p>
+				<input id="alternateMobileNumber"
+					value=<%=employee.getAlternateContactNumber()%>
+					placeholder="Alternate Mobile Number not available..."
+					oninput="this.className = ''" name="alternateMobileNumber">
+			</p>
+			<%
+				}
+			%>
+			<fmt:message key="label.managerName"></fmt:message>
+			<div class="input-group" style="width: 600px">
+				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
+				<select name="managerName" class="custom-select"
+					id="inputGroupSelect04"
+					aria-label="Example select with button addon">
+					<%--       <option selected><%=employee.getManagerName() %></option> --%>
+					<%
+						for (int i = 0; i < managerObject.size(); i++) {
+						String name = managerObject.get(i).getManagerName();
+						String name1 = employee.getManagerName();
+					%>
+					<%--        <option selected><%=employee.getManagerName() %></option> --%>
+					<%
+						if (managerObject.get(i).getManagerName().equals(employee.getManagerName())) {
+					%>
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+						} else {
+					%>
+					<option><%=managerObject.get(i).getManagerName()%></option>
+					<%
+						}
+					}
+					%>
+				</select>
+			</div>
+			<br>
+			<%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
 
-   <fmt:message key="label.joinDate"></fmt:message><p><input  type="text" disabled="disabled" value="<%= employee.getDateOfJoining() %>" placeholder="Date of joining..." oninput="this.className = ''"  name="dateOfJoining"></p>
-    
-  </div>
- 
-  <jsp:scriptlet>
-  Family family=null;
-  if(familyId!=0)
-  {
-	   //family=operationObject.getFamilyDetailsByFamilyId(familyId);
-	   family= employeeDaoObject.getFamilyDetails(familyId);
-  </jsp:scriptlet>
-  <div class="tab">Family Details:<br><br>
-   <fmt:message key="label.fatherName"></fmt:message> <p><input id="fatherName" placeholder="Father name..."  value=<%= family.getFatherName()%>  oninput="this.className = ''" name="fatherName"></p>
-   <fmt:message key="label.moterName"></fmt:message>  <p><input id="motherName" placeholder="Mother name..."  value=<%= family.getMotherName()%>  oninput="this.className = ''" name="motherName"></p>
-   <fmt:message key="label.spouseName"></fmt:message> 
-   <%if(family.getSpouseName()==null)
-	   {%> 
-   <p><input id="spouseName" placeholder="NA"  oninput="this.className = ''" name="spouseName"></p>
-   <%} else { %>
-   <p><input id="spouseName" placeholder="Enter spouse Name" value=<%=family.getSpouseName() %>    oninput="this.className = ''" name="spouseName"></p>
- <%} %> </div>
- <jsp:scriptlet>
-  }
-  
-  else
-  {
- </jsp:scriptlet>
- 
-  <div class="tab">Family Details:<br>
-  <fmt:message key="label.fatherName"></fmt:message><p><input id="fatherName" placeholder="Father name..."    oninput="this.className = ''" name="fatherName"></p>
-  <fmt:message key="label.moterName"></fmt:message> <p><input id="motherName" placeholder="Mother name..." oninput="this.className = ''" name="motherName"></p>
-  <fmt:message key="label.spouseName"></fmt:message><p><input id="spouseName" placeholder="Spouse name..." oninput="this.className = ''" name="spouseName"></p>
-  </div>
-  
-  <jsp:scriptlet>
-}
-  </jsp:scriptlet>
- 
- <%
+			<fmt:message key="label.projectName"></fmt:message>
+			<div class="input-group " style="width: 600px">
+				<select name="projectName" class="custom-select selectpicker"
+					id="inputGroupSelect05"
+					aria-label="Example select with button addon">
+					<%
+						for (Map.Entry<Integer, String> projectIdAndName : mapObject.entrySet()) {
+					%>
+					<%
+						if (projectIdAndName.getKey() == employee.getProjectId()) {
+					%>
+					<option selected value="<%=projectIdAndName.getKey()%>">
+						<%=projectIdAndName.getValue()%></option>
+					<%
+						} else {
+					%>
+					<option value="<%=projectIdAndName.getKey()%>">
+						<%=projectIdAndName.getValue()%></option>
+					<%
+						}
+					}
+					%>
+
+				</select>
+			</div>
+			<br>
+
+			<fmt:message key="label.joinDate"></fmt:message>
+			<p>
+				<input type="text" disabled="disabled"
+					value="<%=employee.getDateOfJoining()%>"
+					placeholder="Date of joining..." oninput="this.className = ''"
+					name="dateOfJoining">
+			</p>
+
+		</div>
+
+		<jsp:scriptlet>Family family = null;
+if (familyId != 0) {
+	//family=operationObject.getFamilyDetailsByFamilyId(familyId);
+	family = employeeDaoObject.getFamilyDetails(familyId);</jsp:scriptlet>
+		<div class="tab">
+			Family Details:<br>
+			<br>
+			<fmt:message key="label.fatherName"></fmt:message>
+			<p>
+				<input id="fatherName" placeholder="Father name..."
+					value=<%=family.getFatherName()%> oninput="this.className = ''"
+					name="fatherName">
+			</p>
+			<fmt:message key="label.moterName"></fmt:message>
+			<p>
+				<input id="motherName" placeholder="Mother name..."
+					value=<%=family.getMotherName()%> oninput="this.className = ''"
+					name="motherName">
+			</p>
+			<fmt:message key="label.spouseName"></fmt:message>
+			<%
+				if (family.getSpouseName() == null) {
+			%>
+			<p>
+				<input id="spouseName" placeholder="NA"
+					oninput="this.className = ''" name="spouseName">
+			</p>
+			<%
+				} else {
+			%>
+			<p>
+				<input id="spouseName" placeholder="Enter spouse Name"
+					value=<%=family.getSpouseName()%> oninput="this.className = ''"
+					name="spouseName">
+			</p>
+			<%
+				}
+			%>
+		</div>
+		<jsp:scriptlet>}
+
+else {</jsp:scriptlet>
+
+		<div class="tab">
+			Family Details:<br>
+			<fmt:message key="label.fatherName"></fmt:message>
+			<p>
+				<input id="fatherName" placeholder="Father name..."
+					oninput="this.className = ''" name="fatherName">
+			</p>
+			<fmt:message key="label.moterName"></fmt:message>
+			<p>
+				<input id="motherName" placeholder="Mother name..."
+					oninput="this.className = ''" name="motherName">
+			</p>
+			<fmt:message key="label.spouseName"></fmt:message>
+			<p>
+				<input id="spouseName" placeholder="Spouse name..."
+					oninput="this.className = ''" name="spouseName">
+			</p>
+		</div>
+
+		<jsp:scriptlet>}</jsp:scriptlet>
+
+		<%
+			personalinfoObject = employeeDaoObject.getPersonalInformation(personalInfoId);
+		if (personalinfoObject != null) {
+			// System.out.println("personalinfoObject data  :"+personalinfoObject.toString());
+		%>
+		<div class="tab">
+			Personal Information :<br>
+			<br> <input type="hidden" name="personalinfoid"
+				value="<%=personalInfoId%>">
+			<fmt:message key="label.nationality"></fmt:message>
+			<p>
+				<input disabled="disabled"
+					value="<%=personalinfoObject.getNationality()%>"
+					placeholder="Nationality..." oninput="this.className = ''"
+					id="nationality" name="nationality">
+			</p>
+			<fmt:message key="label.dob"></fmt:message>
+			<p>
+				<input disabled="disabled"
+					value="<%=personalinfoObject.getDateOfBirth()%>"
+					placeholder="Date of Birth" oninput="this.className = ''"
+					id="dobdate" name="dateOfbirth">
+			</p>
+			<fmt:message key="label.sex"></fmt:message>
+			<p>
+				<select disabled="disabled" name="sex"
+					value="<%=personalinfoObject.getSex()%>" style="width: 90px;"font-size:9px">
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+			</p>
+			<fmt:message key="label.panNumber"></fmt:message>
+			<p>
+				<input disabled="disabled"
+					value="<%=personalinfoObject.getPanNumber()%>"
+					placeholder="PAN Number..." oninput="this.className = ''"
+					id="pannumber" name="pannumber">
+			</p>
+			<fmt:message key="label.aadharNumber"></fmt:message>
+			<p>
+				<input disabled="disabled"
+					value="<%=personalinfoObject.getAadharNumber()%>"
+					placeholder="Aadhar Number..." oninput="this.className = ''"
+					id="aadharnumber" name="aadharnumber">
+			</p>
+			<fmt:message key="label.passportNumber"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<%
+				if (personalinfoObject.getPassportNumber() == null) {
+			%>
+			<p>
+				<input placeholder="NA" id="passportnumber"
+					oninput="this.className = ''" name="passportnumber">
+			</p>
+			<%
+				} else {
+			%>
+			<p>
+				<input placeholder="Enter Passport Number..." id="passportnumber"
+					oninput="this.className = ''" name="passportnumber">
+			</p>
+			<%
+				}
+			%>
+			<fmt:message key="label.BankAccNumber"></fmt:message>
+			<p>
+				<input value="<%=personalinfoObject.getBankAccountNumber()%>"
+					placeholder="Bank Account Number..." oninput="this.className = ''"
+					id="bankaccountNumber" name="bankaccountNumber">
+			</p>
+			<fmt:message key="label.maritalStatus"></fmt:message>
+			<p>
+				<select oninput="this.className = ''" name="marritalstatus">
+					<option value="Single">Single</option>
+					<option value="Married">Married</option>
+				</select>
+			</p>
+		</div>
+		<%
+			} else {
+		%>
 
 
-	 personalinfoObject = employeeDaoObject.getPersonalInformation(personalInfoId) ;
- if(personalinfoObject != null )
- {
-	// System.out.println("personalinfoObject data  :"+personalinfoObject.toString());
-%>
-  <div class="tab"> Personal Information :<br><br>
-    <input type="hidden"   name="personalinfoid" value="<%=personalInfoId %>">
-    <fmt:message key="label.nationality"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getNationality() %>" placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
-    <fmt:message key="label.dob"></fmt:message>  <p><input disabled="disabled"  value="<%=personalinfoObject.getDateOfBirth() %>"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate" name="dateOfbirth"></p>
-    <fmt:message key="label.sex"></fmt:message>  <p><select disabled="disabled" name="sex" value="<%=personalinfoObject.getSex() %>" style="width: 90px; style="font-size:9px">
-                      <option  value="Male">Male </option>  
-                      <option  value="Female">Female </option>    
-                    </select></p>
-    <fmt:message key="label.panNumber"></fmt:message><p><input disabled="disabled"  value="<%=personalinfoObject.getPanNumber() %>" placeholder="PAN Number..." oninput="this.className = ''"id ="pannumber" name="pannumber"></p>
-    <fmt:message key="label.aadharNumber"></fmt:message><p><input disabled="disabled" value="<%=personalinfoObject.getAadharNumber() %>" placeholder="Aadhar Number..." oninput="this.className = ''" id ="aadharnumber" name="aadharnumber"></p>
-    <fmt:message key="label.passportNumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b>
-    <%if(personalinfoObject.getPassportNumber()==null)
-	   {%> 
-	   <p><input   placeholder="NA"  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
-     <%} else { %>
-        <p><input   placeholder="Enter Passport Number..."  id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
-     <%} %>
-    <fmt:message key="label.BankAccNumber"></fmt:message><p><input value="<%=personalinfoObject.getBankAccountNumber() %>" placeholder="Bank Account Number..."  oninput="this.className = ''"id ="bankaccountNumber" name="bankaccountNumber"></p>
-    <fmt:message key="label.maritalStatus"></fmt:message><p><select    oninput="this.className = ''" name="marritalstatus"  >
-                      <option  value="Single">Single </option>  
-                      <option  value="Married">Married </option>    
-                    </select></p>
-    </div>
-    <%} 
-     else
-     {%>
-     
-      
-    <div class="tab"> Personal Information :<br><br>
-     <fmt:message key="label.nationality"></fmt:message><p><input  placeholder="Nationality..." oninput="this.className = ''" id ="nationality" name="nationality"></p>
-     <fmt:message key="label.dob"></fmt:message> <p><input  type="date"   placeholder="Date of Birth" oninput="this.className = ''" id ="dobdate"  name="dateOfbirth"></p>
-     <fmt:message key="label.sex"></fmt:message>  <p><select name="sex"  style="width: 90px; style="font-size:9px" >
-                      <option  value="Male">Male </option>  
-                      <option  value="Female">Female </option>    
-                    </select></p>
-    <fmt:message key="label.panNumber"></fmt:message><p><input  placeholder="PAN Number..." oninput="this.className = ''" id ="pannumber" name="pannumber"></p>
-    <fmt:message key="label.aadharNumber"></fmt:message><p><input  placeholder="Aadhar Number..." oninput="this.className = ''"  id ="aadharnumber" name="aadharnumber"></p>
-    <fmt:message key="label.passportNumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="" placeholder="Passport Number..." id ="passportnumber" oninput="this.className = ''" name="passportnumber"></p>
-    <fmt:message key="label.BankAccNumber"></fmt:message><p><input  placeholder="Bank Account Number..." oninput="this.className = ''" id ="bankaccountNumber" name="bankaccountNumber"></p>
-    <fmt:message key="label.maritalStatus"></fmt:message> <p><select      oninput="this.className = ''" name="marritalstatus" >
-                      <option  value="Single">Single </option>  
-                      <option  value="Married">Married </option>    
-                    </select></p>
-    </div>
-     <% } 
-     %>
-     <%
-    
-     
-     if(addressId!=0)
-     {
-    	 getAddressObject = employeeDaoObject.getAddressDetails(addressId);
-     %>
-  <div class="tab">Address:<br><br>
-  
-    <fmt:message key="label.country"></fmt:message><p><input  value="<%= getAddressObject.getCountryName() %>"  placeholder="Enter Country Name"  oninput="this.className = ''" id="country" name="country"></input></p>
-    <fmt:message key="label.state"></fmt:message><p><input value="<%=getAddressObject.getStateName() %>" placeholder="Enter State/Province/Region..." oninput="this.className = ''"id ="state"  name="state"></p>
-    <fmt:message key="label.city"></fmt:message><p><input value="<%=getAddressObject.getCityName()  %>" placeholder="Enter City Name..." oninput="this.className =''"id ="city" name="city"></p>
-    <fmt:message key="label.houseNo"></fmt:message><p><input value="<%=getAddressObject.getHouseNumber()  %>" placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
-      <% 
-        String addressData =getAddressObject.getAddressLine1();
-      if(addressData.indexOf('-') ==-1)
-      {%>
-      <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=getAddressObject.getAddressLine1() %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
-      <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-      <%}else
-      {
-        String[] bothAddresses = addressData.split("-"); 
-       // out.println("address data :"+addressData); 
-      %> 
-    <fmt:message key="label.addressLine1"></fmt:message><p><input value="<%=bothAddresses[0]  %>" placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
-    <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=bothAddresses[1] %>" placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-    <%} if(getAddressObject.getStreetNumber()!=0){ %>
-    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input value="<%=getAddressObject.getStreetNumber() %>" placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
-    <%} else { %>
-    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
-    <%} %>
-    <fmt:message key="label.pincode"></fmt:message><p><input value="<%=getAddressObject.getPincodeNumber()  %>" placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
-    <fmt:message key="label.addressType"></fmt:message><p><select  oninput="this.className = ''" name="addressType"  >
-                      <option  value="0">Permanent </option>  
-                      <option  value="1">Temporary </option>    
-                    </select>
-                    </p>
-   </div>
-  <%}
-     else
-     {%>
-      <div class="tab">Address:<br><br>
-  
-    <fmt:message key="label.country"></fmt:message><p><input  placeholder="Enter Country Name..." oninput="this.className = ''"id ="country" name="country"></p>
-    <fmt:message key="label.state"></fmt:message><p><input  placeholder="Enter State..." oninput="this.className = ''"id ="state" name="state"></p>
-    <fmt:message key="label.city"></fmt:message><p><input  placeholder="Enter City Name..." oninput="this.className =''" id ="city" name="city"></p>
-    <fmt:message key="label.houseNo"></fmt:message><p><input  placeholder="Enter House No..." oninput="this.className = ''"id ="housenumber" name="housenumber"></p>
-    <fmt:message key="label.addressLine1"></fmt:message><p><input  placeholder="Enter Address Line1..." oninput="this.className = ''"id="addressLine1" name="addressLine1"></p>
-    <fmt:message key="label.addressLine2"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Address Line2" oninput="this.className = ''"id="addressLine2" name="addressLine2"></p>
-    <fmt:message key="label.streetnumber"></fmt:message><b><lable style="color:green">(Optional)</lable></b><p><input  placeholder="Enter Street Number" oninput="this.className = ''"id="streetnumber" name="streetnumber"></p>
-    <fmt:message key="label.pincode"></fmt:message><p><input  placeholder="Enter Pin Code..." oninput="this.className =''"id="pincode" name="pincode"></p>
-    <fmt:message key="label.addressType"></fmt:message>
-    <select  oninput="this.className = ''" name="addressType"  >
-                      <option  value="0">Permanent </option>  
-                      <option  value="1">Temporary </option>    
-                    </select>
-                    </p>
-  
-   </div>
-    <jsp:include page="Footer.jsp"></jsp:include>
-   <%} %>
- 
-  <div style="overflow:auto;">
-    <div style="float:right;decoration:none">
-      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-      <button type="button" id="nextBtn" onclick="nextPrev(1)">Submit</button>
-    </div>
-  </div>
-  <!-- Circles which indicates the steps of the form: -->
-  <div style="text-align:center;margin-top:40px;">
-    <span class="step"></span>
-    <span class="step"></span>
-    <span class="step"></span>
-    <span class="step"></span>
-    
-  </div>
-</form>
+		<div class="tab">
+			Personal Information :<br>
+			<br>
+			<fmt:message key="label.nationality"></fmt:message>
+			<p>
+				<input placeholder="Nationality..." oninput="this.className = ''"
+					id="nationality" name="nationality">
+			</p>
+			<fmt:message key="label.dob"></fmt:message>
+			<p>
+				<input type="date" placeholder="Date of Birth"
+					oninput="this.className = ''" id="dobdate" name="dateOfbirth">
+			</p>
+			<fmt:message key="label.sex"></fmt:message>
+			<p>
+				<select name="sex" style="width: 90px;"font-size:9px" >
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+			</p>
+			<fmt:message key="label.panNumber"></fmt:message>
+			<p>
+				<input placeholder="PAN Number..." oninput="this.className = ''"
+					id="pannumber" name="pannumber">
+			</p>
+			<fmt:message key="label.aadharNumber"></fmt:message>
+			<p>
+				<input placeholder="Aadhar Number..." oninput="this.className = ''"
+					id="aadharnumber" name="aadharnumber">
+			</p>
+			<fmt:message key="label.passportNumber"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input value="" placeholder="Passport Number..." id="passportnumber"
+					oninput="this.className = ''" name="passportnumber">
+			</p>
+			<fmt:message key="label.BankAccNumber"></fmt:message>
+			<p>
+				<input placeholder="Bank Account Number..."
+					oninput="this.className = ''" id="bankaccountNumber"
+					name="bankaccountNumber">
+			</p>
+			<fmt:message key="label.maritalStatus"></fmt:message>
+			<p>
+				<select oninput="this.className = ''" name="marritalstatus">
+					<option value="Single">Single</option>
+					<option value="Married">Married</option>
+				</select>
+			</p>
+		</div>
+		<%
+			}
+		%>
+		<%
+			if (addressId != 0) {
+			getAddressObject = employeeDaoObject.getAddressDetails(addressId);
+		%>
+		<div class="tab">
+			Address:<br>
+			<br>
 
-<script>
+			<fmt:message key="label.country"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getCountryName()%>"
+					placeholder="Enter Country Name" oninput="this.className = ''"
+					id="country" name="country"></input>
+			</p>
+			<fmt:message key="label.state"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getStateName()%>"
+					placeholder="Enter State/Province/Region..."
+					oninput="this.className = ''" id="state" name="state">
+			</p>
+			<fmt:message key="label.city"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getCityName()%>"
+					placeholder="Enter City Name..." oninput="this.className =''"
+					id="city" name="city">
+			</p>
+			<fmt:message key="label.houseNo"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getHouseNumber()%>"
+					placeholder="Enter House No..." oninput="this.className = ''"
+					id="housenumber" name="housenumber">
+			</p>
+			<%
+				String addressData = getAddressObject.getAddressLine1();
+			if (addressData.indexOf('-') == -1) {
+			%>
+			<fmt:message key="label.addressLine1"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getAddressLine1()%>"
+					placeholder="Enter Address Line1..." oninput="this.className = ''"
+					id="addressLine1" name="addressLine1">
+			</p>
+			<fmt:message key="label.addressLine2"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input placeholder="Enter Address Line2"
+					oninput="this.className = ''" id="addressLine2" name="addressLine2">
+			</p>
+			<%
+				} else {
+			String[] bothAddresses = addressData.split("-");
+			// out.println("address data :"+addressData);
+			%>
+			<fmt:message key="label.addressLine1"></fmt:message>
+			<p>
+				<input value="<%=bothAddresses[0]%>"
+					placeholder="Enter Address Line1..." oninput="this.className = ''"
+					id="addressLine1" name="addressLine1">
+			</p>
+			<fmt:message key="label.addressLine2"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input value="<%=bothAddresses[1]%>"
+					placeholder="Enter Address Line2" oninput="this.className = ''"
+					id="addressLine2" name="addressLine2">
+			</p>
+			<%
+				}
+			if (getAddressObject.getStreetNumber() != 0) {
+			%>
+			<fmt:message key="label.streetnumber"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input value="<%=getAddressObject.getStreetNumber()%>"
+					placeholder="Enter Street Number" oninput="this.className = ''"
+					id="streetnumber" name="streetnumber">
+			</p>
+			<%
+				} else {
+			%>
+			<fmt:message key="label.streetnumber"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input placeholder="Enter Street Number"
+					oninput="this.className = ''" id="streetnumber" name="streetnumber">
+			</p>
+			<%
+				}
+			%>
+			<fmt:message key="label.pincode"></fmt:message>
+			<p>
+				<input value="<%=getAddressObject.getPincodeNumber()%>"
+					placeholder="Enter Pin Code..." oninput="this.className =''"
+					id="pincode" name="pincode">
+			</p>
+			<fmt:message key="label.addressType"></fmt:message>
+			<p>
+				<select oninput="this.className = ''" name="addressType">
+					<option value="0">Permanent</option>
+					<option value="1">Temporary</option>
+				</select>
+			</p>
+		</div>
+		<%
+			} else {
+		%>
+		<div class="tab">
+			Address:<br>
+			<br>
+
+			<fmt:message key="label.country"></fmt:message>
+			<p>
+				<input placeholder="Enter Country Name..."
+					oninput="this.className = ''" id="country" name="country">
+			</p>
+			<fmt:message key="label.state"></fmt:message>
+			<p>
+				<input placeholder="Enter State..." oninput="this.className = ''"
+					id="state" name="state">
+			</p>
+			<fmt:message key="label.city"></fmt:message>
+			<p>
+				<input placeholder="Enter City Name..." oninput="this.className =''"
+					id="city" name="city">
+			</p>
+			<fmt:message key="label.houseNo"></fmt:message>
+			<p>
+				<input placeholder="Enter House No..." oninput="this.className = ''"
+					id="housenumber" name="housenumber">
+			</p>
+			<fmt:message key="label.addressLine1"></fmt:message>
+			<p>
+				<input placeholder="Enter Address Line1..."
+					oninput="this.className = ''" id="addressLine1" name="addressLine1">
+			</p>
+			<fmt:message key="label.addressLine2"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input placeholder="Enter Address Line2"
+					oninput="this.className = ''" id="addressLine2" name="addressLine2">
+			</p>
+			<fmt:message key="label.streetnumber"></fmt:message>
+			<b><lable style="color:green">(Optional)</lable></b>
+			<p>
+				<input placeholder="Enter Street Number"
+					oninput="this.className = ''" id="streetnumber" name="streetnumber">
+			</p>
+			<fmt:message key="label.pincode"></fmt:message>
+			<p>
+				<input placeholder="Enter Pin Code..." oninput="this.className =''"
+					id="pincode" name="pincode">
+			</p>
+			<fmt:message key="label.addressType"></fmt:message>
+			<select oninput="this.className = ''" name="addressType">
+				<option value="0">Permanent</option>
+				<option value="1">Temporary</option>
+			</select>
+			</p>
+
+		</div>
+		<jsp:include page="Footer.jsp"></jsp:include>
+		<%
+			}
+		%>
+
+		<div style="overflow: auto;">
+			<div style="float: right; decoration: none">
+				<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+				<button type="button" id="nextBtn" onclick="nextPrev(1)">Submit</button>
+			</div>
+		</div>
+		<!-- Circles which indicates the steps of the form: -->
+		<div style="text-align: center; margin-top: 40px;">
+			<span class="step"></span> <span class="step"></span> <span
+				class="step"></span> <span class="step"></span>
+
+		</div>
+	</form>
+
+	<script>
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
@@ -643,7 +922,7 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
-</script> 
-<jsp:include page="Footer.jsp"></jsp:include>
+</script>
+	<jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>
