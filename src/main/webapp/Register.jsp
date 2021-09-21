@@ -336,8 +336,8 @@ div.scroll {
 			var checkNamewithspace = /^[a-zA-Z\s]*$/;
 			var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
 			var passwordPattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
-			/* alert(dataString);
-			alert("Do You Want to Add Employee !!!!"); */
+			/* alert(dataString);*/
+			alert("Do You Want to Add Employee !!!!"); 
 			if (salutation == "") {
 				alert("salutation must be filled out");
 				document.regiserForm.salutation.focus();
@@ -445,7 +445,7 @@ div.scroll {
 					type : "post",
 					success : function(data) {
 						if (data == 'True') {
-							
+							alert("You have Successfully Registered!!!");
 							$(location).attr('href', 'Login.jsp');
 						} else {
 							alert("You Have Already Register!! Try with Another Email and Mobile.")
