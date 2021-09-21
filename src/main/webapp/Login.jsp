@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
@@ -23,52 +23,67 @@ input {
 </style>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-	$(document).ready(function() {
-		$('#login').onsubmit(function() {
-			var email = $('#email').val();
-			var password = $('#password').val();
-			$.ajax({
-				type : "POST",
-				url : "LoginServlet",
-				data : {
-					"email" : email,
-					"password" : password
-				},
-				success : function(data) {
-					if (data == 'True') {
-						$(location).attr('href', 'Welcome.jsp');
-					} else {
-						alert('Invalid email and password....');
-					}
-				}
-			});
-		});
-	});
-</script>
+    $(document).ready(function(){
+       $('#login').click(function()
+       {
+    	   var email=$('#email').val();
+           var pwd=$('#password').val();
+    	   var emailpattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+   		var passwordpattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,15}$/;
+
+   		if (!email.match(emailpattern)) {
+   			alert("<fmt:message key="label.enter_email"></fmt:message>");
+   			return flag;
+   		}
+   		if (!pwd.match(passwordpattern)) {
+			alert("Password should contain atleast one LowerCase ,UpperCase,Digit,Special Character and length should be more than 5");
+			return flag;
+		}
+   		else
+   			{
+   			//alert("hii");          
+          //alert(email+" "+pwd);
+          $.ajax({
+               type: "POST",
+               url:"LoginServlet",
+               data:{"email":email,"password":pwd},
+               success: function (data) { 
+                  if(data=='True'){
+                    $(location).attr('href','Welcome.jsp');
+                  }else{
+                      alert('Please Enter valid email and password');
+                  }
+               }
+             });  
+    		   }         
+           });
+         });
+   </script>
 
 
-<script>
-	function validation() {
-		var email = document.loginform.email.value;
+<script> 
+ 	function validation() {
+		var email = document.email.value;
+		alert(email);
 		var password = document.loginform.password.value;
-
-		var flag = false;
+ 		var flag = false;
 
 		var emailpattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 		var passwordpattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,15}$/;
 
-		if (!email.match(emailpattern)) {
-			alert("<fmt:message key="label.enter_email"></fmt:message>");
-			return flag;
-		}
+ 		if (!email.match(emailpattern)) {
+ 			alert("<fmt:message key="label.enter_email"></fmt:message>");
+ 			return flag;
+ 		}
 
-		if (!password.match(passwordpattern)) {
-			alert("Password should contain atleast one LowerCase ,UpperCase,Digit,Special Character and length should be more than 5");
-			return flag;
-		}
-	}
-</script>
+ 		if (!password.match(passwordpattern)) {
+ 			alert("Password should contain atleast one LowerCase ,UpperCase,Digit,Special Character and length should be more than 5");
+ 			return flag;
+ 		}
+ 	}
+ </script> 
 <title>Login Page</title>
 <link rel="stylesheet" href="exstyle/style.css">
 
@@ -92,10 +107,11 @@ input {
 	<jsp:include page="HomePageHeader.jsp"></jsp:include>
 	<h2 style="text-color: green; padding-left: 300px"><jsp:include
 			page="Message.jsp"></jsp:include></h2>
-	<form style="width: 300px; padding-top: 100px; padding-left: 250px"
-		action="LoginServlet" method="POST" name="loginform" id="login"
-		onsubmit="return validation()">
-		<center style="padding-left: 250px">
+<!-- 	<form style="width: 300px; padding-top: 100px; padding-left: 250px" -->
+<!-- 		 name="loginform" id="" -->
+<!-- 		onsubmit="return validation()"> -->
+		<div style="padding-left: 500px;width: 300px; padding-top: 100px;" name="loginform">
+          
 			<fieldset>
 				<!-- Legend tag using -->
 				<b></b>
@@ -112,19 +128,21 @@ input {
 
 					<tr>
 						<td><b><fmt:message key="label.password"></fmt:message></b></td>
-						<td><input type="password" name="password" id="password"><span
+						<td><input type="password" name="password" id="password" onkeypress = " return validation() "><span
 							id="passworderror"></span></td>
 					</tr>
 					<tr>
-						<td><button type="submit" id="">Submit</button></td>
+						<td><button type="submit" id="login" >Submit</button></td>
 
 					</tr>
 
 
 				</table>
 			</fieldset>
-		</center>
-	</form>
+		</div>
+	
+	
+	
 	<br>
 	<br>
 	<jsp:include page="Footer.jsp"></jsp:include>
