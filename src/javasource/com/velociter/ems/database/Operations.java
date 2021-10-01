@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.velociter.ems.model.Address;
 import com.velociter.ems.model.Country;
+import com.velociter.ems.model.Designation;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Manager;
@@ -96,7 +97,7 @@ public class Operations {
 
 	public int registerEmployee(Employee employeeobject) throws SQLException, ParseException {
 
-		insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,ISDCODE,MOBILENUMBER,MANAGERNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
+		insertQuery = "INSERT INTO EMPLOYEE (EMPID,SALUTATION,FIRSTNAME,MIDDLENAME,LASTNAME,EMAIL,ISDCODE,MOBILENUMBER,DESIGNATIONNAME,DOJ,PASSWORD,CREATIONDATE,LASTMODIFIED_DATE,PROJECTID)"
 				+ "VALUES(EMPLOYEESEQUENCE.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		prepareStatementObject = dbConnection.prepareStatement(insertQuery);
@@ -110,7 +111,7 @@ public class Operations {
 		prepareStatementObject.setString(6, employeeobject.getisdCode());
 		prepareStatementObject.setLong(7, employeeobject.getMobileNumber());
 
-		prepareStatementObject.setString(8, employeeobject.getManagerName());
+		prepareStatementObject.setString(8, employeeobject.getDesignationName());
 
 		// here we send the date of joining to the changeDateFormate() to get date in
 		// "DD-MMM-YYYY" format
@@ -194,7 +195,7 @@ public class Operations {
 		Employee employee = null;
 		try {
 
-			String query = "select SALUTATION,FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,ISDCODE,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,MANAGERNAME,CREATIONDATE,LASTMODIFIED_DATE from EMPLOYEE where EMPID="
+			String query = "select SALUTATION,FIRSTNAME,FAMILYID,MIDDLENAME,LASTNAME,ISDCODE,MOBILENUMBER,ALTERNATEMOBILENUMBER,EMAIL,DOJ,PROJECTID,DESIGNATIONNAME,CREATIONDATE,LASTMODIFIED_DATE from EMPLOYEE where EMPID="
 					+ empId;
 			PreparedStatement psmt = dbConnection.prepareStatement(query);
 			ResultSet resultSet = psmt.executeQuery();
@@ -210,7 +211,7 @@ public class Operations {
 				employee.setEmailId(resultSet.getString("EMAIL"));
 				employee.setMobileNumber(Long.parseLong(resultSet.getString("MOBILENUMBER")));
 				employee.setDateOfJoining(resultSet.getString("DOJ"));
-				employee.setManagerName(resultSet.getString("MANAGERNAME"));
+				employee.setDesignationName(resultSet.getString("DESIGNATIONNAME"));
 				employee.setProjectId(resultSet.getInt("PROJECTID"));
 				employee.setAlternateContactNumber(Long.parseLong(resultSet.getString("ALTERNATEMOBILENUMBER")));
 				employee.setCreationDate(resultSet.getString("CREATIONDATE"));
@@ -250,11 +251,11 @@ public class Operations {
 		int employeeUpdateCount = 0;
 		try {
 
-			String query = "UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,MANAGERNAME=? ,PROJECTID=?,LASTMODIFIED_DATE=? where empid="
+			String query = "UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,DESIGNATIONNAME=? ,PROJECTID=?,LASTMODIFIED_DATE=? where empid="
 					+ employee.getEmployeeId();
 			PreparedStatement psmt = dbConnection.prepareStatement(query);
 			psmt.setLong(1, employee.getAlternateContactNumber());
-			psmt.setString(2, employee.getManagerName());
+			psmt.setString(2, employee.getDesignationName());
 			psmt.setInt(3, employee.getProjectId());
 			employee.setLastModifiedDate(commonOperationObject.getCreationDate());
 			psmt.setString(4, employee.getLastModifiedDate());
@@ -323,16 +324,16 @@ public class Operations {
 
 	// method for getting manager name
 
-	public ArrayList<Manager> getManagerList() {
-		ArrayList<Manager> mngResultSet = new ArrayList<Manager>();
+	public ArrayList<Designation> getDesignationList() {
+		ArrayList<Designation> mngResultSet = new ArrayList<Designation>();
 		try {
-			String query = "select * from MANAGER ";
+			String query = "select * from DESIGNATION ";
 			PreparedStatement psmt = dbConnection.prepareStatement(query);
 			ResultSet resultSet = psmt.executeQuery();
 			while (resultSet.next()) {
-				Manager manager = new Manager();
-				manager.setManagerName(resultSet.getString("MANAGERNAME"));
-				mngResultSet.add(manager);
+				Designation designation = new Designation();
+				designation.setDesignationName(resultSet.getString("DESIGNATIONNAME"));
+				mngResultSet.add(designation);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

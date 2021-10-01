@@ -1,9 +1,13 @@
 package com.velociter.ems.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,9 +15,12 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Projections;
 
 import com.velociter.ems.interfaces.EmployeeInterface;
 import com.velociter.ems.model.Address;
+import com.velociter.ems.model.Admin;
+import com.velociter.ems.model.Designation;
 import com.velociter.ems.model.Employee;
 import com.velociter.ems.model.Family;
 import com.velociter.ems.model.Manager;
@@ -76,6 +83,7 @@ public class EmployeeDAO implements EmployeeInterface {
 		employeeObject.setEmailId(employeeObject.getEmailId());
 		employeeObject.setisdCode(employeeObject.getisdCode());
 		employeeObject.setMobileNumber(employeeObject.getMobileNumber());
+		employeeObject.setDesignationName(employeeObject.getDesignationName());
 		employeeObject.setManagerName(employeeObject.getManagerName());
 		// empObject.setDateOfJoining(employeeObject.);
 
@@ -93,7 +101,42 @@ public class EmployeeDAO implements EmployeeInterface {
 		System.out.println("registerStatus value  :" + registerStatus);
 		return registerStatus;
 	}
+	
+	public void addNew(Object object) throws ParseException {
+		Employee employeeObject = new Employee();
+		employeeObject = (Employee) object;
+		System.out.println("user data in UserDao:" + employeeObject.toString());
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		// empObject.setEmployeeId(employeeObject.getEmployeeId());
+		employeeObject.setFirstName(employeeObject.getFirstName());
+		employeeObject.setMiddleName(employeeObject.getMiddleName());
+		employeeObject.setLastName(employeeObject.getLastName());
+		employeeObject.setSalutation(employeeObject.getSalutation());
+		employeeObject.setEmailId(employeeObject.getEmailId());
+		employeeObject.setisdCode(employeeObject.getisdCode());
+		employeeObject.setMobileNumber(employeeObject.getMobileNumber());
+		employeeObject.setDesignationName(employeeObject.getDesignationName());
+		employeeObject.setManagerName(employeeObject.getManagerName());
+		// empObject.setDateOfJoining(employeeObject.);
 
+		employeeObject.setCreationDate(commonOperationObject.getCreationDate());
+		String afterChangeDateOfJoin = commonOperationObject.changeDateFormate(employeeObject.getDateOfJoining());
+		employeeObject.setDateOfJoining(afterChangeDateOfJoin);
+		employeeObject.setProjectId(employeeObject.getProjectId());
+		employeeObject.setPassword(employeeObject.getPassword());
+		employeeObject.setLastModifiedDate(commonOperationObject.getCreationDate());
+		System.out.println("Employee Data Before save:" + employeeObject.toString());
+		session.saveOrUpdate(employeeObject);
+
+		t.commit();
+		session.close();
+	}
+
+	
 	// ======================================================================================================================================
 	public boolean checkExistingEmail(Employee employeObject) {
 		String email = employeObject.getEmailId();
@@ -299,6 +342,21 @@ public class EmployeeDAO implements EmployeeInterface {
 		t.commit();
 		return managerObject;
 	}
+	
+	public List<Manager> getManagerListData() {
+
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		System.out.println("Control is comming in get Employee list");
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		List<Manager> employees = session.createQuery("FROM Manager").list();
+		System.out.println("EmployeeData:" + employees.toString());
+		t.commit();
+		return employees;
+	}
+
 	// ======================================================================================================================================
 
 	public List<Manager> getManagerNames() {
@@ -337,6 +395,143 @@ public class EmployeeDAO implements EmployeeInterface {
 		return mapObject;
 	}
 
+	// ====================================================================
+
+	public Admin loginAdmin(String username, String password) {
+		Admin admin = null;
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		System.out.println("username and password in empDao:" + username + " " + password);
+		try {
+			String query = "from Admin as a where a.username=:username and a.password=:password";
+			Query queryObject = session.createQuery(query);
+			queryObject.setParameter("username", username);
+			queryObject.setParameter("password", password);
+			System.out.println("1");
+			admin = (Admin) queryObject.getSingleResult();
+			System.out.println("2");
+			System.out.println("id after login :" + admin.getId());
+			System.out.println("if wrong password Admin data " + admin.toString());
+			t.commit();
+		} catch (Exception e) {
+			admin = null;
+			// System.out.println("if wrong password Employee data " + employee.toString());
+		}
+		return admin;
+	}
+
+	// ===================================================================================================================
+
+	public List<Employee> getListPaggination(int s, int numberOfRecordsPerPage) {
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		System.out.println("Control is comming in get Employee list");
+		Session session = factory.openSession();
+
+		Criteria crit = session.createCriteria(Employee.class);
+		crit.setFirstResult(s);
+		System.out.println("S For : " + s);
+		crit.setMaxResults(numberOfRecordsPerPage);
+		System.out.println("Number OF Records Page For : " + s);
+		// crit.setProjection(Projections.rowCount());
+		System.out.println(crit);
+		List<Employee> listEmployee = crit.list();
+		return listEmployee;
+	}
+
+	// ===================================================================================================================
+
+	public List<Employee> setPaggination() {
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		System.out.println("Control is comming in get Employee list");
+		Session session = factory.openSession();
+
+		Criteria crit1 = session.createCriteria(Employee.class);
+		crit1.setProjection(Projections.rowCount());
+		List<Employee> listEmployee = crit1.list();
+		return listEmployee;
+	}
+
+	//private static int pageSize = 5;
+	public static List getPageData(int pageNumber, int pageSize) {
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		System.out.println("Control is comming in get Employee list");
+		Session session = factory.openSession();
+		List result = null;
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery("from Employee");
+			query = query.setFirstResult(pageSize * (pageNumber - 1));
+			query.setMaxResults(pageSize);
+			result = query.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	public static long getNoOfRecords() {
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		System.out.println("Control is comming in get Employee list");
+		Session session = factory.openSession();
+		long count = (long)session. createQuery("SELECT COUNT(e) FROM Employee e"). getSingleResult();
+		return count;
+	}
+	
+	public List<Designation> getDesignationNames() {
+		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+		System.out.println("controll is comming");
+		Query query = session.createQuery("from Designation");// here persistent class name is Manager
+		List<Designation> listObject = query.getResultList();
+		System.out.println("list data :" + listObject.toString());
+		t.commit();
+		session.close();
+		return listObject;
+	}
+	
+	/*-------------------------------------------------------*/
+	public Designation getDesignationById(int did){
+		Designation des = null;
+        StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		Session session = factory.openSession();
+        try{
+            des = (Designation) session.get(Designation.class, did);
+            session.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return des;
+    }
+	//get all products of given category
+    public List<Employee> getAllEmployeesById(int did){
+    	StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+		SessionFactory factory = meta.getSessionFactoryBuilder().build();
+		Session session = factory.openSession();
+        Query query = session.createQuery("from Employee as e where e.designation.designationId=:id");
+        query.setParameter("id", did);
+        List<Employee> list = query.list();
+        return list;
+    }
+    /*-----------------------------------------------------------*/
 	/*
 	 * //=============================================Add Family
 	 * Details====================================================================
