@@ -18,5 +18,7 @@
 		<mapping class="com.velociter.ems.model.Project" />
 		<mapping class="com.velociter.ems.model.PersonalInformation" />
 		<mapping class="com.velociter.ems.model.Employee" />
+		<mapping class="com.velociter.ems.model.Admin" />
+		<mapping class="com.velociter.ems.model.Designation" />
 	</session-factory>
 </hibernate-configuration>
