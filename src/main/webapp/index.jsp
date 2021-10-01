@@ -112,7 +112,7 @@ body {
 				<form class="form" id="myForm" name="loginForm" action=""
 					method="post">
 					<table class="box">
-						<h2 style="margin: 50px 24px;">Sign In Here</h2>
+						<h2 style="margin: 50px 24px;">Employee Sign In Here</h2>
 						<tr>
 							<td>Email id:</td>
 							<td><input style="margin-bottom: 10px;" type="text"

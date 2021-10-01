@@ -260,7 +260,7 @@ input {
 							<td><label>Manager Name:</label></td>
 							<td>
 								<%
-									String managerNamedata = (employeeList.getManagerName() != null) ? employeeList.getManagerName() : "NA";
+									String managerNamedata = (employeeList.getDesignationName() != null) ? employeeList.getDesignationName() : "NA";
 								%> <%=managerNamedata%>
 							</td>
 						</tr>

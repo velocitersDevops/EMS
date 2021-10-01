@@ -185,7 +185,7 @@ input {
 								<td><label>Manager Name:</label></td>
 								<td>
 									<%
-										String managerNamedata = (employeeObject.getManagerName() != null) ? employeeObject.getManagerName() : "NA";
+										String managerNamedata = (employeeObject.getDesignationName() != null) ? employeeObject.getDesignationName() : "NA";
 									%> <%=managerNamedata%>
 								</td>
 							</tr>

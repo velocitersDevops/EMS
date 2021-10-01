@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page import="com.velociter.ems.model.*"%>
 <%@ page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@ page import="java.util.HashMap"%>
@@ -11,7 +12,7 @@
 	Project projectObject = new Project();
 EmployeeDAO employeeDaoObject = new EmployeeDAO();
 HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap  
-ArrayList<Manager> arraylistObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
+ArrayList<Designation> arraylistObject = new ArrayList<Designation>(employeeDaoObject.getDesignationNames());
 // out.println("manager name  :"+arraylistObject.get(1).getManagerName());
 %>
 <!DOCTYPE html>
@@ -150,7 +151,7 @@ div.scroll {
 			utilsScript : "js/utils.js"
 
 		});
-		$('#manager').click(
+		$('#designation').click(
 				function() {
 					$('#dialCode').val(
 							$("#txtPhone").intlTelInput(
@@ -166,8 +167,9 @@ div.scroll {
 	<jsp:include page="HomePageHeader.jsp"></jsp:include>
 	<a href="AddProject.jsp">Add Project</a> &nbsp;&nbsp;&nbsp;
 	<a href="AddManager.jsp">Add Manager</a>
-	<form name="regiserForm" action="" 
-		class="form" id="myForm" method="post"><!-- onsubmit="return validateForm()" -->
+	<form name="regiserForm" action="" class="form" id="myForm"
+		method="post">
+		<!-- onsubmit="return validateForm()" -->
 		<br>
 		<table class="center" id="left1" style="width: 30%">
 			<tr align="center">
@@ -180,6 +182,9 @@ div.scroll {
 								</h3></td>
 						</tr>
 						<tr>
+							<input type="hidden" name="d_Id" id="d_Id" />
+						</tr>
+						<tr>
 							<td><b>Salutation:</b></td>
 							<td><input type="text" name="salutation" id="salutation"
 								style="width: 173px" placeholder="Enter Salutation"></td>
@@ -187,8 +192,7 @@ div.scroll {
 						<tr>
 							<td><b>First Name:</b></td>
 							<td><input type="text" name="firstname" id="fname"
-								style="width: 173px" placeholder="Enter first name">
-							</td>
+								style="width: 173px" placeholder="Enter first name"></td>
 						</tr>
 						<tr>
 							<td><b>Middle Name:</b></td>
@@ -226,26 +230,47 @@ div.scroll {
 								id="dialCode" name="dialCode"> <input type="hidden"
 								id="mobileNumber" name="mobileNumber"></td>
 						</tr>
-
 						<tr>
-							<td><b>Manager Name:</b></td>
+							<td><b>Designation Name:</b></td>
 							<!-- 				<td><input type="text" id="managerName" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+
 							<td><select style="font-size: 11px; width: 180px;"
-								name="managername" id="manager" style="width: 173px">
-									<option>Select Manager</option>
+								name="designationname" id="designation" class="select"
+								onchange="displayDivDemo('manager', this)"
+								style="width: 173px;">
+									<option>Select Designation</option>
 									<%
-										String managerName = null;
-									ListIterator<Manager> iterator = arraylistObject.listIterator();
-									while (iterator.hasNext()) {
-										managerName = iterator.next().getManagerName();
+										List<Designation> dlist = employeeDaoObject.getDesignationNames();
+									for (Designation d : dlist) {
 									%>
-									<option value="<%=managerName%>">
-										<%=managerName%><br>
+									<option value="<%=d.getDesignationId()%>">
+										<%=d.getDesignationName()%><br>
 									</option>
 									<%
 										}
 									%>
 							</select></td>
+						</tr>
+						<tr>
+							<td id="managertd"><b>Manager Name:</b></td>
+							<!-- 				<td><input type="text" id="managerName" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+
+							<td><select style="font-size: 11px; width: 180px;"
+								name="managername" id="manager" style="width: 173px;">
+									<option value="">Select Manager</option>
+									<%
+										int did = 5;
+									List<Employee> nlist = employeeDaoObject.getAllEmployeesById(did);
+									for (Employee e : nlist) {
+									%>
+									<option value="<%=e.getFirstName() + " " + e.getLastName()%>">
+										<%=e.getFirstName() + " " + e.getLastName()%><br>
+									</option>
+									<%
+										}
+									%>
+							</select></td>
+
 						</tr>
 						<tr>
 							<td><b>Date Of Join:</b></td>
@@ -306,8 +331,14 @@ div.scroll {
 
 		</table>
 	</form>
-
 	<script>
+		function displayDivDemo(id, elementValue) {
+			document.getElementById(id).style.display = elementValue.value == 5 ? 'none'
+					: 'block';
+			document.getElementById('managertd').style.display = elementValue.value == 5 ? 'none'
+				: 'block';
+		}
+
 		function formSubmit() {
 			var salutation = document.getElementById("salutation").value;
 			var firstname = document.getElementById("fname").value;
@@ -316,6 +347,22 @@ div.scroll {
 			var email = document.getElementById("email").value;
 			var dialCode = document.getElementById("dialCode").value;
 			var mobileNumber = document.getElementById("mobileNumber").value;
+			/* var designation = document.getElementById("designation").value; */
+
+			/* alert("HIII "+designation); */
+			var e = document.getElementById("designation");
+			var strUser = e.options[e.selectedIndex].value;
+			var designation = e.options[e.selectedIndex].text;
+
+			var d_Id = document.getElementById("d_Id").value = strUser;
+			/* alert("First str : " + strUser);
+			alert("Second designation : " + designation);
+			alert("D_DID IS : " + d_Id); */
+
+			/* var manager = document.getElementById("manager").value; */
+			/* if(document.getElementById("manager").value === ' '){
+				
+			} */
 			var manager = document.getElementById("manager").value;
 			var dateofjoin = document.getElementById("dateofjoin").value;
 			var projectIds = document.getElementById("projectIds").value;
@@ -324,11 +371,12 @@ div.scroll {
 			var dataString = 'salutation=' + salutation + '&firstname='
 					+ firstname + '&middlename=' + middlename + '&lastname='
 					+ lastname + '&email=' + email + '&dialCode=' + dialCode
-					+ '&mobileNumber=' + mobileNumber + '&manager=' + manager
-					+ '&dateofjoin=' + dateofjoin + '&projectIds=' + projectIds
-					+ '&typepass=' + password + +'&confirmpassword='
-					+ confirmpassword;
-			
+					+ '&mobileNumber=' + mobileNumber + '&designation='
+					+ designation + '&manager=' + manager + '&dateofjoin='
+					+ dateofjoin + '&projectIds=' + projectIds + '&typepass='
+					+ password + '&confirmpassword=' + confirmpassword;
+
+			alert(dataString);
 			var myDateOFjoin = new Date(dateofjoin);
 			var currentDate = new Date();
 			var checkString = /^[a-zA-Z]+$/;
@@ -337,7 +385,7 @@ div.scroll {
 			var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
 			var passwordPattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
 			/* alert(dataString);*/
-			alert("Do You Want to Add Employee !!!!"); 
+			alert("Do You Want to Add Employee !!!!");
 			if (salutation == "") {
 				alert("salutation must be filled out");
 				document.regiserForm.salutation.focus();
@@ -369,7 +417,7 @@ div.scroll {
 			} else if (!(email.match(mailformat))) {
 				alert("You have entered an invalid email address!"); //The pop up alert for an invalid email address
 				document.regiserForm.email.focus();
-				return false; 
+				return false;
 			} else if (mobileNumber == "") {
 				alert("Mobile Number must be filled out! ");
 				document.regiserForm.mobile.focus();
@@ -380,17 +428,27 @@ div.scroll {
 				console.log(mobileNumber);
 				document.regiserForm.mobile.focus();
 				return false;
-			} else if (manager === "Select Manager") {
-				alert("Manager Name must be filled out");
-				document.regiserForm.managername.focus();
-				console.log(manager);
+			} else if (designation === "Select Designation") {
+				alert("Designation Name must be filled out");
+				document.regiserForm.designationname.focus();
+				console.log(designation);
 				return false;
-			} else if (!(manager.match(checkNamewithspace))) {
-				alert("Manager Name Should be contains Only character and space");
-				document.regiserForm.managername.focus();
-				console.log(manager);
+			} else if (!(designation.match(checkNamewithspace))) {
+				alert("Designation Name Should be contains Only character and space");
+				document.regiserForm.designationname.focus();
+				console.log(designation);
 				return false;
-			} else if (dateofjoin == "") {
+			} /* else if (manager === "Select Manager") {
+								alert("Designation Name must be filled out");
+								document.regiserForm.managername.focus();
+								console.log(manager);
+								return false;
+							} else if (!(manager.match(checkNamewithspace))) {
+								alert("Manager Name Should be contains Only character and space");
+								document.regiserForm.managername.focus();
+								console.log(manager);
+								return false;
+							} */else if (dateofjoin == "") {
 				alert("Date Of Joining must be filled out");
 				console.log(dateofjoin);
 				return false;
@@ -426,34 +484,37 @@ div.scroll {
 				alert("Password And Confirm Password must & Should be Same");
 				document.regiserForm.confirmpassword.focus();
 				return false;
-			}else{
-				jQuery.ajax({
-					url : "register",
-					data : {
-						"salutation" : salutation,
-						"firstname" : firstname,
-						"middlename" : middlename,
-						"lastname" : lastname,
-						"email" : email,
-						"dialCode" : dialCode,
-						"mobileNumber" : mobileNumber,
-						"managername" : manager,
-						"dateofjoin" : dateofjoin,
-						"ceckvalues" : projectIds,
-						"passsword" : password
-					},
-					type : "post",
-					success : function(data) {
-						if (data == 'True') {
-							alert("You have Successfully Registered!!!");
-							$(location).attr('href', 'Login.jsp');
-						} else {
-							alert("You Have Already Register!! Try with Another Email and Mobile.")
-						}
-					}
-				});
+			} else {
+				jQuery
+						.ajax({
+							url : "register",
+							data : {
+								"salutation" : salutation,
+								"firstname" : firstname,
+								"middlename" : middlename,
+								"lastname" : lastname,
+								"email" : email,
+								"dialCode" : dialCode,
+								"mobileNumber" : mobileNumber,
+								"designationname" : designation,
+								"managername" : manager,
+								"d_Id" : d_Id,
+								"dateofjoin" : dateofjoin,
+								"ceckvalues" : projectIds,
+								"passsword" : password
+							},
+							type : "post",
+							success : function(data) {
+								if (data == 'True') {
+									alert("You have Successfully Registered!!!");
+									$(location).attr('href', 'Login.jsp');
+								} else {
+									alert("You Have Already Register!! Try with Another Email and Mobile.")
+								}
+							}
+						});
 			}
-				return false;
+			return false;
 		}
 	</script>
 	<jsp:include page="Footer.jsp"></jsp:include>

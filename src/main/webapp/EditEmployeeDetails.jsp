@@ -161,7 +161,7 @@ button:hover {
 	<%
 		employeeDaoObject = new EmployeeDAO();
 	employee = employeeDaoObject.getEmployeeDetails(empId);
-	ArrayList<Manager> managerObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
+	ArrayList<Designation> designationObject = new ArrayList<Designation>(employeeDaoObject.getDesignationNames());
 	HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap
 	System.out.println("    addressId is :" + addressId);
 
@@ -229,7 +229,7 @@ button:hover {
 			<%
 				}
 			%>
-			<fmt:message key="label.managerName"></fmt:message>
+			<fmt:message key="label.designationName"></fmt:message>
 			<div class="input-group" style="width: 600px">
 				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
 				<select name="managerName" class="custom-select"
@@ -237,19 +237,19 @@ button:hover {
 					aria-label="Example select with button addon">
 					<%--       <option selected><%=employee.getManagerName() %></option> --%>
 					<%
-						for (int i = 0; i < managerObject.size(); i++) {
-						String name = managerObject.get(i).getManagerName();
-						String name1 = employee.getManagerName();
+						for (int i = 0; i < designationObject.size(); i++) {
+						String name = designationObject.get(i).getDesignationName();
+						String name1 = employee.getDesignationName();
 					%>
 					<%--        <option selected><%=employee.getManagerName() %></option> --%>
 					<%
-						if (managerObject.get(i).getManagerName().equals(employee.getManagerName())) {
+						if (designationObject.get(i).getDesignationName().equals(employee.getDesignationName())) {
 					%>
-					<option selected><%=employee.getManagerName()%></option>
+					<option selected><%=employee.getDesignationName()%></option>
 					<%
 						} else {
 					%>
-					<option><%=managerObject.get(i).getManagerName()%></option>
+					<option><%=designationObject.get(i).getDesignationName()%></option>
 					<%
 						}
 					}
