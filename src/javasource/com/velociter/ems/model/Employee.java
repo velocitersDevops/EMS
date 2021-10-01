@@ -1,10 +1,14 @@
 package com.velociter.ems.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +34,8 @@ public class Employee {
 	private String lastName;
 	@Column(name = "DOJ")
 	private String dateOfJoining;
+	@Column(name = "DESIGNATIONNAME")
+	private String designationName;
 	@Column(name = "MANAGERNAME")
 	private String managerName;
 	@Column(name = "PROJECTID")
@@ -48,6 +54,26 @@ public class Employee {
 	private String creationDate;
 	@Column(name = "LASTMODIFIED_DATE")
 	private String lastModifiedDate;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "D_Id")
+	private Designation designation;
+
+	public Designation getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(Designation designation) {
+		this.designation = designation;
+	}
+
+	public String getIsdCode() {
+		return isdCode;
+	}
+
+	public void setIsdCode(String isdCode) {
+		this.isdCode = isdCode;
+	}
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -71,6 +97,14 @@ public class Employee {
 
 	public void setFamilyId(int familyId) {
 		this.familyId = familyId;
+	}
+
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 
 	public int getAddressId() {
@@ -121,12 +155,12 @@ public class Employee {
 		this.dateOfJoining = dateOfJoining;
 	}
 
-	public String getManagerName() {
-		return managerName;
+	public String getDesignationName() {
+		return designationName;
 	}
 
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
+	public void setDesignationName(String designationName) {
+		this.designationName = designationName;
 	}
 
 	public int getProjectId() {
@@ -198,10 +232,10 @@ public class Employee {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
 				+ ", addressId=" + addressId + ", salutation=" + salutation + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", dateOfJoining=" + dateOfJoining
-				+ ", managerName=" + managerName + ", projectId=" + projectId + ", emailId=" + emailId + ", isdCode="
-				+ isdCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber=" + alternateContactNumber
-				+ ", password=" + password + ", creationDate=" + creationDate + ", lastModifiedDate=" + lastModifiedDate
-				+ "]";
+				+ ", designationName=" + designationName + ", projectId=" + projectId + ", emailId=" + emailId
+				+ ", isdCode=" + isdCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber="
+				+ alternateContactNumber + ", password=" + password + ", creationDate=" + creationDate
+				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 }
