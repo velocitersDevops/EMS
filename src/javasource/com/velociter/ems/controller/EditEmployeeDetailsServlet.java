@@ -44,7 +44,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		System.out.println("empid :" + empId + "  ," + "personalInfoId  :" + personalInfoid + " ,familyId " + familyId
 				+ " , " + "addressId :" + addressId);
 
-		String managerName = req.getParameter("managerName");
+		String designationName = req.getParameter("designationName");
 		int projectId = Integer.parseInt(req.getParameter("projectName"));
 		// String firstName=req.getParameter("firstName");
 		// String middleName=req.getParameter("middleName");
@@ -72,7 +72,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		}
 		// employee.setDateOfJoining(dateOfJoining);
 		employee.setEmployeeId(empId);
-		employee.setManagerName(managerName);
+		employee.setDesignationName(designationName);
 		employee.setProjectId(projectId);
 
 		// Creating family Object and set the data

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.interfaces.EmployeeInterface;
+import com.velociter.ems.model.Designation;
 import com.velociter.ems.model.Employee;
 
 //@WebServlet("/EmployeeRegisterServlet")
@@ -41,13 +42,13 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		// and directaly storing te employee information into the model
 		// class(Employee.java)
 		// by using setter methods
-		
+
 		// by using setter methods
-				ServletContext context=getServletConfig().getServletContext();
-				String user=context.getInitParameter("Email");  //admin Email
-				String pass=context.getInitParameter("password");  //admin password
-				//out.print(user);  //for debugging 
-				//out.print(pass);  //for debugging
+		ServletContext context = getServletConfig().getServletContext();
+		String user = context.getInitParameter("Email"); // admin Email
+		String pass = context.getInitParameter("password"); // admin password
+		// out.print(user); //for debugging
+		// out.print(pass); //for debugging
 
 		Employee employeeObject = new Employee();
 		employeeObject.setSalutation(request.getParameter("salutation"));
@@ -62,8 +63,24 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		employeeObject.setisdCode(request.getParameter("dialCode"));
 		employeeObject.setMobileNumber(Long.parseLong(request.getParameter("mobileNumber")));
 //		employeeObject.setAlternateContactNumber(Long.parseLong(request.getParameter("altercontactno")));
+		employeeObject.setDesignationName(request.getParameter("designationname"));
+
+				
 		employeeObject.setManagerName(request.getParameter("managername"));
+		System.out.println("EMPLOYEE Manager name :" + employeeObject.getManagerName());
+		String mngrName = employeeObject.getManagerName()=="" ? "NA" : employeeObject.getManagerName();
+		System.out.println("" + mngrName);
+		employeeObject.setManagerName("" + mngrName);
+		
+		/* employeeObject.setManagerName(request.getParameter("managername")); */
 		employeeObject.setDateOfJoining(request.getParameter("dateofjoin"));
+
+		Designation designation = new Designation();
+		int did = Integer.parseInt(request.getParameter("d_Id"));
+		designation.setDesignationId(did);
+		String dname = request.getParameter("designationname");
+		designation.setDesignationName(dname);
+		employeeObject.setDesignation(designation);
 
 		// String projectids[] =request.getParameterValues("ceckvalues");
 		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
@@ -77,7 +94,8 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		try {
 			if (employeeDaoObject.checkExistingEmail(employeeObject) == false) {
 
-				out.println("Entered EmailId OR Mobile Number Already Registerd ! Try With Another Emailid OR Mobile Number.");
+				out.println(
+						"Entered EmailId OR Mobile Number Already Registerd ! Try With Another Emailid OR Mobile Number.");
 //				RequestDispatcher requestDispaterObject = request.getRequestDispatcher("RegisterStatus.jsp");
 //				requestDispaterObject.include(request, response);
 				out.print("False");
@@ -85,6 +103,9 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 			} else {
 
 				registerStatus = employeeDaoObject.add(employeeObject);
+
+				/* employeeDaoObject.addNew(employeeObject); */
+
 				// debug
 				System.out.println("status of register :" + registerStatus);
 				// registerStatus = registerObject.registerEmployee(employeeObject);
@@ -103,39 +124,29 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 					// requestDispaterObject.include(request, response);
 
 					HttpSession session = request.getSession();
-				//	session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
+					// session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
 //					response.sendRedirect("Login.jsp");
-					
-				
-					String to=request.getParameter("email");
-					String subject="Thankyou for Registering with EMS";
-					String msg="hii "+request.getParameter("firstname")+"\n"
-					+"\n"	
-					+"Your login Credential "+"\n"		
-					+"Email    : "+request.getParameter("email")+"\n"
-					+"Password : "+request.getParameter("passsword")+"\n"
-					+"\n"
-					+"Note.Please do not share your login credential to anyone"+"\n"
-					+"Regards"+"\n"
-					+"Ems Team"+"\n"
-					+"Thank You";
-				
-					boolean mailStatus=Mailer.send(to, subject, msg,user,pass);
-				
-					//response.sendRedirect("Login.jsp");
-					System.out.print("mail sended");
-					
-					if(mailStatus==true)
-					{
+
 					out.print("True");
-					session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
-					//out.print("True");
-				    }
-					else
-					{
-						out.print("");
-					}
-					}
+					/*
+					 * String to=request.getParameter("email"); String
+					 * subject="Thankyou for Registering with EMS"; String
+					 * msg="hii "+request.getParameter("firstname")+"\n" +"\n"
+					 * +"Your login Credential "+"\n"
+					 * +"Email    : "+request.getParameter("email")+"\n"
+					 * +"Password : "+request.getParameter("passsword")+"\n" +"\n"
+					 * +"Note.Please do not share your login credential to anyone"+"\n"
+					 * +"Regards"+"\n" +"Ems Team"+"\n" +"Thank You";
+					 * 
+					 * boolean mailStatus=Mailer.send(to, subject, msg,user,pass);
+					 * 
+					 * //response.sendRedirect("Login.jsp"); System.out.print("mail sended");
+					 * 
+					 * if(mailStatus==true) { out.print("True");
+					 * session.setAttribute(EmployeeInterface.MESSAGE, "Registration Successful");
+					 * //out.print("True"); } else { out.print(""); }
+					 */
+				}
 			}
 		} catch (NullPointerException npex) {
 			out.println(
