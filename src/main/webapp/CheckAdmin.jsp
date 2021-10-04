@@ -9,11 +9,11 @@
 <%@page import="java.util.*"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%
-Employee employee = new Employee();
+	Employee employee = new Employee();
 EmployeeDAO employeeDaoObject = new EmployeeDAO();
 
 int empId = Integer.parseInt(request.getParameter("id"));
-System.out.println("IDS is : "+empId);
+System.out.println("IDS is : " + empId);
 employee = employeeDaoObject.getFourIds(empId); //getting Id's of employee to display his data in page
 int personalInfoId = employee.getPersonalInfoId(); //personalInfoId of employee from employee table
 int familyId = employee.getFamilyId(); //familyId of employee from employee table
@@ -22,6 +22,11 @@ int addressId = employee.getAddressId(); //address Id of employee from employee 
 System.out.println("personalInfoId is :" + personalInfoId);
 System.out.println(" familyId is :" + familyId);
 System.out.println("addressId is :" + addressId);
+
+ServletContext context = getServletContext();
+int managerId = Integer.parseInt(context.getInitParameter("managerId"));
+System.out.println("Manager ID From WEB.XML : " + managerId);
+List<Employee> empManagerObject = employeeDaoObject.getAllEmployeesById(managerId);
 %>
 
 
@@ -217,7 +222,7 @@ button:hover {
 			<fmt:message key="label.designationName"></fmt:message>
 			<div class="input-group" style="width: 600px">
 				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
-				<select name="managerName" class="custom-select"
+				<select name="designationName" class="custom-select"
 					id="inputGroupSelect04"
 					aria-label="Example select with button addon">
 					<%--       <option selected><%=employee.getManagerName() %></option> --%>
@@ -242,6 +247,47 @@ button:hover {
 				</select>
 			</div>
 			<br>
+
+
+			<fmt:message key="label.managerName"></fmt:message>
+			<div class="input-group" style="width: 600px">
+				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
+				<select name="managerName" class="custom-select"
+					id="inputGroupSelect04"
+					aria-label="Example select with button addon">
+					<%--       <option selected><%=employee.getManagerName() %></option> --%>
+
+					<%-- <%
+						for (Employee e : empManagerObject) {
+					%> 
+					<option selected><%=e.getManagerName()%><br>
+					</option>
+					<%
+					}
+					%> --%>   
+					<%
+						for (int i = 0; i < empManagerObject.size(); i++) {
+						String name = empManagerObject.get(i).getManagerName();
+						String name1 = employee.getManagerName();
+					%>
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+						if (empManagerObject.get(i).getManagerName().equals(employee.getManagerName())) {
+					%>
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+						} else {
+					%>
+					<option><%=empManagerObject.get(i).getManagerName()%></option>
+					<%
+						}
+					}
+					%> 
+				</select>
+			</div>
+			<br>
+
+
 			<%--  Project Name  <p><input  value=<%= employee.getProjectId() %> placeholder="Project name..." oninput="this.className = ''" name="projectId"  ></p> --%>
 
 			<fmt:message key="label.projectName"></fmt:message>
@@ -286,8 +332,7 @@ if (familyId != 0) {
 	//family=operationObject.getFamilyDetailsByFamilyId(familyId);
 	family = employeeDaoObject.getFamilyDetails(familyId);</jsp:scriptlet>
 		<div class="tab">
-			Family Details:<br>
-			<br>
+			Family Details:<br> <br>
 			<fmt:message key="label.fatherName"></fmt:message>
 			<p>
 				<input id="fatherName" placeholder="Father name..."
@@ -351,9 +396,8 @@ else {</jsp:scriptlet>
 			// System.out.println("personalinfoObject data  :"+personalinfoObject.toString());
 		%>
 		<div class="tab">
-			Personal Information :<br>
-			<br> <input type="hidden" name="personalinfoid"
-				value="<%=personalInfoId%>">
+			Personal Information :<br> <br> <input type="hidden"
+				name="personalinfoid" value="<%=personalInfoId%>">
 			<fmt:message key="label.nationality"></fmt:message>
 			<p>
 				<input disabled="disabled"
@@ -429,8 +473,7 @@ else {</jsp:scriptlet>
 
 
 		<div class="tab">
-			Personal Information :<br>
-			<br>
+			Personal Information :<br> <br>
 			<fmt:message key="label.nationality"></fmt:message>
 			<p>
 				<input placeholder="Nationality..." oninput="this.className = ''"
@@ -486,8 +529,7 @@ else {</jsp:scriptlet>
 			getAddressObject = employeeDaoObject.getAddressDetails(addressId);
 		%>
 		<div class="tab">
-			Address:<br>
-			<br>
+			Address:<br> <br>
 
 			<fmt:message key="label.country"></fmt:message>
 			<p>
@@ -588,8 +630,7 @@ else {</jsp:scriptlet>
 			} else {
 		%>
 		<div class="tab">
-			Address:<br>
-			<br>
+			Address:<br> <br>
 
 			<fmt:message key="label.country"></fmt:message>
 			<p>

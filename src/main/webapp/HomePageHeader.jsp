@@ -27,8 +27,8 @@
 			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Home</a>
 		<a href="adminPage.jsp"
 			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Admin Sign
-			In</a> <a href="Register.jsp"
-			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Register</a>
+			In</a> <!-- <a href="Register.jsp"
+			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Register</a> -->
 	</div>
 </body>
 </html>

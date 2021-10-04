@@ -241,7 +241,7 @@ div.scroll {
 									<option>Select Designation</option>
 									<%
 										List<Designation> dlist = employeeDaoObject.getDesignationNames();
-									for (Designation d : dlist) {
+									for (Designation d : dlist) {//JSTL
 									%>
 									<option value="<%=d.getDesignationId()%>">
 										<%=d.getDesignationName()%><br>
@@ -257,9 +257,9 @@ div.scroll {
 
 							<td><select style="font-size: 11px; width: 180px;"
 								name="managername" id="manager" style="width: 173px;">
-									<option value="">Select Manager</option>
+									<option value="" selected="selected">Select Manager</option>
 									<%
-										int did = 5;
+										int did = 5; // servlet context
 									List<Employee> nlist = employeeDaoObject.getAllEmployeesById(did);
 									for (Employee e : nlist) {
 									%>

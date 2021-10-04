@@ -10,11 +10,12 @@
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 
 <%
+	String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
 	String firstName = (String) session.getAttribute(EmployeeInterface.FIRSTNAME);
 Integer employeeId = (Integer.parseInt(request.getParameter("empid")));
 // System.out.println("first name :"+firstName);
-if (firstName == null) {
-	response.sendRedirect("Login.jsp");
+if (firstName == null && username == null) {
+	response.sendRedirect("index.jsp");
 }
 response.setHeader("Cache-Control", "no-cache");
 response.setHeader("Cache-Control", "no-store");
@@ -182,10 +183,18 @@ input {
 								</td>
 							</tr>
 							<tr>
+								<td><label>Designation Name:</label></td>
+								<td>
+									<%
+										String designationNamedata = (employeeObject.getDesignationName() != null) ? employeeObject.getDesignationName() : "NA";
+									%> <%=designationNamedata%>
+								</td>
+							</tr>
+							<tr>
 								<td><label>Manager Name:</label></td>
 								<td>
 									<%
-										String managerNamedata = (employeeObject.getDesignationName() != null) ? employeeObject.getDesignationName() : "NA";
+										String managerNamedata = (employeeObject.getManagerName() != null) ? employeeObject.getManagerName() : "NA";
 									%> <%=managerNamedata%>
 								</td>
 							</tr>
