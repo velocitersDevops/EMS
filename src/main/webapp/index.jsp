@@ -161,7 +161,7 @@ body {
 			var email = document.getElementById("email").value;
 			var password = document.getElementById("password").value;
 			var dataString = 'email=' + email + '&password=' + password;
-			alert(dataString);
+			/* alert(dataString); */
 			var emailpattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 			var passwordpattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,15}$/;
 

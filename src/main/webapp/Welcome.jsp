@@ -257,10 +257,19 @@ input {
 							</td>
 						</tr>
 						<tr>
+							<td><label>Designation Name:</label></td>
+							<td>
+								<%
+									String designationNamedata = (employeeList.getDesignationName() != null) ? employeeList.getDesignationName() : "NA";
+								%> <%=designationNamedata%>
+							</td>
+						</tr>
+						
+						<tr>
 							<td><label>Manager Name:</label></td>
 							<td>
 								<%
-									String managerNamedata = (employeeList.getDesignationName() != null) ? employeeList.getDesignationName() : "NA";
+									String managerNamedata = (employeeList.getManagerName() != null) ? employeeList.getManagerName() : "NA";
 								%> <%=managerNamedata%>
 							</td>
 						</tr>
