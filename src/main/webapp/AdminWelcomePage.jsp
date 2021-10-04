@@ -292,8 +292,8 @@ table tr td a {
 			<h4>
 				Welcome
 				<%=username%></h4>
-			<a href="AdminWelcomePage.jsp"
-				style="margin: 70px; font-size: 20px; border: 1px solid; padding: 10px; color: red; text-decoration: none;">Back</a>
+			<!-- <a href="AdminWelcomePage.jsp"
+				style="margin: 70px; font-size: 20px; border: 1px solid; padding: 10px; color: red; text-decoration: none;">Back</a> -->
 			<div class="box">
 				<jsp:include page="AdminWelcomePageOne.jsp"></jsp:include>
 			</div>

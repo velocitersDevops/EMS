@@ -26,6 +26,13 @@
 if (username == null) {
 	response.sendRedirect("adminPage.jsp");
 }</jsp:scriptlet>
+<%
+EmployeeDAO employeeDaoObject = new EmployeeDAO();
+ServletContext context = getServletContext();
+int managerId = Integer.parseInt(context.getInitParameter("managerId"));
+System.out.println("Manager ID From WEB.XML : " + managerId);
+session.setAttribute("ManList", employeeDaoObject.getAllEmployeesById(managerId));
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,7 +128,7 @@ h3 {
 			</div>
 			<div class="grid-container" id="gridTwo">
 				<div class="card" id="addmanagerbtn1">
-					<a href="AddManager.jsp"><h3>Add Manager</h3></a>
+					<a href="AddEmployee.jsp"><h3>Add Manager</h3></a>
 				</div>
 				<div class="card" id="projectbtn1">
 					<a href="#"><h3>View Project</h3></a>
@@ -136,8 +143,7 @@ h3 {
 			</div> --%>
 
 			<%
-				EmployeeDAO employeeDaoObject = new EmployeeDAO();
-			HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap  
+				HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap  
 			ArrayList<Manager> arraylistObject = new ArrayList<Manager>(employeeDaoObject.getManagerNames());
 			// out.println("manager name  :"+arraylistObject.get(1).getManagerName());
 			%>
@@ -174,34 +180,30 @@ h3 {
 
 
 			<div class="row-4" id="managerShow">
-					<h3>Manager Names</h3>
-					<div class="column-4">
-						<table class="content">
-							<thead>
+				<h3>Manager Names</h3>
+				<div class="column-4">
+					<jsp:useBean id="ManList" scope="session" type="java.util.List"></jsp:useBean>
+					<table class="content">
+						<thead>
+							<tr>
+								<th><b>MANAGERID</b></th>
+								<th><b>MANAGER NAME</b></th>
+								<th><b>EDIT</b></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${ManList}" var="mngr">
 								<tr>
-									<th><b>MANAGERID</b></th>
-									<th><b>MANAGER NAME</b></th>
-									<th><b>EDIT</b></th>
+									<td><c:out value="${mngr.employeeId}"></c:out></td>
+									<td><c:out value="${mngr.firstName}   ${mngr.lastName}"></c:out></td>
+									<td><a style="color: red;"
+										href="<c:url value = "CheckAdmin.jsp?id=${mngr.employeeId}"/>">EDIT</a></td>
 								</tr>
-							</thead>
-							<tbody>
-								<%
-									int did = 5;
-								List<Employee> nlist = employeeDaoObject.getAllEmployeesById(did);
-								for (Employee e : nlist) {
-								%>
-								<tr>
-									<td><%=e.getEmployeeId()%></td>
-									<td><%=e.getFirstName() + " " + e.getLastName()%></td>
-									<td><a href="AddManager.jsp" style="color: red;">EDIT</a></td>
-								</tr>
-								<%
-									}
-								%>
-							</tbody>
-						</table>
-					</div>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
+			</div>
 
 		</div>
 	</div>

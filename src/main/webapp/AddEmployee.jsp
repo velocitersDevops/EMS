@@ -1,9 +1,11 @@
+<%@page import="java.util.List"%>
 <%@ page import="com.velociter.ems.model.*"%>
 <%@ page import="com.velociter.ems.database.EmployeeDAO"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.ListIterator"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	ArrayList<Country> countryObject = null;
 %>
@@ -12,6 +14,14 @@
 EmployeeDAO employeeDaoObject = new EmployeeDAO();
 HashMap<Integer, String> mapObject = new HashMap<Integer, String>(employeeDaoObject.getProjectNames());//Creating HashMap  
 ArrayList<Designation> arraylistObject = new ArrayList<Designation>(employeeDaoObject.getDesignationNames());
+session.setAttribute("DesList", employeeDaoObject.getDesignationNames());
+
+int id;
+ServletContext context = getServletContext();
+id = Integer.parseInt(context.getInitParameter("managerId"));
+System.out.println("Manager ID From WEB.XML : "+id);
+session.setAttribute("ManList", employeeDaoObject.getAllEmployeesById(id));
+System.out.println(((java.util.List) session.getAttribute("ManList")).size());
 // out.println("manager name  :"+arraylistObject.get(1).getManagerName());
 %>
 <!DOCTYPE html>
@@ -163,25 +173,12 @@ div.scroll {
 
 </head>
 <body style="font-family: Futara">
-	<div class="header">
-		<div class="headerImage">
-			<img style="height: 180px; width: 180px;"
-				src="exstyle/Images/logo.jfif">
-		</div>
-		<p
-			style="text-align: center; padding-left: 300px; float: left; font-size: 30px; padding-top: 40px;">
-			<font size="7" color="red" face="Castellar">Employee
-				Management </font>
-		</p>
-
-		<a href="index.jsp"
-			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Home</a>
-	</div>
-	<div style="margin: 15px 0px;">
-		<a href="AdminWelcomePage.jsp" style="padding: 10px; font-size: 20px; border: 1px solid; color: red;">Back</a>
-	</div>
-	<form name="regiserForm" action="" 
-		class="form" id="myForm" method="post"><!-- onsubmit="return validateForm()" -->
+	<jsp:include page="AdminHeader.jsp"></jsp:include>
+	<a href="AddProject.jsp">Add Project</a> &nbsp;&nbsp;&nbsp;
+	<!-- <a href="AddManager.jsp">Add Manager</a> -->
+	<form name="regiserForm" action="" class="form" id="myForm"
+		method="post">
+		<!-- onsubmit="return validateForm()" -->
 		<br>
 		<table class="center" id="left1" style="width: 30%">
 			<tr align="center">
@@ -190,8 +187,11 @@ div.scroll {
 					<table class="left">
 						<tr align="left">
 							<td><h3>
-									<b>Add Employee</b><br>
+									<b>Register</b><br>
 								</h3></td>
+						</tr>
+						<tr>
+							<input type="hidden" name="d_Id" id="d_Id" />
 						</tr>
 						<tr>
 							<td><b>Salutation:</b></td>
@@ -201,8 +201,7 @@ div.scroll {
 						<tr>
 							<td><b>First Name:</b></td>
 							<td><input type="text" name="firstname" id="fname"
-								style="width: 173px" placeholder="Enter first name">
-							</td>
+								style="width: 173px" placeholder="Enter first name"></td>
 						</tr>
 						<tr>
 							<td><b>Middle Name:</b></td>
@@ -240,26 +239,33 @@ div.scroll {
 								id="dialCode" name="dialCode"> <input type="hidden"
 								id="mobileNumber" name="mobileNumber"></td>
 						</tr>
-
 						<tr>
 							<td><b>Designation Name:</b></td>
 							<!-- 				<td><input type="text" id="managerName" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+							<jsp:useBean id="DesList" scope="session" type="java.util.List"></jsp:useBean>
 							<td><select style="font-size: 11px; width: 180px;"
-								name="designationname" id="designation" style="width: 173px">
-									<option>Select Manager</option>
-									<%
-										String designationName = null;
-									ListIterator<Designation> iterator = arraylistObject.listIterator();
-									while (iterator.hasNext()) {
-										designationName = iterator.next().getDesignationName();
-									%>
-									<option value="<%=designationName%>">
-										<%=designationName%><br>
-									</option>
-									<%
-										}
-									%>
+								name="designationname" id="designation" class="select"
+								onchange="displayDivDemo('manager', this)" style="width: 173px;">
+									<option>Select Designation</option>
+									<c:forEach items="${DesList}" var="des">
+										<option value="${des.designationId}">${des.designationName}<br></option>
+									</c:forEach>
 							</select></td>
+						</tr>
+						<tr>
+							<td id="managertd"><b>Manager Name:</b></td>
+							<!-- 				<td><input type="text" id="managerName" name ="managername" style="width: 173px"  placeholder="Enter manager name"></td> -->
+							<jsp:useBean id="ManList" scope="session" type="java.util.List"></jsp:useBean>
+							<td><select style="font-size: 11px; width: 180px;"
+								name="managername" id="manager" style="width: 173px;">
+									<option value="" selected="selected">Select Manager</option>
+									<c:forEach items="${ManList}" var="mngr">
+										<option value="${mngr.firstName} ${mngr.lastName}">
+										${mngr.firstName} ${mngr.lastName}<br>
+									</option>
+									</c:forEach>
+							</select></td>
+
 						</tr>
 						<tr>
 							<td><b>Date Of Join:</b></td>
@@ -320,8 +326,14 @@ div.scroll {
 
 		</table>
 	</form>
-
 	<script>
+		function displayDivDemo(id, elementValue) {
+			document.getElementById(id).style.display = elementValue.value == 5 ? 'none'
+					: 'block';
+			document.getElementById('managertd').style.display = elementValue.value == 5 ? 'none'
+					: 'block';
+		}
+
 		function formSubmit() {
 			var salutation = document.getElementById("salutation").value;
 			var firstname = document.getElementById("fname").value;
@@ -330,7 +342,23 @@ div.scroll {
 			var email = document.getElementById("email").value;
 			var dialCode = document.getElementById("dialCode").value;
 			var mobileNumber = document.getElementById("mobileNumber").value;
-			var designation = document.getElementById("designation").value;
+			/* var designation = document.getElementById("designation").value; */
+
+			/* alert("HIII "+designation); */
+			var e = document.getElementById("designation");
+			var strUser = e.options[e.selectedIndex].value;
+			var designation = e.options[e.selectedIndex].text;
+
+			var d_Id = document.getElementById("d_Id").value = strUser;
+			/* alert("First str : " + strUser);
+			alert("Second designation : " + designation);
+			alert("D_DID IS : " + d_Id); */
+
+			/* var manager = document.getElementById("manager").value; */
+			/* if(document.getElementById("manager").value === ' '){
+				
+			} */
+			var manager = document.getElementById("manager").value;
 			var dateofjoin = document.getElementById("dateofjoin").value;
 			var projectIds = document.getElementById("projectIds").value;
 			var password = document.getElementById("typepass").value;
@@ -338,11 +366,12 @@ div.scroll {
 			var dataString = 'salutation=' + salutation + '&firstname='
 					+ firstname + '&middlename=' + middlename + '&lastname='
 					+ lastname + '&email=' + email + '&dialCode=' + dialCode
-					+ '&mobileNumber=' + mobileNumber + '&designation=' + designation
-					+ '&dateofjoin=' + dateofjoin + '&projectIds=' + projectIds
-					+ '&typepass=' + password + +'&confirmpassword='
-					+ confirmpassword;
-			
+					+ '&mobileNumber=' + mobileNumber + '&designation='
+					+ designation + '&manager=' + manager + '&dateofjoin='
+					+ dateofjoin + '&projectIds=' + projectIds + '&typepass='
+					+ password + '&confirmpassword=' + confirmpassword;
+
+			/* alert(dataString); */
 			var myDateOFjoin = new Date(dateofjoin);
 			var currentDate = new Date();
 			var checkString = /^[a-zA-Z]+$/;
@@ -351,7 +380,7 @@ div.scroll {
 			var pattern = /^([0-9]{2})-([0-9]{2})-([0-9]{4})$/;
 			var passwordPattern = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,12}$/;
 			/* alert(dataString);*/
-			alert("Do You Want to Add Employee !!!!"); 
+			alert("Do You Want to Add Employee !!!!");
 			if (salutation == "") {
 				alert("salutation must be filled out");
 				document.regiserForm.salutation.focus();
@@ -383,7 +412,7 @@ div.scroll {
 			} else if (!(email.match(mailformat))) {
 				alert("You have entered an invalid email address!"); //The pop up alert for an invalid email address
 				document.regiserForm.email.focus();
-				return false; 
+				return false;
 			} else if (mobileNumber == "") {
 				alert("Mobile Number must be filled out! ");
 				document.regiserForm.mobile.focus();
@@ -404,7 +433,17 @@ div.scroll {
 				document.regiserForm.designationname.focus();
 				console.log(designation);
 				return false;
-			} else if (dateofjoin == "") {
+			} /* else if (manager === "Select Manager") {
+										alert("Designation Name must be filled out");
+										document.regiserForm.managername.focus();
+										console.log(manager);
+										return false;
+									} else if (!(manager.match(checkNamewithspace))) {
+										alert("Manager Name Should be contains Only character and space");
+										document.regiserForm.managername.focus();
+										console.log(manager);
+										return false;
+									} */else if (dateofjoin == "") {
 				alert("Date Of Joining must be filled out");
 				console.log(dateofjoin);
 				return false;
@@ -440,34 +479,37 @@ div.scroll {
 				alert("Password And Confirm Password must & Should be Same");
 				document.regiserForm.confirmpassword.focus();
 				return false;
-			}else{
-				jQuery.ajax({
-					url : "register",
-					data : {
-						"salutation" : salutation,
-						"firstname" : firstname,
-						"middlename" : middlename,
-						"lastname" : lastname,
-						"email" : email,
-						"dialCode" : dialCode,
-						"mobileNumber" : mobileNumber,
-						"designationname" : designation,
-						"dateofjoin" : dateofjoin,
-						"ceckvalues" : projectIds,
-						"passsword" : password
-					},
-					type : "post",
-					success : function(data) {
-						if (data == 'True') {
-							alert("You have Successfully Registered!!!");
-							$(location).attr('href', 'Login.jsp');
-						} else {
-							alert("You Have Already Register!! Try with Another Email and Mobile.")
-						}
-					}
-				});
+			} else {
+				jQuery
+						.ajax({
+							url : "register",
+							data : {
+								"salutation" : salutation,
+								"firstname" : firstname,
+								"middlename" : middlename,
+								"lastname" : lastname,
+								"email" : email,
+								"dialCode" : dialCode,
+								"mobileNumber" : mobileNumber,
+								"designationname" : designation,
+								"managername" : manager,
+								"d_Id" : d_Id,
+								"dateofjoin" : dateofjoin,
+								"ceckvalues" : projectIds,
+								"passsword" : password
+							},
+							type : "post",
+							success : function(data) {
+								if (data == 'True') {
+									alert("You have Successfully Registered!!!");
+									$(location).attr('href', 'AddEmployee.jsp');
+								} else {
+									alert("You Have Already Register!! Try with Another Email and Mobile.")
+								}
+							}
+						});
 			}
-				return false;
+			return false;
 		}
 	</script>
 	<jsp:include page="Footer.jsp"></jsp:include>
