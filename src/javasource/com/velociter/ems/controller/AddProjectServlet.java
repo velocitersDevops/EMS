@@ -37,7 +37,10 @@ public class AddProjectServlet extends HttpServlet {
 	
 	//create EmployeeDAO object to call persistence methods
 	EmployeeDAO  employeeDaoObject  = new EmployeeDAO();
-	int addProjectStatus = employeeDaoObject.addProject(projectObject);
+	int addProjectStatus = 0;
+	try {
+		addProjectStatus = employeeDaoObject.addProject(projectObject);
+	}catch(Exception e) {e.printStackTrace();}
 	System.out.println("status in servlet ="+addProjectStatus);
 	if(addProjectStatus == 0)
 	{

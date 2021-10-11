@@ -28,12 +28,21 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 
 		PrintWriter out = resp.getWriter();
 
-		HttpSession session = req.getSession(false);
-		Integer empId = (Integer) session.getAttribute(EmployeeInterface.EMPLOYEEID);
+	    HttpSession session = req.getSession(false);
+		//Integer empId = (Integer) session.getAttribute(EmployeeInterface.EMPLOYEEID);
 //    	Integer familyId=(Integer)session.getAttribute(EmployeeInterface.FAMILYID);
 //    	Integer personalInfoid = (Integer)session.getAttribute(EmployeeInterface.PERSONALINFO_ID);
 //    	Integer addressId = (Integer)session.getAttribute(EmployeeInterface.ADDRESSID);
 
+	    Integer empId;
+		//int empId = Integer.parseInt(req.getParameter("id")); 
+	    if(session.getAttribute(EmployeeInterface.EMPLOYEEID) == null) {
+	    	empId = (Integer) session.getAttribute("id");
+	    }else {
+	    	empId = (Integer) session.getAttribute(EmployeeInterface.EMPLOYEEID);
+	    }
+	    
+		System.out.println("PAse Int EMPID : "+empId);
 		Employee employee = new Employee();
 		EmployeeDAO employeeDaoObject = new EmployeeDAO();
 
@@ -45,6 +54,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 				+ " , " + "addressId :" + addressId);
 
 		String designationName = req.getParameter("designationName");
+		String managerName = req.getParameter("managerName");
 		int projectId = Integer.parseInt(req.getParameter("projectName"));
 		// String firstName=req.getParameter("firstName");
 		// String middleName=req.getParameter("middleName");
@@ -73,6 +83,7 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		// employee.setDateOfJoining(dateOfJoining);
 		employee.setEmployeeId(empId);
 		employee.setDesignationName(designationName);
+		employee.setManagerName(managerName);
 		employee.setProjectId(projectId);
 
 		// Creating family Object and set the data

@@ -36,13 +36,15 @@ public class EmployeeDAO implements EmployeeInterface {
 
 	// ==============================================addProject method
 	// begin========================================================================
-	public int addProject(Project projectObject) {
+	public int addProject(Project projectObject) throws ParseException{
 		System.out.println("project data  :" + projectObject.toString());
 		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
 		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
 		SessionFactory factory = meta.getSessionFactoryBuilder().build();
 		Session session = factory.openSession();
 		Transaction trnObject = session.beginTransaction();
+		projectObject.setCreationDate(commonOperationObject.getCreationDate());
+		projectObject.setLastModifiedDate(commonOperationObject.getCreationDate());
 		int status = (Integer) session.save(projectObject);
 		trnObject.commit();
 		System.out.println("project status in ()  :" + status);
