@@ -37,6 +37,11 @@ int addressId = employee.getAddressId(); //address Id of employee from employee 
 System.out.println("personalInfoId is :" + personalInfoId);
 System.out.println(" familyId is :" + familyId);
 System.out.println("addressId is :" + addressId);
+
+ServletContext context = getServletContext();
+int managerId = Integer.parseInt(context.getInitParameter("managerId"));
+System.out.println("Manager ID From WEB.XML : " + managerId);
+List<Employee> empManagerObject = employeeDaoObject.getAllEmployeesById(managerId);
 %>
 
 
@@ -232,7 +237,7 @@ button:hover {
 			<fmt:message key="label.designationName"></fmt:message>
 			<div class="input-group" style="width: 600px">
 				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
-				<select name="managerName" class="custom-select"
+				<select name="designationName" class="custom-select"
 					id="inputGroupSelect04"
 					aria-label="Example select with button addon">
 					<%--       <option selected><%=employee.getManagerName() %></option> --%>
@@ -254,6 +259,62 @@ button:hover {
 						}
 					}
 					%>
+				</select>
+			</div>
+			<br>
+			<fmt:message key="label.managerName"></fmt:message>
+			<div class="input-group" style="width: 600px">
+				<%--      <p><input multiple="multiple" value=<%=employee.getManagerName() %> placeholder="Manager name..." oninput="this.className = ''" name="managerName" list="list"></p>  --%>
+				<select name="managerName" class="custom-select"
+					id="inputGroupSelect04"
+					aria-label="Example select with button addon">
+					<%--       <option selected><%=employee.getManagerName() %></option> --%>
+					
+					<%-- <%
+						for (Employee e : empManagerObject) {
+					%> --%> 
+					
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+					for (Employee e : empManagerObject) {
+						if (e.getFirstName().equals(employee.getFirstName())) {
+					%>
+					<option selected><%=e.getFirstName() + " " + e.getLastName()%></option>
+					<%
+						} else {
+					%>
+					<option><%=e.getFirstName() + " " + e.getLastName()%></option>
+					<%
+						}
+					}
+					%>
+					
+					
+					
+					<%-- <option value="<%=e.getFirstName() + " " + e.getLastName()%>">
+										<%=e.getFirstName() + " " + e.getLastName()%><br>
+					</option>
+					<%
+					}
+					%>  --%>
+					<%-- <%
+						for (int i = 0; i < empManagerObject.size(); i++) {
+						String name = empManagerObject.get(i).getManagerName();
+						String name1 = employee.getManagerName();
+					%>
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+						if (empManagerObject.get(i).getManagerName().equals(employee.getManagerName())) {
+					%>
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+						} else {
+					%>
+					<option><%=empManagerObject.get(i).getManagerName()%></option>
+					<%
+						}
+					}
+					%>  --%>
 				</select>
 			</div>
 			<br>

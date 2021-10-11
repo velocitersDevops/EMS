@@ -9,10 +9,22 @@
 <%@page import="java.util.*"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%
-	Employee employee = new Employee();
+String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
+//out.println("first name is :"+firstName);
+if (username == null) {
+	response.sendRedirect("AdminPage.jsp");
+}
+response.setHeader("Cache-Control", "no-cache");
+response.setHeader("Cache-Control", "no-store");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expire", 0);
+
+Employee employee = new Employee();
 EmployeeDAO employeeDaoObject = new EmployeeDAO();
 
-int empId = Integer.parseInt(request.getParameter("id"));
+int empId = Integer.parseInt(request.getParameter("id")); 
+session.setAttribute("id", empId);
+System.out.println("EmployeeID  : " + empId);
 System.out.println("IDS is : " + empId);
 employee = employeeDaoObject.getFourIds(empId); //getting Id's of employee to display his data in page
 int personalInfoId = employee.getPersonalInfoId(); //personalInfoId of employee from employee table
@@ -256,16 +268,35 @@ button:hover {
 					id="inputGroupSelect04"
 					aria-label="Example select with button addon">
 					<%--       <option selected><%=employee.getManagerName() %></option> --%>
-
+					
 					<%-- <%
 						for (Employee e : empManagerObject) {
-					%> 
-					<option selected><%=e.getManagerName()%><br>
+					%> --%> 
+					
+					<option selected><%=employee.getManagerName()%></option>
+					<%
+					for (Employee e : empManagerObject) {
+						if (e.getFirstName().equals(employee.getFirstName())) {
+					%>
+					<option selected><%=e.getFirstName() + " " + e.getLastName()%></option>
+					<%
+						} else {
+					%>
+					<option><%=e.getFirstName() + " " + e.getLastName()%></option>
+					<%
+						}
+					}
+					%>
+					
+					
+					
+					<%-- <option value="<%=e.getFirstName() + " " + e.getLastName()%>">
+										<%=e.getFirstName() + " " + e.getLastName()%><br>
 					</option>
 					<%
 					}
-					%> --%>   
-					<%
+					%>  --%>
+					<%-- <%
 						for (int i = 0; i < empManagerObject.size(); i++) {
 						String name = empManagerObject.get(i).getManagerName();
 						String name1 = employee.getManagerName();
@@ -282,7 +313,7 @@ button:hover {
 					<%
 						}
 					}
-					%> 
+					%>  --%>
 				</select>
 			</div>
 			<br>

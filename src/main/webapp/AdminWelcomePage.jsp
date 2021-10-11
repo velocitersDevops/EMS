@@ -265,7 +265,7 @@ table tr td a {
 		<div class="column left">
 			<table style="text-align: center;">
 				<tr>
-					<th class="activelink"><a href="Paggination.jsp"
+					<th class="activelink"><a href="#"
 						id="employeebtn">Employee List</a></th>
 				</tr>
 				<tr>

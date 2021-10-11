@@ -27,12 +27,38 @@ if (username == null) {
 	response.sendRedirect("adminPage.jsp");
 }</jsp:scriptlet>
 <%
-EmployeeDAO employeeDaoObject = new EmployeeDAO();
+	EmployeeDAO employeeDaoObject = new EmployeeDAO();
 ServletContext context = getServletContext();
 int managerId = Integer.parseInt(context.getInitParameter("managerId"));
 System.out.println("Manager ID From WEB.XML : " + managerId);
 session.setAttribute("ManList", employeeDaoObject.getAllEmployeesById(managerId));
 %>
+
+<jsp:scriptlet>int pageNumber = 1;
+
+if (request.getParameter("page") != null) {
+	session.setAttribute("page", request.getParameter("page"));
+	pageNumber = Integer.parseInt(request.getParameter("page"));
+} else {
+	session.setAttribute("page", "1");
+}
+String nextPage = (pageNumber + 1) + "";
+String prevPage = (pageNumber - 1) + "";
+session.setAttribute("EmpList", EmployeeDAO.getPageData(pageNumber, EmployeeInterface.PAGE_SIZE));
+
+long noOfRecords = EmployeeDAO.getNoOfRecords();
+int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / EmployeeInterface.PAGE_SIZE);
+request.setAttribute("noOfPages", noOfPages);
+
+System.out.println(((java.util.List) session.getAttribute("EmpList")).size());
+String myUrl = "AdminWelcomePage.jsp?page=" + nextPage;
+String prevUrl = "AdminWelcomePage.jsp?page=" + prevPage;
+System.out.println(myUrl);
+System.out.println(prevUrl);
+
+pageContext.setAttribute("myUrl", myUrl);
+pageContext.setAttribute("prevUrl", prevUrl);</jsp:scriptlet>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,7 +143,7 @@ h3 {
 		<div class="column">
 			<div class="grid-container" id="gridOne">
 				<div class="card" id="employeebtn1">
-					<a href="Paggination.jsp"><h3>Employee List</h3></a>
+					<a href="#"><h3>Employee List</h3></a>
 				</div>
 				<div class="card" id="addemployeebtn1">
 					<a href="AddEmployee.jsp"><h3>Add Employee</h3></a>
@@ -205,12 +231,76 @@ h3 {
 				</div>
 			</div>
 
+			<div id="employeeShow">
+				<h3>Employee List</h3>
+				<jsp:useBean id="EmpList" scope="session" type="java.util.List"></jsp:useBean>
+				<table class="content">
+					<!-- border="1" cellpadding="5" cellspacing="5" -->
+					<thead style="position: static;">
+						<tr>
+							<td><b>FIRST NAME</b></td>
+							<td><b>LAST NAME</b></td>
+							<td><b>MOBILE NO</b></td>
+							<td><b>EMAIL ID</b></td>
+							<td><b>DATE OF JOINING</b></td>
+							<td><b>VEIW DETAILS</b></td>
+							<td><b>EDIT</b></td>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${EmpList}" var="emp" begin="0" end="10">
+							<tr>
+								<td><c:out value="${emp.firstName}"></c:out></td>
+								<td><c:out value="${emp.lastName}"></c:out></td>
+								<td><c:out value="${emp.mobileNumber}"></c:out></td>
+								<td><c:out value="${emp.emailId}"></c:out></td>
+								<td><c:out value="${emp.dateOfJoining}"></c:out></td>
+								<td><a style="color: red;"
+									href="<c:url value = "EmployeeDetails.jsp?empid=${emp.employeeId}"/>">View
+										Details</a></td>
+								<td><a style="color: red;"
+									href="<c:url value = "CheckAdmin.jsp?id=${emp.employeeId}"/>">Edit</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<br> <br>
+				<div>
+					<ul class="pagination">
+						<c:if test="${page != 1}">
+							<li class="prev"><a href="${pageScope.prevUrl}" id="prev"><i
+									class="fa fa-arrow-left" aria-hidden="true"></i></a></li>
+						</c:if>
+						<table style="margin: 10px 3px;">
+							<tr>
+								<c:forEach begin="1" end="${noOfPages}" var="i">
+									<c:choose>
+										<c:when test="${page eq i}">
+											<td class="active">${i}</td>
+										</c:when>
+										<c:otherwise>
+											<td><a onclick="return formSubmit(${i},'AdminWelcomePage.jsp?page=${i}');"  id="mylink" href="#">${i}</a></td>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								<!-- onclick="return formSubmit();" href="AdminWelcomePage.jsp?page=${i}" 
+									onclick="ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
+									href="javascript:ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
+								-->
+							</tr>
+						</table>
+						<c:if test="${page lt noOfPages}">
+							<li class="next"><a href="${pageScope.myUrl}" id="next"><i
+									class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
+						</c:if>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
-
 	<script
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script type="text/javascript">
+	<script language="Javascript" type="text/javascript">
 		$(document).ready(function() {
 			$("#projectShow").hide();
 			$("#managerShow").hide();
@@ -237,6 +327,56 @@ h3 {
 				$("#gridTwo").hide();
 			});
 		});
+		/* function formSubmit() {
+			alert("Page On IT!!!");
+			const params = new URLSearchParams(window.location.search)
+			alert(params); 
+			var url = (location.origin).concat(location.pathname).concat(location.hash);
+			alert(url); 
+		}; */
+		
+		function ChangeUrl(title, url) {
+		    if (typeof (history.pushState) != "undefined") {
+		        var obj = { Title: title, Url: url };
+		        history.pushState(obj, obj.Title, obj.Url);
+		    } else {
+		        alert("Browser does not support HTML5.");
+		    }
+		}
+		
+		/* function formSubmit(){
+			for (let i = 0; i < 5; i++) {
+				$("a").attr("href", "AdminWelcomePage.jsp?page="+i);
+			}
+		}; */
+		
+		function formSubmit(pageNumber,url){
+			alert(pageNumber);
+			alert(url);
+			if (typeof (history.pushState) != "undefined") {
+		        var obj = { Title: title, Url: url };
+		        history.pushState(obj, obj.Title, obj.Url);
+		        /* $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);  */
+		        /* $("a[href]").attr("href", "AdminWelcomePage.jsp?page="+pageNumber); */
+		        document.getElementById("mylink").href = "AdminWelcomePage.jsp?page="+pageNumber;
+		    } else {
+		        alert("Browser does not support HTML5.");
+		    }
+			
+		};
+		/* 
+		$(function () {
+	        $("#pageClick").click(function () {
+	            ChangeUrl('Page1', 'AdminWelcomePage.jsp?page=${i}');
+	        });
+	    });
+		function somescript() {
+			alert("Page On IT!!!");
+			var query = new URLSearchParams();
+			query.append("KEY", "VALUE");
+			var url = "AdminWelcomePage.jsp?" + query.toString();
+			alert(url);
+    	} */
 	</script>
 </body>
 </html>
