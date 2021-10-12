@@ -279,13 +279,14 @@ h3 {
 											<td class="active">${i}</td>
 										</c:when>
 										<c:otherwise>
-											<td><a onclick="return formSubmit(${i},'AdminWelcomePage.jsp?page=${i}');"  id="mylink" href="#">${i}</a></td>
+											<td><a id="pageClick" href="AdminWelcomePage.jsp?page=${i}">${i}</a></td>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								<!-- onclick="return formSubmit();" href="AdminWelcomePage.jsp?page=${i}" 
 									onclick="ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
 									href="javascript:ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
+									onclick="return formSubmit(${i},'AdminWelcomePage.jsp?page=${i}');" 
 								-->
 							</tr>
 						</table>
@@ -358,7 +359,12 @@ h3 {
 		        history.pushState(obj, obj.Title, obj.Url);
 		        /* $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);  */
 		        /* $("a[href]").attr("href", "AdminWelcomePage.jsp?page="+pageNumber); */
-		        document.getElementById("mylink").href = "AdminWelcomePage.jsp?page="+pageNumber;
+		        /* document.getElementById("mylink").href = "AdminWelcomePage.jsp?page="+pageNumber; */
+		        $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);
+		        alert("HII");
+		        /* var link = document.getElementById("mylink");
+		        link.setAttribute('href', "AdminWelcomePage.jsp?page="+pageNumber);
+		        alert(link); */
 		    } else {
 		        alert("Browser does not support HTML5.");
 		    }

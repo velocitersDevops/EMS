@@ -254,6 +254,7 @@ table tr td a {
 	crossorigin="anonymous"></script>
 </head>
 <jsp:include page="AdminHeader.jsp"></jsp:include>
+
 <body style="font-family: Futara;">
 	<%
 		response.setHeader("Cache-Control", "no-cache");
@@ -265,8 +266,8 @@ table tr td a {
 		<div class="column left">
 			<table style="text-align: center;">
 				<tr>
-					<th class="activelink"><a href="#"
-						id="employeebtn">Employee List</a></th>
+					<th class="activelink"><a href="#" id="employeebtn">Employee
+							List</a></th>
 				</tr>
 				<tr>
 					<th><a href="AddEmployee.jsp">Add Employee</a></th>
@@ -296,6 +297,7 @@ table tr td a {
 				style="margin: 70px; font-size: 20px; border: 1px solid; padding: 10px; color: red; text-decoration: none;">Back</a> -->
 			<div class="box">
 				<jsp:include page="AdminWelcomePageOne.jsp"></jsp:include>
+				<div id="test"></div>
 			</div>
 		</div>
 	</div>
@@ -311,7 +313,9 @@ table tr td a {
 				$("#managerShow").hide();
 				$("#gridOne").hide();
 				$("#gridTwo").hide();
-			});
+			}); 
+			my_code();
+				
 			$("#projectbtn").click(function() {
 				$("#projectShow").show();
 				$("#managerShow").hide();
@@ -327,7 +331,35 @@ table tr td a {
 				$("#gridTwo").hide();
 			});
 		});
+		function my_code() {
+			//alert(" Alert inside my_code function");
+			/* 			localStorage.setItem("emp", "#employeeShow");
+			 document.getElementById("result").innerHTML = localStorage.getItem("emp"); */
+			if (typeof (Storage) !== "undefined") {
+				/* localStorage.setItem('empShow', '#employeeShow');
+				alert(localStorage.getItem('empShow')); */
+				//alert(" Alert inside my_code function");
+				if (window.localStorage.getItem('content') == '#employeeShow') {
+					$("#employeeShow").show();
+					$("#gridOne").hide();
+					$("#gridTwo").hide();
+				} else {
+					$("#employeeShow").hide();
+					$("#gridOne").show();
+				}
+				$("#pageClick").click(function() {
+					window.localStorage.setItem('content', '#employeeShow');
+					$('#test').html(window.localStorage.getItem('content'));
+					$("#gridOne").hide();
+					$("#gridTwo").hide();
+				});
+			}
+		};
+		$(window).load(function() {
+			
+		});
 	</script>
+
 </body>
 <jsp:include page="Footer.jsp"></jsp:include>
 </html>
