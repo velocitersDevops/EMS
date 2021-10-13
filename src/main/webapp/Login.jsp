@@ -10,9 +10,7 @@
 <html>
 <head>
 <link href="exstyle/style.css" rel="stylesheet">
-
 <meta charset="ISO-8859-1">
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"
 	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 	crossorigin="anonymous"></script>
