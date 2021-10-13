@@ -30,7 +30,7 @@ if (username == null) {
 			<font size="7" color="red" face="Castellar">Employee
 				Management </font>
 		</p>
-		<a href="AdminWelcomePage.jsp"
+		<a href="AdminWelcomePage.jsp" id="backClick"
 			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Back</a>
 		<a href="AdminLogoutServlet"
 			style="float: right; padding-right: 35px; padding-top: 140px; text-decoration: none; font-size: 20px; color: white;">Logout</a>

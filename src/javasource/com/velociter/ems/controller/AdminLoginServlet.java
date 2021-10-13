@@ -45,6 +45,7 @@ public class AdminLoginServlet extends HttpServlet {
  			 HttpSession session =request.getSession();
  			 session.setAttribute(EmployeeInterface.ADMINID, admin.getId());
  			 session.setAttribute(EmployeeInterface.ADMINNAME,admin.getUsername());
+ 			 System.out.println("USername is : "+admin.getUsername());
  			 session.setAttribute(EmployeeInterface.CURRENT_USER, admin);
  			 response.sendRedirect("AdminWelcomePage.jsp");
  			 //out.print("True");

@@ -141,26 +141,28 @@ h3 {
 	%>
 	<div class="row">
 		<div class="column">
-			<div class="grid-container" id="gridOne">
-				<div class="card" id="employeebtn1">
-					<a href="#"><h3>Employee List</h3></a>
+			<div id="grid">
+				<div class="grid-container" id="gridOne">
+					<div class="card" id="employeebtn1">
+						<a href="#"><h3>Employee List</h3></a>
+					</div>
+					<div class="card" id="addemployeebtn1">
+						<a href="AddEmployee.jsp"><h3>Add Employee</h3></a>
+					</div>
+					<div class="card" id="addprojectbtn1">
+						<a href="AddProject.jsp"><h3>Add Project</h3></a>
+					</div>
 				</div>
-				<div class="card" id="addemployeebtn1">
-					<a href="AddEmployee.jsp"><h3>Add Employee</h3></a>
-				</div>
-				<div class="card" id="addprojectbtn1">
-					<a href="AddProject.jsp"><h3>Add Project</h3></a>
-				</div>
-			</div>
-			<div class="grid-container" id="gridTwo">
-				<div class="card" id="addmanagerbtn1">
-					<a href="AddEmployee.jsp"><h3>Add Manager</h3></a>
-				</div>
-				<div class="card" id="projectbtn1">
-					<a href="#"><h3>View Project</h3></a>
-				</div>
-				<div class="card" id="managerbtn1">
-					<a href="#"><h3>View Manager</h3></a>
+				<div class="grid-container" id="gridTwo">
+					<div class="card" id="addmanagerbtn1">
+						<a href="AddEmployee.jsp"><h3>Add Manager</h3></a>
+					</div>
+					<div class="card" id="projectbtn1">
+						<a href="#"><h3>View Project</h3></a>
+					</div>
+					<div class="card" id="managerbtn1">
+						<a href="#"><h3>View Manager</h3></a>
+					</div>
 				</div>
 			</div>
 
@@ -279,7 +281,8 @@ h3 {
 											<td class="active">${i}</td>
 										</c:when>
 										<c:otherwise>
-											<td><a id="pageClick" href="AdminWelcomePage.jsp?page=${i}">${i}</a></td>
+											<td><a id="pageClick"
+												href="AdminWelcomePage.jsp?page=${i}">${i}</a></td>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
@@ -335,54 +338,60 @@ h3 {
 			var url = (location.origin).concat(location.pathname).concat(location.hash);
 			alert(url); 
 		}; */
-		
+
 		function ChangeUrl(title, url) {
-		    if (typeof (history.pushState) != "undefined") {
-		        var obj = { Title: title, Url: url };
-		        history.pushState(obj, obj.Title, obj.Url);
-		    } else {
-		        alert("Browser does not support HTML5.");
-		    }
+			if (typeof (history.pushState) != "undefined") {
+				var obj = {
+					Title : title,
+					Url : url
+				};
+				history.pushState(obj, obj.Title, obj.Url);
+			} else {
+				alert("Browser does not support HTML5.");
+			}
 		}
-		
+
 		/* function formSubmit(){
 			for (let i = 0; i < 5; i++) {
 				$("a").attr("href", "AdminWelcomePage.jsp?page="+i);
 			}
 		}; */
-		
-		function formSubmit(pageNumber,url){
+
+		function formSubmit(pageNumber, url) {
 			alert(pageNumber);
 			alert(url);
 			if (typeof (history.pushState) != "undefined") {
-		        var obj = { Title: title, Url: url };
-		        history.pushState(obj, obj.Title, obj.Url);
-		        /* $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);  */
-		        /* $("a[href]").attr("href", "AdminWelcomePage.jsp?page="+pageNumber); */
-		        /* document.getElementById("mylink").href = "AdminWelcomePage.jsp?page="+pageNumber; */
-		        $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);
-		        alert("HII");
-		        /* var link = document.getElementById("mylink");
-		        link.setAttribute('href', "AdminWelcomePage.jsp?page="+pageNumber);
-		        alert(link); */
-		    } else {
-		        alert("Browser does not support HTML5.");
-		    }
-			
+				var obj = {
+					Title : title,
+					Url : url
+				};
+				history.pushState(obj, obj.Title, obj.Url);
+				/* $("a").attr("href", "AdminWelcomePage.jsp?page="+pageNumber);  */
+				/* $("a[href]").attr("href", "AdminWelcomePage.jsp?page="+pageNumber); */
+				/* document.getElementById("mylink").href = "AdminWelcomePage.jsp?page="+pageNumber; */
+				$("a").attr("href", "AdminWelcomePage.jsp?page=" + pageNumber);
+				alert("HII");
+				/* var link = document.getElementById("mylink");
+				link.setAttribute('href', "AdminWelcomePage.jsp?page="+pageNumber);
+				alert(link); */
+			} else {
+				alert("Browser does not support HTML5.");
+			}
+
 		};
 		/* 
 		$(function () {
-	        $("#pageClick").click(function () {
-	            ChangeUrl('Page1', 'AdminWelcomePage.jsp?page=${i}');
-	        });
-	    });
+		    $("#pageClick").click(function () {
+		        ChangeUrl('Page1', 'AdminWelcomePage.jsp?page=${i}');
+		    });
+		});
 		function somescript() {
 			alert("Page On IT!!!");
 			var query = new URLSearchParams();
 			query.append("KEY", "VALUE");
 			var url = "AdminWelcomePage.jsp?" + query.toString();
 			alert(url);
-    	} */
+		} */
 	</script>
 </body>
 </html>

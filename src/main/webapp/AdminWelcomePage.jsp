@@ -21,12 +21,14 @@
 <%@ page import="java.util.ArrayList"%>
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:scriptlet>String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
+<%
+String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
 //Integer empid =session.getAttribute(EmployeeInterface.EMPLOYEEID);
 if (username == null) {
 	response.sendRedirect("adminPage.jsp");
-}</jsp:scriptlet>
-<jsp:scriptlet>int pageNumber = 1;
+}
+%>
+<%-- <jsp:scriptlet>int pageNumber = 1;
 
 if (request.getParameter("page") != null) {
 	session.setAttribute("page", request.getParameter("page"));
@@ -49,7 +51,7 @@ System.out.println(myUrl);
 System.out.println(prevUrl);
 
 pageContext.setAttribute("myUrl", myUrl);
-pageContext.setAttribute("prevUrl", prevUrl);</jsp:scriptlet>
+pageContext.setAttribute("prevUrl", prevUrl);</jsp:scriptlet> --%>
 
 <!DOCTYPE html>
 <html>
@@ -313,16 +315,19 @@ table tr td a {
 				$("#managerShow").hide();
 				$("#gridOne").hide();
 				$("#gridTwo").hide();
-			}); 
+			});  
+			/* $('#projectbtn').addClass("active"); */
+			$("#backClick").click(function() {
+				window.localStorage.clear();
+			});  
 			my_code();
-				
-			$("#projectbtn").click(function() {
+			 $("#projectbtn").click(function() {
 				$("#projectShow").show();
 				$("#managerShow").hide();
 				$("#employeeShow").hide();
 				$("#gridOne").hide();
 				$("#gridTwo").hide();
-			});
+			}); 
 			$("#managerbtn").click(function() {
 				$("#managerShow").show();
 				$("#projectShow").hide();
@@ -331,33 +336,41 @@ table tr td a {
 				$("#gridTwo").hide();
 			});
 		});
+
 		function my_code() {
-			//alert(" Alert inside my_code function");
-			/* 			localStorage.setItem("emp", "#employeeShow");
-			 document.getElementById("result").innerHTML = localStorage.getItem("emp"); */
 			if (typeof (Storage) !== "undefined") {
-				/* localStorage.setItem('empShow', '#employeeShow');
-				alert(localStorage.getItem('empShow')); */
-				//alert(" Alert inside my_code function");
-				if (window.localStorage.getItem('content') == '#employeeShow') {
+				if (window.localStorage.getItem('content') == '#employeebtn') {
 					$("#employeeShow").show();
 					$("#gridOne").hide();
 					$("#gridTwo").hide();
-				} else {
+				} else if (window.localStorage.getItem('project') == '#projectbtn'){
+					$("#projectShow").show();
+					$("#managerShow").hide();
 					$("#employeeShow").hide();
+					$("#gridOne").hide();
+					$("#gridTwo").hide();
+				} else if (window.localStorage.getItem('manager') == '#managerbtn'){
+					$("#managerShow").show();
+					$("#projectShow").hide();
+					$("#employeeShow").hide();
+					$("#gridOne").hide();
+					$("#gridTwo").hide();
+				} else {
 					$("#gridOne").show();
+					$("#gridTwo").show();
 				}
+				
 				$("#pageClick").click(function() {
-					window.localStorage.setItem('content', '#employeeShow');
-					$('#test').html(window.localStorage.getItem('content'));
+					window.localStorage.setItem('content', '#employeebtn');
+					window.localStorage.setItem('project', '#projectbtn');
+					window.localStorage.setItem('manager', '#managerbtn');
+					//window.localStorage.setItem('grid', '#grid');
+					//$('#test').html(window.localStorage.getItem('content'));
 					$("#gridOne").hide();
 					$("#gridTwo").hide();
 				});
 			}
 		};
-		$(window).load(function() {
-			
-		});
 	</script>
 
 </body>
