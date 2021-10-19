@@ -1,6 +1,7 @@
 package com.velociter.ems.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.velociter.ems.database.EmployeeDAO;
 import com.velociter.ems.database.Operations;
@@ -52,7 +54,9 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 		int addressId = employee.getAddressId(); // getting addressId of employee from employee table
 		System.out.println("empid :" + empId + "  ," + "personalInfoId  :" + personalInfoid + " ,familyId " + familyId
 				+ " , " + "addressId :" + addressId);
-
+		
+		String profileImage = req.getParameter("profileImage"); 
+		System.out.println("Image Name : "+profileImage);
 		String designationName = req.getParameter("designationName");
 		String managerName = req.getParameter("managerName");
 		int projectId = Integer.parseInt(req.getParameter("projectName"));
@@ -81,7 +85,9 @@ public class EditEmployeeDetailsServlet extends HttpServlet implements EmployeeI
 			;
 		}
 		// employee.setDateOfJoining(dateOfJoining);
-		employee.setEmployeeId(empId);
+		employee.setEmployeeId(empId);        
+		employee.setProfileImage(profileImage);
+		System.out.println("Set Image Name : "+profileImage);
 		employee.setDesignationName(designationName);
 		employee.setManagerName(managerName);
 		employee.setProjectId(projectId);
