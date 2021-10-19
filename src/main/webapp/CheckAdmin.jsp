@@ -180,7 +180,10 @@ button:hover {
 		<h1>Edit Employee Details:</h1>
 		<!-- One "tab" for each step in the form: -->
 		<div class="tab">
-
+			<fmt:message key="label.profile"></fmt:message>
+			<p>
+				<input type="file" name="profileImage">
+			</p>
 			<fmt:message key="label.firstName"></fmt:message>
 			<p>
 				<input disabled="disabled" value=<%=employee.getFirstName()%>

@@ -10,9 +10,11 @@ input {
 
 fieldset {
 	height: 100%;
-	width: 50%;
+	/* width: 50%; */
+	width: 64%;
 	background: #ffffff;
-	margin-left: 310px;
+	/* margin-left: 310px; */
+	margin-left: 90px;
 }
 </style>
 <meta charset="ISO-8859-1">
@@ -21,7 +23,7 @@ fieldset {
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body style="font-family: Futara">
-	<jsp:include page="HomePageHeader.jsp"></jsp:include>
+	<%-- <jsp:include page="HomePageHeader.jsp"></jsp:include> --%>
 	<form class="form" id="myForm" name="projectForm" action="" method="post">
 		<br> <br> <br> <br> <br>
 		<fieldset>

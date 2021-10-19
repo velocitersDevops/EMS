@@ -57,187 +57,6 @@ pageContext.setAttribute("prevUrl", prevUrl);</jsp:scriptlet>
 <meta charset="ISO-8859-1">
 <title>Welcome Page</title>
 <style type="text/css">
-body {
-	margin: 8px;
-	height: 100vh;
-	overflow-y: scroll;
-	overflow-x: hidden; /* hides the horizontal scroll bar */
-}
-
-* {
-	box-sizing: border-box;
-}
-
-.row {
-	height: 100vh;
-}
-
-/* .column {
-	float: left;
-	padding: 10px;
-	height: 100vh;
-} */
-
-/* .left {
-	width: 20%;
-}
- */
-.right {
-	width: 100%;
-}
-
-.row:after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-.row .column table th {
-	content: "";
-	position: inherit;
-	left: 20px;
-	/* bottom: 0; */
-	height: 38px;
-	margin: 0px -10px;
-	width: 294px;
-	border-bottom: 2px solid #000;
-}
-
-.row .column table th a {
-	/* border-bottom: 2px solid; */
-	text-decoration: none;
-	font-size: 20px;
-	font-family: none;
-	color: red;
-}
-
-.activelink {
-	color: #fff;
-	background-color: #000;
-}
-
-.row .column h4 {
-	text-align: right;
-	margin: 20px 114px;
-	color: red;
-}
-
-.row .column h3 {
-	margin: 50px 0px;
-}
-
-.row .column .vl {
-	border-right: 6px solid green;
-	height: 500px;
-}
-
-.column .box {
-	/*  border: 1px solid; */
-	margin: 58px 60px;
-}
-
-/*---------------*/
-table.center {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-table {
-	width: 100%;
-	margin-bottom: 50px;
-}
-
-fieldset {
-	/*     background-color: #eeeeee;   */
-	/* background-color: white; */
-	width: 80%;
-	margin: -20px 50px;
-}
-
-legend {
-	background-color: gray;
-	color: white;
-	padding: 1px 3px;
-}
-
-input {
-	margin: 3px;
-}
-
-ul {
-	height: 50px;
-	padding: 0px 5px;
-	margin: -37px -4px;
-	width: auto;
-	float: left;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
-
-ul li {
-	list-style: none;
-	padding: 5px 10px;
-	font-weight: bold;
-	border: 1px solid #ccc;
-	background-color: #000;
-}
-
-ul li i {
-	color: #fff;
-}
-
-table tr td a {
-	text-decoration: none;
-	padding: 5px 10px;
-	font-weight: bold;
-	/* border: 1px solid #ccc; */
-	color: #000;
-}
-
-.active {
-	border: 1px solid;
-	padding: 5px 10px;
-	background-color: #000;
-	color: #fff;
-}
-/*-----------------table design----------------------*/
-.content {
-	border-collapse: collapse;
-	margin: 25px 0;
-	font-size: 0.9em;
-	min-width: 400px;
-	border-radius: 5px 5px 0 0;
-	overflow: hidden;
-}
-
-.content thead tr {
-	background-color: #000;
-	color: #ffffff;
-	text-align: left;
-	font-weight: bold;
-}
-
-.content th, .content td {
-	padding: 12px 15px;
-}
-
-.content tbody tr {
-	border-bottom: 1px solid #dddddd;
-}
-
-.content tbody tr:nth-of-type(even) {
-	background-color: #f3f3f3;
-}
-
-.content tbody tr:last-of-type {
-	border-bottom: 2px solid #000;
-}
-
-.content tbody tr.r {
-	font-weight: bold;
-	color: #1B1464;
-}
 
 /*----------------- card table design----------------------*/
 /* .card {
@@ -252,7 +71,6 @@ table tr td a {
 <script src="https://kit.fontawesome.com/a076d05399.js"
 	crossorigin="anonymous"></script>
 </head>
-<jsp:include page="AdminHeader.jsp"></jsp:include>
 <body style="font-family: Futara;">
 	<%
 		response.setHeader("Cache-Control", "no-cache");
@@ -261,12 +79,7 @@ table tr td a {
 	response.setDateHeader("Expire", 0);
 	%>
 	<div class="row">
-		<div class="column left">
-			
-		</div>
-
 		<div class="column right">
-			<h4>Welcome Admin</h4>
 			<div class="box">
 				<div id="employeeShow">
 					<h3>Employee List</h3>
@@ -316,10 +129,15 @@ table tr td a {
 												<td class="active">${i}</td>
 											</c:when>
 											<c:otherwise>
-												<td><a href="Paggination.jsp?page=${i}">${i}</a></td>
+												<td><a id="pageClick" onclick="formPage(${i});" href="#">${i}</a></td>
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
+									<!-- onclick="return formSubmit();" href="AdminWelcomePage.jsp?page=${i}" 
+									onclick="ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
+									href="javascript:ChangeUrl('Page', 'AdminWelcomePage.jsp?page=${i}');"
+									onclick="return formSubmit(${i},'AdminWelcomePage.jsp?page=${i}');" 
+								-->
 								</tr>
 							</table>
 							<c:if test="${page lt noOfPages}">
@@ -332,7 +150,76 @@ table tr td a {
 			</div>
 		</div>
 	</div>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script language="Javascript" type="text/javascript">
+		/* $(document).ready(function() {
+			$('#pageClick').on('click', function() {
+				alert('onclick is working.');
+				miniReport(pageNumber, url); //Your function 
+			});
+		}); */
 
+		/* function miniReport(pageNumber, url) {
+			alert(pageNumber);
+			$.ajax({
+				url : "AdminWelcomePage.jsp?page=" + pageNumber,
+				data : {
+					pageNumber : "pageNumber"
+				},
+				success : function(data) {
+					alert(pageNumber - "returned");
+				}
+			});
+		} */
+
+		/* function formPage(pageNumber) {
+			alert(pageNumber);
+			$.post("AdminWelcomePage.jsp?page="+pageNumber, {
+				pageNumber : "pageNumber"
+			}, function(data, status) {
+				alert("Data: " + data + "\nStatus: " + status);
+			});
+		} */
+		
+		function miniReport(pageNumber, url) {
+			alert(pageNumber);
+			alert(url);
+		     $.ajax({
+		        url: url,
+		        timeout:30000,
+		        type: "POST",
+		        data: {
+		            'pageNumber': pageNumber
+		       },
+		        success: function(msg){
+		            if (msg.ws_resultat.result_ok==true)
+		            {
+		                alert('success!');
+		                window.open("AdminWelcomePage.jsp");
+		            }
+		        },
+		            error: function(jqXHR, textStatus)
+		          {
+		            	alert("Browser does not support HTML5.");   
+		          }
+		    });
+		}
+
+		function formSubmit(pageNumber, url) {
+			/* alert(pageNumber);
+			alert(url); */
+			$.ajax({
+				url : "AdminWelcomePage.jsp?page=" + pageNumber,
+				data : {
+					pageNumber : "pageNumber"
+				},
+				success : function(data) {
+					alert(data);
+				}
+			});
+		};
+
+	</script>
 </body>
-<jsp:include page="Footer.jsp"></jsp:include>
 </html>

@@ -173,7 +173,7 @@ div.scroll {
 
 </head>
 <body style="font-family: Futara">
-	<jsp:include page="AdminHeader.jsp"></jsp:include>
+	<jsp:include page="AdminHeader.jsp"></jsp:include> 
 	<a href="AddProject.jsp">Add Project</a> &nbsp;&nbsp;&nbsp;
 	<!-- <a href="AddManager.jsp">Add Manager</a> -->
 	<form name="regiserForm" action="" class="form" id="myForm"

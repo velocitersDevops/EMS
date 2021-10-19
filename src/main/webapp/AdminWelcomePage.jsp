@@ -22,37 +22,12 @@
 <%@page import="com.velociter.ems.interfaces.EmployeeInterface"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
+	String username = (String) session.getAttribute(EmployeeInterface.ADMINNAME);
 //Integer empid =session.getAttribute(EmployeeInterface.EMPLOYEEID);
 if (username == null) {
 	response.sendRedirect("adminPage.jsp");
 }
 %>
-<%-- <jsp:scriptlet>int pageNumber = 1;
-
-if (request.getParameter("page") != null) {
-	session.setAttribute("page", request.getParameter("page"));
-	pageNumber = Integer.parseInt(request.getParameter("page"));
-} else {
-	session.setAttribute("page", "1");
-}
-String nextPage = (pageNumber + 1) + "";
-String prevPage = (pageNumber - 1) + "";
-session.setAttribute("EmpList", EmployeeDAO.getPageData(pageNumber, EmployeeInterface.PAGE_SIZE));
-
-long noOfRecords = EmployeeDAO.getNoOfRecords();
-int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / EmployeeInterface.PAGE_SIZE);
-request.setAttribute("noOfPages", noOfPages);
-
-System.out.println(((java.util.List) session.getAttribute("EmpList")).size());
-String myUrl = "AdminWelcomePage.jsp?page=" + nextPage;
-String prevUrl = "AdminWelcomePage.jsp?page=" + prevPage;
-System.out.println(myUrl);
-System.out.println(prevUrl);
-
-pageContext.setAttribute("myUrl", myUrl);
-pageContext.setAttribute("prevUrl", prevUrl);</jsp:scriptlet> --%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -204,6 +179,7 @@ table tr td a {
 	background-color: #000;
 	color: #fff;
 }
+
 /*-----------------table design----------------------*/
 .content {
 	border-collapse: collapse;
@@ -243,20 +219,76 @@ table tr td a {
 }
 
 /*----------------- card table design----------------------*/
-/* .card {
-	border-collapse: collapse;
-	margin: 25px 0;
-	font-size: 0.9em;
-	min-width: 400px;
-	border-radius: 5px 5px 0 0;
-	overflow: hidden;
+.card {
+	border: 1px solid #d3d3d3;
+	border-radius: .25rem;
+	height: 230px;
+	width: 250px;
+	padding: 20px;
+	margin-right: 100px;
+	/* cursor: pointer; */
+	box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px
+		rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+a {
+	text-decoration: none;
+	color: red;
+	padding: 10px;
+}
+
+.card h3 {
+	color: red;
+	font-size: 28px;
+	text-align: center;
+}
+
+h3 {
+	font-size: 32px;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 20px;
+	margin-bottom: 50px;
+	/* margin: 76px 5px; */
+}
+
+/*-------------------------------------*/
+/* @
+keyframes spinner { 
+	0% {
+		transform: translate3d(-50%, -50%, 0) rotate(0deg);
+	}
+	100%{
+		transform:translate3d(-50%,-50%,0)rotate(360deg);
+	}
+}
+.spin::before {
+	animation: 1.5s linear infinite spinner;
+	animation-play-state: inherit;
+	border: solid 5px #cfd0d1;
+	border-bottom-color: red;
+	border-radius: 50%;
+	content: "";
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	top: 50%;
+	left: 55%;
+	transform: translate3d(-50%, -50%, 0);
+	will-change: transform;
 } */
+.spin{
+	    margin-left: 460px;
+    	/* margin-top: -210px; */
+}
 </style>
 <script src="https://kit.fontawesome.com/a076d05399.js"
 	crossorigin="anonymous"></script>
 </head>
 <jsp:include page="AdminHeader.jsp"></jsp:include>
-
 <body style="font-family: Futara;">
 	<%
 		response.setHeader("Cache-Control", "no-cache");
@@ -268,37 +300,59 @@ table tr td a {
 		<div class="column left">
 			<table style="text-align: center;">
 				<tr>
-					<th class="activelink"><a href="#" id="employeebtn">Employee
-							List</a></th>
+					<th class="activelink"><a href="javaScript:formAdminHome();">Home/Dashboard
+					</a></th>
+				</tr>
+				<tr>
+					<th><a href="javaScript:paggination(1);">Employee List</a></th>
 				</tr>
 				<tr>
 					<th><a href="AddEmployee.jsp">Add Employee</a></th>
 				</tr>
 				<tr>
-					<th><a href="AddProject.jsp">Add Project</a></th>
+					<th><a href="javaScript:formProject();">Add Project</a></th>
 				</tr>
 				<tr>
-					<th><a href="AddManager.jsp">Add Manager</a></th>
+					<th><a href="AddEmployee.jsp">Add Manager</a></th>
 				</tr>
 				<tr>
-					<th><a href="#" id="projectbtn">View Project</a></th>
+					<th><a href="javaScript:formViewProject();">View Project</a></th>
 				</tr>
 				<tr>
-					<th><a href="#" id="managerbtn">View Manager</a></th>
+					<th><a href="javaScript:formViewManager();">View Manager</a></th>
 				</tr>
 			</table>
 		</div>
 
 
-
+		<%
+			long employeeCount = EmployeeDAO.countEmployee();
+		long projectCount = EmployeeDAO.countProject();
+		long managerCount = EmployeeDAO.countManager();
+		%>
 		<div class="column right">
 			<h4>
 				Welcome
 				<%=username%></h4>
-			<!-- <a href="AdminWelcomePage.jsp"
-				style="margin: 70px; font-size: 20px; border: 1px solid; padding: 10px; color: red; text-decoration: none;">Back</a> -->
 			<div class="box">
-				<jsp:include page="AdminWelcomePageOne.jsp"></jsp:include>
+				<div class="grid-container">
+					<div class="card">
+						<h3><%=employeeCount%></h3>
+						<h3>No. Of Employee</h3>
+					</div>
+					<div class="card">
+						<h3><%=projectCount%></h3>
+						<h3>No. of Projects</h3>
+					</div>
+					<div class="card">
+						<h3><%=managerCount%></h3>
+						<h3>No. of Manager</h3>
+					</div>
+				</div>
+				<!-- <div class="spin"></div> -->
+				<div class="spin">
+					<img style="height: 70px;" src="exstyle/Images/loader.gif">
+				</div>
 				<div id="test"></div>
 			</div>
 		</div>
@@ -306,73 +360,56 @@ table tr td a {
 	<script
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("#projectShow").hide();
-			$("#managerShow").hide();
-			$("#employeebtn").click(function() {
-				$("#projectShow").hide();
-				$("#employeeShow").show();
-				$("#managerShow").hide();
-				$("#gridOne").hide();
-				$("#gridTwo").hide();
-			});  
-			/* $('#projectbtn').addClass("active"); */
-			$("#backClick").click(function() {
-				window.localStorage.clear();
-			});  
-			my_code();
-			 $("#projectbtn").click(function() {
-				$("#projectShow").show();
-				$("#managerShow").hide();
-				$("#employeeShow").hide();
-				$("#gridOne").hide();
-				$("#gridTwo").hide();
-			}); 
-			$("#managerbtn").click(function() {
-				$("#managerShow").show();
-				$("#projectShow").hide();
-				$("#employeeShow").hide();
-				$("#gridOne").hide();
-				$("#gridTwo").hide();
+		window.onload=my_code();
+		function my_code(){
+			$(".spin").hide();
+		}
+		function formAdminHome() {
+			$(".spin").show();
+			$.post("AdminWelcomePageOne.jsp", {}, function(data, status) {
+				$(".grid-container").hide();
+				$(".spin").hide();
+				$("#test").html(data);
 			});
-		});
+		}
 
-		function my_code() {
-			if (typeof (Storage) !== "undefined") {
-				if (window.localStorage.getItem('content') == '#employeebtn') {
-					$("#employeeShow").show();
-					$("#gridOne").hide();
-					$("#gridTwo").hide();
-				} else if (window.localStorage.getItem('project') == '#projectbtn'){
-					$("#projectShow").show();
-					$("#managerShow").hide();
-					$("#employeeShow").hide();
-					$("#gridOne").hide();
-					$("#gridTwo").hide();
-				} else if (window.localStorage.getItem('manager') == '#managerbtn'){
-					$("#managerShow").show();
-					$("#projectShow").hide();
-					$("#employeeShow").hide();
-					$("#gridOne").hide();
-					$("#gridTwo").hide();
-				} else {
-					$("#gridOne").show();
-					$("#gridTwo").show();
-				}
-				
-				$("#pageClick").click(function() {
-					window.localStorage.setItem('content', '#employeebtn');
-					window.localStorage.setItem('project', '#projectbtn');
-					window.localStorage.setItem('manager', '#managerbtn');
-					//window.localStorage.setItem('grid', '#grid');
-					//$('#test').html(window.localStorage.getItem('content'));
-					$("#gridOne").hide();
-					$("#gridTwo").hide();
-				});
-			}
-		};
+		function formProject() {
+			$(".spin").show();
+			$.post("AddProject.jsp", {}, function(data, status) {
+				$(".grid-container").hide();
+				$(".spin").hide();
+				$("#test").html(data);
+			});
+		}
+		function formViewProject() {
+			$(".spin").show();
+			$.post("AdminViewProject.jsp", {}, function(data, status) {
+				$(".grid-container").hide();
+				$(".spin").hide();
+				$("#test").html(data);
+			});
+		}
+
+		function formViewManager() {
+			$(".spin").show();
+			$.post("AdminViewManager.jsp", {}, function(data, status) {
+				$(".grid-container").hide();
+				$(".spin").hide();
+				$("#test").html(data);
+			});
+		}
+
+		function paggination(page) {
+			$(".spin").show();
+			$.post("AdminEmployeeList.jsp?page=" + page, {
+				page : "page"
+			}, function(data, status) {
+				$(".grid-container").hide();
+				$(".spin").hide();
+				$("#test").html(data);
+			});
+		}
 	</script>
-
 </body>
 <jsp:include page="Footer.jsp"></jsp:include>
 </html>
