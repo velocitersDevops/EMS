@@ -253,15 +253,16 @@ public class Operations {
 		int employeeUpdateCount = 0;
 		try {
 
-			String query = "UPDATE EMPLOYEE SET ALTERNATEMOBILENUMBER=?,DESIGNATIONNAME=?,MANAGERNAME=?,PROJECTID=?,LASTMODIFIED_DATE=? where empid="
+			String query = "UPDATE EMPLOYEE SET PROFILE_IMAGE=?,ALTERNATEMOBILENUMBER=?,DESIGNATIONNAME=?,MANAGERNAME=?,PROJECTID=?,LASTMODIFIED_DATE=? where empid="
 					+ employee.getEmployeeId();
 			PreparedStatement psmt = dbConnection.prepareStatement(query);
-			psmt.setLong(1, employee.getAlternateContactNumber());
-			psmt.setString(2, employee.getDesignationName());
-			psmt.setString(3, employee.getManagerName());
-			psmt.setInt(4, employee.getProjectId());
+			psmt.setString(1, employee.getProfileImage());
+			psmt.setLong(2, employee.getAlternateContactNumber());
+			psmt.setString(3, employee.getDesignationName());
+			psmt.setString(4, employee.getManagerName());
+			psmt.setInt(5, employee.getProjectId());
 			employee.setLastModifiedDate(commonOperationObject.getCreationDate());
-			psmt.setString(5, employee.getLastModifiedDate());
+			psmt.setString(6, employee.getLastModifiedDate());
 			employeeUpdateCount = psmt.executeUpdate();
 			System.out.println("employeeUpdateCount status :" + employeeUpdateCount);
 		} catch (Exception e) {

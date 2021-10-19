@@ -54,11 +54,22 @@ public class Employee {
 	private String creationDate;
 	@Column(name = "LASTMODIFIED_DATE")
 	private String lastModifiedDate;
+	@Column(name = "PROFILE_IMAGE")
+	private String profileImage;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "D_Id")
 	private Designation designation;
 
+	
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+	
 	public Designation getDesignation() {
 		return designation;
 	}
@@ -232,10 +243,11 @@ public class Employee {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
 				+ ", addressId=" + addressId + ", salutation=" + salutation + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", dateOfJoining=" + dateOfJoining
-				+ ", designationName=" + designationName + ", projectId=" + projectId + ", emailId=" + emailId
-				+ ", isdCode=" + isdCode + ", mobileNumber=" + mobileNumber + ", alternateContactNumber="
-				+ alternateContactNumber + ", password=" + password + ", creationDate=" + creationDate
-				+ ", lastModifiedDate=" + lastModifiedDate + "]";
+				+ ", designationName=" + designationName + ", managerName=" + managerName + ", projectId=" + projectId
+				+ ", emailId=" + emailId + ", isdCode=" + isdCode + ", mobileNumber=" + mobileNumber
+				+ ", alternateContactNumber=" + alternateContactNumber + ", password=" + password + ", creationDate="
+				+ creationDate + ", lastModifiedDate=" + lastModifiedDate + ", profileImage=" + profileImage
+				+ ", designation=" + designation + "]";
 	}
 
 }
