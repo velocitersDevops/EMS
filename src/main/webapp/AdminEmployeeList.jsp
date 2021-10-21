@@ -34,6 +34,7 @@ session.setAttribute("ManList", employeeDaoObject.getAllEmployeesById(managerId)
 
 int pageNumber = 1;
 if (request.getParameter("page") != null) {
+	System.out.println("page value :"+request.getParameter("page"));
 	session.setAttribute("page", request.getParameter("page"));
 	pageNumber = Integer.parseInt(request.getParameter("page"));
 } else {
@@ -47,7 +48,7 @@ long noOfRecords = EmployeeDAO.getNoOfRecords();
 int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / EmployeeInterface.PAGE_SIZE);
 request.setAttribute("noOfPages", noOfPages);
 
-System.out.println(((java.util.List) session.getAttribute("EmpList")).size());
+//  System.out.println(((java.util.List) session.getAttribute("EmpList")).size());
 String myUrl = nextPage;
 String prevUrl = prevPage;
 
@@ -62,7 +63,7 @@ pageContext.setAttribute("prevUrl", prevUrl);
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Employee List Page</title>
 </head>
 <body>
 	<%
@@ -85,6 +86,7 @@ pageContext.setAttribute("prevUrl", prevUrl);
 							<td><b>EMAIL ID</b></td>
 							<td><b>DATE OF JOINING</b></td>
 							<td><b>VEIW DETAILS</b></td>
+							<td><b>STATUS</b></td>
 							<td><b>EDIT</b></td>
 						</tr>
 					</thead>
@@ -99,6 +101,19 @@ pageContext.setAttribute("prevUrl", prevUrl);
 								<td><a style="color: red;"
 									href="<c:url value = "EmployeeDetails.jsp?empid=${emp.employeeId}"/>">View
 										Details</a></td>
+										
+										 <c:if test="${emp.status == true}">
+										 <td>
+                                             <a style="color: green;"  href="javaScript:changeEmpStatus(${emp.employeeId},${emp.status});" id="changestatus">Activate</a>
+                                          </td> 
+									    
+									    </c:if>  
+								      <c:if test="${emp.status == false}">
+										 <td>
+									         <a style="color: red;"  href="javaScript:changeEmpStatus(${emp.employeeId},${emp.status});"  id="changestatus">DeActivate</a>
+									       </td>
+									    </c:if> 
+						
 								<td><a style="color: red;"
 									href="<c:url value = "CheckAdmin.jsp?id=${emp.employeeId}"/>">Edit</a></td>
 							</tr>
@@ -136,5 +151,94 @@ pageContext.setAttribute("prevUrl", prevUrl);
 			</div>
 		</div>
 	</div>
+	<script>
+
+function changeEmpStatus(id,status)
+{ 
+		var displayData;
+		if(status == true)
+			{
+			displayData = "DeActivate";
+			}else
+				{
+				displayData ="Activate"; 
+				}
+		var msg = null;
+		if(status == false)
+			{
+			msg = "Activate";
+			  var result = confirm("Are You Sure You Want To Activate This Employee ?");
+			  if (result) 
+			  {
+	 		   var currentStatus ="deactivate";		
+	 		   var url="ChangeStatusServlet?eid="+id+"&status="+currentStatus;  
+	 		   if(window.XMLHttpRequest)
+	 		   {  
+	 		    request=new XMLHttpRequest();  
+	 		   }   
+	 		   else if(window.ActiveXObject)
+	 		   {  
+	 		    request=new ActiveXObject("Microsoft.XMLHTTP");  
+	 		   }  
+			 }
+			  try{  
+		 		   request.onreadystatechange=getInfo; 
+		 		   request.open("GET",url,true);  
+		 		   request.send();  
+		 		   }
+		 		   catch(e)
+		 		   { 
+		 			alert("Unable to connect to server");
+		 	       }    
+		 		   
+		 		 function getInfo()
+		 		 {  
+		 			 var result=request.responseText;  
+		 			 $("#changestatus").html(function employeeList(){
+		 				$.post("AdminEmployeeList.jsp",{},function(data,status){
+		 					$(".grid-container").hide();  
+		 					$("#test").html(data);
+		 				});
+		 			});
+		 		}
+			}else
+				{
+			     	var result = confirm("Are You Sure You Want To DeActivate This Employee ?");
+				    if (result) 
+				    {
+					  var currentStatus ="activate";		
+				      var url="ChangeStatusServlet?eid="+id+"&status="+currentStatus;  
+			 		   if(window.XMLHttpRequest)
+			 		    {  
+			 		     request=new XMLHttpRequest();  
+			 		    }    
+			 		    else if(window.ActiveXObject)
+			 		    {  
+			 		     request=new ActiveXObject("Microsoft.XMLHTTP");  
+			 		    }  
+				    }
+ 		try{  
+ 		   request.onreadystatechange=getInfo; 
+ 		   request.open("GET",url,true);  
+ 		   request.send();  
+ 		   }
+ 		   catch(e)
+ 		   { 
+ 			alert("Unable to connect to server");
+ 	       }    
+ 		   
+ 		 function getInfo()
+ 		 {  
+ 			 var result=request.responseText;  
+	 			 $("#changestatus").html(function employeeList(){
+$.post("AdminEmployeeList.jsp",{},function(data,status){
+	$(".grid-container").hide();  
+	$("#test").html(data);
+});
+});
+ 		}
+	}
+}
+</script>
 </body>
 </html>
