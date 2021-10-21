@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -462,6 +464,8 @@ public class EmployeeDAO implements EmployeeInterface {
 
 	// private static int pageSize = 5;
 	public static List getPageData(int pageNumber, int pageSize) {
+		System.out.println("pageNumber   is :"+pageNumber);
+		System.out.println("pageSize   is :"+pageSize);
 		StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
 		Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
 		SessionFactory factory = meta.getSessionFactoryBuilder().build();
@@ -588,6 +592,50 @@ public class EmployeeDAO implements EmployeeInterface {
 		session.close();
 		return row;
 	}
+	
+
+    /*-------------------------Change Employee deactivate status method ------------------------------*/
+    @Transactional
+    public int deActivateStatus(int statusId)
+    {
+    	
+    StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+	Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+	SessionFactory factory = meta.getSessionFactoryBuilder().build();
+	Session session = factory.openSession();
+	Transaction tx = session.beginTransaction();
+    Query query=session.createQuery("update Employee set status=:number where employeeId=:id");
+    query.setParameter("number",false);
+    query.setParameter("id",statusId);
+    int queryStatus = query.executeUpdate();
+    System.out.println("queryStatus  :"+queryStatus);
+    System.out.println("status after update :"+queryStatus);
+    tx.commit();
+    	return queryStatus; //should be 1
+    }
+    
+    /*-----------------------------------------------------------*/
+    
+    /*-------------------------Change Employee deactivate status method ------------------------------*/
+    @Transactional
+    public int activateStatus(int statusId)
+    {
+    	
+    StandardServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+	Metadata meta = new MetadataSources(ssr).getMetadataBuilder().build();
+	SessionFactory factory = meta.getSessionFactoryBuilder().build();
+	Session session = factory.openSession();
+	Transaction tx = session.beginTransaction();
+    Query query=session.createQuery("update Employee set status=:number where employeeId=:id");
+    query.setParameter("number",true);
+    query.setParameter("id",statusId);
+    int queryStatus = query.executeUpdate();
+    System.out.println("queryStatus  :"+queryStatus);
+    System.out.println("status after update :"+queryStatus);
+    tx.commit();
+    	return queryStatus; //should be 1
+    }
+    
 	/*-----------------------------------------------------------*/
 	
 	/*
