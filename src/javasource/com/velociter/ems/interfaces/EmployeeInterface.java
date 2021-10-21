@@ -12,7 +12,7 @@ public interface EmployeeInterface {
 	  public static final String CURRENT_USER   ="currentuser";
 	  public static final String ADMIN_USER   ="adminuser";
 	  public static final String MESSAGE   ="message";
-	  public static final int PAGE_SIZE = 5;
+	  public static final int PAGE_SIZE = 3;
 	 
 	  public int add(Object object) throws Exception ;
 }
