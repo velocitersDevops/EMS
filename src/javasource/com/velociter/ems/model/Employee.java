@@ -60,6 +60,9 @@ public class Employee {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "D_Id")
 	private Designation designation;
+	
+	@Column(name = "STATUS")
+	private boolean status;
 
 	
 	public String getProfileImage() {
@@ -238,6 +241,14 @@ public class Employee {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", personalInfoId=" + personalInfoId + ", familyId=" + familyId
@@ -247,7 +258,8 @@ public class Employee {
 				+ ", emailId=" + emailId + ", isdCode=" + isdCode + ", mobileNumber=" + mobileNumber
 				+ ", alternateContactNumber=" + alternateContactNumber + ", password=" + password + ", creationDate="
 				+ creationDate + ", lastModifiedDate=" + lastModifiedDate + ", profileImage=" + profileImage
-				+ ", designation=" + designation + "]";
+				+ ", designation=" + designation + ", status=" + status + "]";
 	}
 
+	
 }
