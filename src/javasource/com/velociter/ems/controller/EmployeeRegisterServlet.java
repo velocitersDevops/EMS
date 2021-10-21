@@ -86,7 +86,8 @@ public class EmployeeRegisterServlet extends HttpServlet implements EmployeeInte
 		employeeObject.setProjectId(Integer.parseInt(request.getParameter("ceckvalues")));
 		System.out.println("project id :" + employeeObject.getProjectId());
 		employeeObject.setPassword(request.getParameter("passsword"));
-
+        //Status  boolean true ="Activate" false ="Deactivate"
+		employeeObject.setStatus(true);
 		// here we are going to check employee already exist with emailid or not
 		// Operations registerObject = new Operations();
 		EmployeeDAO employeeDaoObject = new EmployeeDAO();
